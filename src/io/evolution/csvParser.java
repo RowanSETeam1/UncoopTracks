@@ -6,6 +6,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static io.evolution.Constants.*;
@@ -23,6 +24,15 @@ public class csvParser {
     public csvParser(File csvFile, Connection c) {
         this.csvFile = csvFile;
         this.c = c;
+
+        if(readFile()){
+            try {
+                iterateCsv();
+            } catch (SQLException e) {
+                System.out.println("no file");
+                e.printStackTrace();
+            }
+        }
     }
 
     public boolean readFile() {
@@ -32,6 +42,7 @@ public class csvParser {
                 return false;
             }
         } catch (FileNotFoundException e) {
+            System.out.println("file not found");
             return false;
         }
         return true;
@@ -58,6 +69,7 @@ public class csvParser {
                     DESTINATION,
                     ETA).parse(csvReader);
         } catch (IOException e) {
+            System.out.println("io exception");
             return false;
         }
         return true;
@@ -68,7 +80,7 @@ public class csvParser {
         try {
             for (CSVRecord record : csvRecordIterable) {
                 if (i > 0) {
-                    StringBuilder queryBuilder = new StringBuilder("INSERT INTO" + tableName + "VALUES (00,");
+                    StringBuilder queryBuilder = new StringBuilder("INSERT INTO " + tableName + " VALUES (00,");
                     queryBuilder.append("'" + record.get(DATETIME) + "'");
                     queryBuilder.append(",");
                     queryBuilder.append("'" + record.get(MMSI) + "'");
@@ -110,7 +122,14 @@ public class csvParser {
                 }
                 i++;
             }
+            PreparedStatement get = c.prepareStatement("SELECT * FROM aisData;");
+            ResultSet resultSet = get.executeQuery();
+            while (resultSet.next()) {
+                System.out.println(resultSet.getString("mmsi"));
+                System.out.println("\n");
+            }
         } catch (SQLException e) {
+            System.out.println("didnt work");
             return false;
         }
         return true;

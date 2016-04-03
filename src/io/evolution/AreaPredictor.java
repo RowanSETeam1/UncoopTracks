@@ -1,4 +1,5 @@
 package io.evolution;
+import java.sql.Connection;
 import java.util.ArrayList;
 
 
@@ -14,6 +15,9 @@ public class AreaPredictor {
 
     private int travelTime;
     private float vesselSpeed;
+
+
+    AreaPredictor(Connection c, int MMSI, String startDate, String startTime, String endDate, String endTime){}
 
 
     public AreaPredictor(int time,float knots) {

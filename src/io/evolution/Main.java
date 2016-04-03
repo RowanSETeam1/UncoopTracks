@@ -4,10 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
+import static io.evolution.Constants.*;
 public class Main {
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args){
         try {
             Class.forName("org.hsqldb.jdbc.JDBCDriver");
         } catch (Exception e) {
@@ -15,30 +15,48 @@ public class Main {
             e.printStackTrace();
             return;
         }
-        Connection c = DriverManager.getConnection("jdbc:hsqldb:mem:mydb", "SA", "");
-        PreparedStatement create = c.prepareStatement("CREATE TABLE PUBLIC.AISDATA\n" +
-                "(ID INTEGER,\n" +
-                "DATETIME VARCHAR(25),\n" +
-                "MMSI VARCHAR(25),\n" +
-                "LATITUDE FLOAT,\n" +
-                "LONGITUDE FLOAT,\n" +
-                "COURSE FLOAT,\n" +
-                "SPEED FLOAT,\n" +
-                "HEADING INTEGER,\n" +
-                "IMO VARCHAR(25),\n" +
-                "NAME VARCHAR(50),\n" +
-                "CALLSIGN VARCHAR(25),\n" +
-                "AISTYPE VARCHAR(5),\n" +
-                "A INTEGER,\n" +
-                "B INTEGER,\n" +
-                "C INTEGER,\n" +
-                "D INTEGER,\n" +
-                "DRAUGHT FLOAT,\n" +
-                "DESTINATION VARCHAR(25),\n" +
-                "ETA VARCHAR(25));");
-        create.execute();
+        try {
+            Connection c = DriverManager.getConnection("jdbc:hsqldb:mem:mydb", "SA", "");
+            createTable(c);
+        }catch (SQLException e){
+
+        }
+
+    }
+
+    /**
+     * Defines the aisData table headers
+     * @param c Connection to JDBC datatbase
+     */
+    public static void createTable(Connection c) {
+        try {
+            PreparedStatement create = c.prepareStatement("CREATE TABLE PUBLIC.AISDATA\n" +
+                    "(ID INTEGER,\n" +
+                    DATETIME+" VARCHAR(25),\n" +
+                    MMSI+" VARCHAR(25),\n" +
+                    LAT+" FLOAT,\n" +
+                    LONG+" FLOAT,\n" +
+                    COURSE+" FLOAT,\n" +
+                    SPEED+" FLOAT,\n" +
+                    HEADING+" INTEGER,\n" +
+                    IMO+" VARCHAR(25),\n" +
+                    NAME+" VARCHAR(50),\n" +
+                    CALLSIGN+" VARCHAR(25),\n" +
+                    AISTYPE+" VARCHAR(5),\n" +
+                    A+" INTEGER,\n" +
+                    B+" INTEGER,\n" +
+                    C+" INTEGER,\n" +
+                    D+" INTEGER,\n" +
+                    DRAUGHT+" FLOAT,\n" +
+                    DESTINATION+" VARCHAR(25),\n" +
+                    ETA+" VARCHAR(25));");
+            create.execute();
+        }catch(SQLException e){
+
+        }
     }
 }
+
 
 /**
  * Josh's Controller below

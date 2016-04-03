@@ -2,10 +2,8 @@ package io.evolution;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
+
+import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -16,37 +14,47 @@ import static io.evolution.Constants.*;
  * Created by gonzal99 on 3/23/2016.
  */
 public class csvParser {
-    //CONSTANTS
+
 
     Iterable<CSVRecord> csvRecordIterable;
     File csvFile;
     Connection c;
 
-    public csvParser(File csvFile, Connection c) throws IOException {
-        Reader csvReader = new FileReader(csvFile);
-        this.csvFile = csvFile;
-        this.c = c;
-        //define csv headers
-        csvRecordIterable = CSVFormat.EXCEL.withHeader(Constants.DATETIME,
-                MMSI,
-                LAT,
-                LONG,
-                COURSE,
-                SPEED,
-                HEADING,
-                IMO,
-                NAME,
-                CALLSIGN,
-                AISTYPE,
-                A,
-                B,
-                C,
-                D,
-                DRAUGHT,
-                DESTINATION,
-                ETA).parse(csvReader);
-    }
+    public csvParser(File csvFile, Connection c){
+        try {
+            Reader csvReader = new FileReader(csvFile);
+            this.csvFile = csvFile;
+            this.c = c;
+            //define csv headers
+            initParser(csvReader);
+        }catch (FileNotFoundException e){
 
+        }
+    }
+    public void initParser(Reader csvReader){
+        try {
+            csvRecordIterable = CSVFormat.EXCEL.withHeader(Constants.DATETIME,
+                    MMSI,
+                    LAT,
+                    LONG,
+                    COURSE,
+                    SPEED,
+                    HEADING,
+                    IMO,
+                    NAME,
+                    CALLSIGN,
+                    AISTYPE,
+                    A,
+                    B,
+                    C,
+                    D,
+                    DRAUGHT,
+                    DESTINATION,
+                    ETA).parse(csvReader);
+        }catch (IOException e){
+
+        }
+    }
     public void iterateCsv() throws SQLException, InterruptedException {
         int i = 0;
         for (CSVRecord record : csvRecordIterable) {

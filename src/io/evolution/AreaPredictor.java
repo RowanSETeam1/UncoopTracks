@@ -1,7 +1,7 @@
 package io.evolution;
+
 import java.sql.Connection;
 import java.util.ArrayList;
-
 
 
 /**
@@ -17,19 +17,18 @@ public class AreaPredictor {
     private float vesselSpeed;
 
 
-    AreaPredictor(Connection c, int MMSI, String startDate, String startTime, String endDate, String endTime){}
+    AreaPredictor(Connection c, int MMSI, String startDate, String startTime, String endDate, String endTime) {
+    }
 
 
-    public AreaPredictor(int time,float knots) {
+    public AreaPredictor(int time, float knots) {
         float travelTime = time;
         float vesselSpeed = knots;
         ArrayList<float[]> outerBoundryCoordinates = new ArrayList<float[]>();
     }
 
 
-
-    private double getHeading()
-    {
+    private double getHeading() {
         float[] secondaryCoordinates = new float[2];
 
         double lat1 = initialCoordinates[0];
@@ -44,10 +43,10 @@ public class AreaPredictor {
         double long1Rads = long1 * degreeToRadians;
         double long2Rads = long2 * degreeToRadians;
 
-        return Math.atan2(Math.sin(long2Rads-long1Rads)*Math.cos(lat2Rads),
-                Math.cos(lat1Rads)*Math.sin(lat2Rads) - Math.sin(lat1Rads)
-                        *Math.cos(lat2Rads)*Math.cos(long2Rads-long1Rads)
-        ) * 180/Math.PI;
+        return Math.atan2(Math.sin(long2Rads - long1Rads) * Math.cos(lat2Rads),
+                Math.cos(lat1Rads) * Math.sin(lat2Rads) - Math.sin(lat1Rads)
+                        * Math.cos(lat2Rads) * Math.cos(long2Rads - long1Rads)
+        ) * 180 / Math.PI;
     }
 
 
@@ -70,10 +69,10 @@ public class AreaPredictor {
 //
 //        float heading = 0;
 
-        //Get last known coordinates
-        //Get second-to-last known coordinates
-        //Use math function to determine the degree between the two latitude points
-        //Return heading in degrees
+    //Get last known coordinates
+    //Get second-to-last known coordinates
+    //Use math function to determine the degree between the two latitude points
+    //Return heading in degrees
 
 //        double dLon = (long2 - long1);
 //
@@ -88,13 +87,12 @@ public class AreaPredictor {
 //        heading = 360 - brng;
 
 
-
 //
 //  return heading;
 //    }
 
 
-    private double getDistance(int time,float knots){
+    private double getDistance(int time, float knots) {
 
         //
         double knotsToMps = (knots * 0.5144);
@@ -106,7 +104,7 @@ public class AreaPredictor {
     }
 
 
-    private float[] calculateCoordinates(float[] coordinates, double heading){
+    private float[] calculateCoordinates(float[] coordinates, double heading) {
         //calculates the destination coordinates given the initial coordinates, heading, and time traveled.
 
 
@@ -115,9 +113,9 @@ public class AreaPredictor {
     }
 
 
-    private float[] setPrimaryBoundry(){
+    private float[] setPrimaryBoundry() {
         //get last known coordinates
-        double distance = getDistance(travelTime,vesselSpeed);
+        double distance = getDistance(travelTime, vesselSpeed);
         double heading = getHeading();
 
         primaryBoundry = calculateCoordinates(initialCoordinates, getHeading());
@@ -126,19 +124,96 @@ public class AreaPredictor {
     }
 
 
+    public void setOuterBoundryCoordinates() {
 
-   public void setOuterBoundryCoordinates(){
+        int currentTime = 0;
+        float[] currentCoordinates = initialCoordinates;
+        double initialHeading = getHeading();
+        double currentHeading = getHeading();
 
-       int currentTime = 0;
-       float[] currentCoordinates = initialCoordinates;
-       double initialHeading = getHeading();
-       double currentHeading = getHeading();
-
-        while(currentTime <= travelTime){
+        while (currentTime <= travelTime) {
             outerBoundryCoordinates.add(calculateCoordinates(initialCoordinates, currentHeading));
             currentTime++;
-           currentHeading+=initialHeading;
+            currentHeading += initialHeading;
         }
-   }
+    }
+
+    public double initial(double lat1, double long1, double lat2, double long2) {
+        return (_bearing(lat1, long1, lat2, long2) + 360.0) % 360;
+    }
+
+    static private double _bearing(double lat1, double long1, double lat2, double long2) {
+        double degToRad = Math.PI / 180.0;
+        double phi1 = lat1 * degToRad;
+        double phi2 = lat2 * degToRad;
+        double lam1 = long1 * degToRad;
+        double lam2 = long2 * degToRad;
+
+        return Math.atan2(Math.sin(lam2 - lam1) * Math.cos(phi2),
+                Math.cos(phi1) * Math.sin(phi2) - Math.sin(phi1) * Math.cos(phi2) * Math.cos(lam2 - lam1)
+        ) * 180 / Math.PI;
+    }
+
+    public float[] calculateCoordinates(float[] coordinates, float
+            heading, float distance) {
+        float latInit = coordinates[0]; //the latitude of the initial coordinate
+        float longInit = coordinates[1]; //the longitude of the initial coordinate
+        double headRadians = (double) heading;
+        headRadians = java.lang.Math.toRadians(headRadians);
+        double distanceRadians = (double) distance;
+        distanceRadians = java.lang.Math.toRadians(distanceRadians);
+        double latEnd;
+        double longEnd;
+        double pi = Math.PI;
+
+        latEnd = java.lang.Math.asin(java.lang.Math.sin(latInit) * java.lang.Math.cos(distanceRadians) + java.lang.Math.cos(latInit) * java.lang.Math.sin(distanceRadians) * java.lang.Math.cos(headRadians));
+        if (java.lang.Math.cos(latEnd) == 0) {
+            longEnd = longInit;      // endpoint a pole
+        } else {
+            longEnd = java.lang.Math.abs(longInit -
+                    java.lang.Math.asin(java.lang.Math.sin(headRadians) *
+                            java.lang.Math.sin(distanceRadians) / java.lang.Math.cos(latEnd)) +
+
+
+                    pi % (2 * pi)) - pi;
+        }
+        float latFinal = (float) latEnd;
+        float longFinal = (float) longEnd;
+        float[] pointCoordinates = new float[2];
+        pointCoordinates[0] = latFinal;
+        pointCoordinates[1] = longFinal;
+        return pointCoordinates;
+    }
+
+    public void calculateCoordinates(float lat, float lon, float heading, float distance) {
+
+        //calculates the destination coordinates given the initial coordinates, heading, and time traveled.
+
+//
+//        float[] calculatedCoordinates = new float[2];
+//        return calculatedCoordinates;
+
+        double R = 6378.1; //Radius of the Earth
+        //Bearing is 90 degrees converted to radians.
+        //Distance in km
+
+        //lat2  52.20444 - the lat result I'm hoping for
+        //lon2  0.36056 - the long result I'm hoping for.
+
+        double lat1 = Math.toRadians(lat); //Current lat point converted to radians
+        double lon1 = Math.toRadians(lon); //Current long point converted to radians
+
+        double lat2 = Math.asin(Math.sin(lat1) * Math.cos(distance / R) +
+                Math.cos(lat1) * Math.sin(distance / R) * Math.cos(heading));
+
+        double lon2 = lon1 + Math.atan2(Math.sin(heading) * Math.sin(distance / R) * Math.cos(lat1),
+                Math.cos(distance / R) - Math.sin(lat1) * Math.sin(lat2));
+
+        lat2 = Math.toDegrees(lat2);
+        lon2 = Math.toDegrees(lon2);
+
+        System.out.println(lat2);
+        System.out.println(lon2);
+    }
 
 }

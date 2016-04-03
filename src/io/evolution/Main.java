@@ -27,7 +27,7 @@ public class Main {
         p.iterateCsv();
 
         //initiating modules, also pass the database connection to them
-        // Area Prediction Algorithm takes db, ship MMSI number, and time after signal loss
+        // Area Predi ction Algorithm takes db, ship MMSI number, and time after signal loss
         AreaPredictor areaPredict = new AreaPredictor(c, MMSI, startDate, startTime, endDate, endTime);
         KmlGenerator kmlGen = new KmlGenerator();  // KML generator
 
@@ -152,7 +152,7 @@ public class Main {
         // flag to determine errors
         boolean flag = true;
         // runs area predictor algorithm
-        flag = algo.execute();
+        //flag = algo.execute();
         // check areaPredict ran with no errors
         if (flag = !true) {
             System.err.println("areaPredict Error");

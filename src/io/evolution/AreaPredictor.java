@@ -27,51 +27,62 @@ public class AreaPredictor {
     }
 
     private float getHeading(){
+
+        float heading = 0;
+
         //Get last known coordinates
         //Get second-to-last known coordinates
         //Use math function to determine the degree between the two latitude points
         //Return heading in degrees
 
+//
+//        double dLon = (long2 - long1);
+//
+//        double y = Math.sin(dLon) * Math.cos(lat2);
+//        double x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1)
+//                * Math.cos(lat2) * Math.cos(dLon);
+//
+//        double heading = Math.atan2(y, x);
+//
+//        heading = Math.toDegrees(heading);
+//        heading = (heading + 360) % 360;
+//        heading = 360 - brng;
+//
 
 
-        double dLon = (long2 - long1);
-
-        double y = Math.sin(dLon) * Math.cos(lat2);
-        double x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1)
-                * Math.cos(lat2) * Math.cos(dLon);
-
-        double heading = Math.atan2(y, x);
-
-        heading = Math.toDegrees(heading);
-        heading = (heading + 360) % 360;
-        heading = 360 - brng;
-
-        return heading;
+  return heading;
     }
 
 
-    private int getDistance(int time,float knots){
-        //determines the distance in meters that the vessel would travel at
-        // the given speed(in knots) for the given time(in minutes)
+    private double getDistance(int time,float knots){
 
+        //
         double knotsToMps = (knots * 0.5144);
-        double distance
+        double timeToSeconds = time * 60;
+
+        //the distance traveled by the vessel, in meters.
+        double distance = (knotsToMps * timeToSeconds);
+        return distance;
     }
 
 
     private float[] calculateCoordinates(float[] coordinates, float heading){
         //calculates the destination coordinates given the initial coordinates, heading, and time traveled.
+
+
+        float[] calculatedCoordinates = new float[2];
+        return calculatedCoordinates;
     }
 
 
     private float[] setPrimaryBoundry(){
         //get last known coordinates
-        int distance = getDistance(travelTime,vesselSpeed);
-        float heading = getHeading()
+        double distance = getDistance(travelTime,vesselSpeed);
+        float heading = getHeading();
 
         primaryBoundry = calculateCoordinates(initialCoordinates, getHeading());
 
-        primaryBoundry;
+        return primaryBoundry;
     }
 
 
@@ -84,10 +95,10 @@ public class AreaPredictor {
        float currentHeading = getHeading();
 
         while(currentTime <= travelTime){
-            outerPoints.add(calculateCoordinates(initialCoordinates, currentHeading))
+            outerBoundryCoordinates.add(calculateCoordinates(initialCoordinates, currentHeading));
             currentTime++;
            currentHeading+=initialHeading;
         }
-
+   }
 
 }

@@ -28,6 +28,8 @@ public class AreaPredictor {
 
     private float getHeading(){
 
+        float[] firstCoordSet = initialCoordinates;
+
         float heading = 0;
 
         //Get last known coordinates
@@ -35,7 +37,7 @@ public class AreaPredictor {
         //Use math function to determine the degree between the two latitude points
         //Return heading in degrees
 
-//
+
 //        double dLon = (long2 - long1);
 //
 //        double y = Math.sin(dLon) * Math.cos(lat2);
@@ -47,7 +49,7 @@ public class AreaPredictor {
 //        heading = Math.toDegrees(heading);
 //        heading = (heading + 360) % 360;
 //        heading = 360 - brng;
-//
+
 
 
   return heading;

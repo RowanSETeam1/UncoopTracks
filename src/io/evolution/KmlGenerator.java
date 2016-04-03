@@ -15,17 +15,12 @@ public class KmlGenerator {
     ArrayList<Point> placemarks = new ArrayList<Point>(); //points where pins are dropped.
 
 
-    //if you want to customize
+    //pull from database
     void pull(){
 
 
     }
 
-    //if you want to customize
-    void execute(){
-
-
-    }
     void generate() throws IOException {
         //creates file
         String filename = (getFileName());

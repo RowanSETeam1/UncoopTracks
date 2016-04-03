@@ -31,12 +31,30 @@ public class AreaPredictor {
         //Use math function to determine the degree between the two latitude points
         //Return heading in degrees
 
+
+
+        double dLon = (long2 - long1);
+
+        double y = Math.sin(dLon) * Math.cos(lat2);
+        double x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1)
+                * Math.cos(lat2) * Math.cos(dLon);
+
+        double heading = Math.atan2(y, x);
+
+        heading = Math.toDegrees(heading);
+        heading = (heading + 360) % 360;
+        heading = 360 - brng;
+
+        return heading;
     }
 
 
     private int getDistance(int time, float knots) {
         //determines the distance in meters that the vessel would travel at
         // the given speed(in knots) for the given time(in minutes)
+
+        double knotsToMps = (knots * 0.5144);
+        double distance
     }
 
 

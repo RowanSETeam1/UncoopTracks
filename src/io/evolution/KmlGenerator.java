@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by eliakah on 4/3/2016.
@@ -14,26 +15,45 @@ public class KmlGenerator {
     ArrayList<Point> placemarks = new ArrayList<Point>(); //points where pins are dropped.
 
 
-    void outputPointsFile() throws IOException {
-        File outPutFile = new File("C:\\Users\\Research\\IdeaProjects\\VesselPathFinder\\output\\output.kml");
+    //if you want to customize
+    void pull(){
+
+
+    }
+
+    //if you want to customize
+    void execute(){
+
+
+    }
+    void generate() throws IOException {
+        //creates file
+        String filename = (getFileName());
+        File outPutFile = new File(filename);
 
         if (outPutFile.createNewFile()) {
             String text = "";
-            PrintWriter writer = new PrintWriter("C:\\Users\\Research\\IdeaProjects\\VesselPathFinder\\output\\output.kml", "UTF-8");
+            PrintWriter writer = new PrintWriter(filename, "UTF-8");
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n <kml xmlns=\"http://www.opengis.net/kml/2.2\">\n");
-            writer.write(" <Document>\n<name>output.kml</name>\n<open>1</open>\n<Style id=\"point_plotted\">\n<LabelStyle>\n<color>ff0000cc</color>\n</LabelStyle>\n</Style>\n");
-            for (int i = 0; i < points.size(); i++) {
-                text += "<Placemark>\n<name>" + points.get(i).getLatitude() + ", " + points.get(i).getLongitude() + "</name>\n";
-                text += "<description>sample description</description>\n<Point>\n<coordinates>" + points.get(i).getLatitude() + "," + points.get(i).getLongitude();
-                text += "</coordinates>\n</Point>\n</Placemark>\n";
-                writer.write(text);
+            writer.write(" <Document>\n<name>"+filename+"</name> \n");
+
+            //writting polygon
+            writer.write(createPolygon());
+
+            //writting placemarks
+            for (int i = 0; i < placemarks.size(); i++) {
+                writer.write(createPlacemark(placemarks.get(i)));
             }
+
+
             writer.write("</Document>\n</kml>");
             writer.close();
         } else {
             System.out.println("File Creation Unsuccessful!.");
         }
     }
+
+
 
     public String createPlacemark(Point point) {
         String tag = "";
@@ -75,6 +95,17 @@ public class KmlGenerator {
     public void addPolygonPoints(Point p) {
         points.add(p);
     }
+
+    private String getFileName(){
+        Date date = new Date();
+        String timeStamp = String.format(""+date);
+        timeStamp = timeStamp.replaceAll(" ", "_").toLowerCase();
+        timeStamp = timeStamp.replaceAll(":", "_").toLowerCase();
+        timeStamp += timeStamp+".kml";
+       return timeStamp;
+    }
+
+
 
     public class Point {
         double latitude, longitude;

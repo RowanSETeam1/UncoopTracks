@@ -27,6 +27,7 @@ public class AreaPredictor {
         //Get second-to-last known coordinates
         //Use math function to determine the degree between the two latitude points
         //Return heading in degrees
+
     }
 
 

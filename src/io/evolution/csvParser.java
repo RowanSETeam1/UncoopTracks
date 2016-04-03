@@ -20,18 +20,24 @@ public class csvParser {
     File csvFile;
     Connection c;
 
-    public csvParser(File csvFile, Connection c){
+    public csvParser(File csvFile, Connection c) {
+        this.csvFile = csvFile;
+        this.c = c;
+    }
+
+    public boolean readFile() {
         try {
             Reader csvReader = new FileReader(csvFile);
-            this.csvFile = csvFile;
-            this.c = c;
-            //define csv headers
-            initParser(csvReader);
-        }catch (FileNotFoundException e){
-
+            if (initParser(csvReader) == false) {
+                return false;
+            }
+        } catch (FileNotFoundException e) {
+            return false;
         }
+        return true;
     }
-    public void initParser(Reader csvReader){
+
+    public boolean initParser(Reader csvReader) {
         try {
             csvRecordIterable = CSVFormat.EXCEL.withHeader(Constants.DATETIME,
                     MMSI,
@@ -51,58 +57,63 @@ public class csvParser {
                     DRAUGHT,
                     DESTINATION,
                     ETA).parse(csvReader);
-        }catch (IOException e){
-
+        } catch (IOException e) {
+            return false;
         }
+        return true;
     }
-    public void iterateCsv() throws SQLException, InterruptedException {
+
+    public boolean iterateCsv() throws SQLException {
         int i = 0;
-        for (CSVRecord record : csvRecordIterable) {
-            if (i > 0) {
-                StringBuilder queryBuilder = new StringBuilder("INSERT INTO"+tableName+"VALUES (00,");
-                queryBuilder.append("'" + record.get(DATETIME) + "'");
-                queryBuilder.append(",");
-                queryBuilder.append("'" + record.get(MMSI) + "'");
-                queryBuilder.append(",");
-                queryBuilder.append(Float.parseFloat(record.get(LAT)));
-                queryBuilder.append(",");
-                queryBuilder.append(Float.parseFloat(record.get(LONG)));
-                queryBuilder.append(",");
-                queryBuilder.append(Float.parseFloat(record.get(COURSE)));
-                queryBuilder.append(",");
-                queryBuilder.append(Float.parseFloat(record.get(SPEED)));
-                queryBuilder.append(",");
-                queryBuilder.append(Integer.parseInt(record.get(HEADING)));
-                queryBuilder.append(",");
-                queryBuilder.append("'" + record.get(IMO) + "'");
-                queryBuilder.append(",");
-                queryBuilder.append("'" + record.get(NAME) + "'");
-                queryBuilder.append(",");
-                queryBuilder.append("'" + record.get(CALLSIGN) + "'");
-                queryBuilder.append(",");
-                queryBuilder.append("'" + record.get(AISTYPE) + "'");
-                queryBuilder.append(",");
-                queryBuilder.append(Integer.parseInt(record.get(A)));
-                queryBuilder.append(",");
-                queryBuilder.append(Integer.parseInt(record.get(B)));
-                queryBuilder.append(",");
-                queryBuilder.append(Integer.parseInt(record.get(C)));
-                queryBuilder.append(",");
-                queryBuilder.append(Integer.parseInt(record.get(D)));
-                queryBuilder.append(",");
-                queryBuilder.append(Float.parseFloat(record.get(DRAUGHT)));
-                queryBuilder.append(",");
-                queryBuilder.append("'" + record.get(DESTINATION) + "'");
-                queryBuilder.append(",");
-                queryBuilder.append("'" + record.get(ETA) + "'");
-                queryBuilder.append(")");
-                PreparedStatement insertData = c.prepareStatement(queryBuilder.toString());
-                insertData.execute();
+        try {
+            for (CSVRecord record : csvRecordIterable) {
+                if (i > 0) {
+                    StringBuilder queryBuilder = new StringBuilder("INSERT INTO" + tableName + "VALUES (00,");
+                    queryBuilder.append("'" + record.get(DATETIME) + "'");
+                    queryBuilder.append(",");
+                    queryBuilder.append("'" + record.get(MMSI) + "'");
+                    queryBuilder.append(",");
+                    queryBuilder.append(Float.parseFloat(record.get(LAT)));
+                    queryBuilder.append(",");
+                    queryBuilder.append(Float.parseFloat(record.get(LONG)));
+                    queryBuilder.append(",");
+                    queryBuilder.append(Float.parseFloat(record.get(COURSE)));
+                    queryBuilder.append(",");
+                    queryBuilder.append(Float.parseFloat(record.get(SPEED)));
+                    queryBuilder.append(",");
+                    queryBuilder.append(Integer.parseInt(record.get(HEADING)));
+                    queryBuilder.append(",");
+                    queryBuilder.append("'" + record.get(IMO) + "'");
+                    queryBuilder.append(",");
+                    queryBuilder.append("'" + record.get(NAME) + "'");
+                    queryBuilder.append(",");
+                    queryBuilder.append("'" + record.get(CALLSIGN) + "'");
+                    queryBuilder.append(",");
+                    queryBuilder.append("'" + record.get(AISTYPE) + "'");
+                    queryBuilder.append(",");
+                    queryBuilder.append(Integer.parseInt(record.get(A)));
+                    queryBuilder.append(",");
+                    queryBuilder.append(Integer.parseInt(record.get(B)));
+                    queryBuilder.append(",");
+                    queryBuilder.append(Integer.parseInt(record.get(C)));
+                    queryBuilder.append(",");
+                    queryBuilder.append(Integer.parseInt(record.get(D)));
+                    queryBuilder.append(",");
+                    queryBuilder.append(Float.parseFloat(record.get(DRAUGHT)));
+                    queryBuilder.append(",");
+                    queryBuilder.append("'" + record.get(DESTINATION) + "'");
+                    queryBuilder.append(",");
+                    queryBuilder.append("'" + record.get(ETA) + "'");
+                    queryBuilder.append(")");
+                    PreparedStatement insertData = c.prepareStatement(queryBuilder.toString());
+                    insertData.execute();
+                }
+                i++;
             }
-            i++;
+        } catch (SQLException e) {
+            return false;
         }
-
-
+        return true;
     }
 
 }

@@ -32,6 +32,7 @@ public class AreaPredictor {
         //Return heading in degrees
 
 
+
         double dLon = (long2 - long1);
 
         double y = Math.sin(dLon) * Math.cos(lat2);

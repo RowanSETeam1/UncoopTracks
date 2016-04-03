@@ -10,12 +10,12 @@ import java.util.ArrayList;
  */
 public class KmlGenerator {
 
-    ArrayList<Point> points  = new ArrayList<Point>();
+    ArrayList<Point> points = new ArrayList<Point>();
 
     void outputPointsFile() throws IOException {
         File outPutFile = new File("C:\\Users\\Research\\IdeaProjects\\VesselPathFinder\\output\\output.kml");
 
-        if(outPutFile.createNewFile()) {
+        if (outPutFile.createNewFile()) {
             String text = "";
             PrintWriter writer = new PrintWriter("C:\\Users\\Research\\IdeaProjects\\VesselPathFinder\\output\\output.kml", "UTF-8");
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n <kml xmlns=\"http://www.opengis.net/kml/2.2\">\n");
@@ -28,14 +28,33 @@ public class KmlGenerator {
             }
             writer.write("</Document>\n</kml>");
             writer.close();
-        }else{
+        } else {
             System.out.println("File Creation Unsuccessful!.");
         }
     }
 
+    public String createPlacemark(Point point) {
+        String tag = "";
+        tag += "<Placemark>\n<name>" + point.getLatitude() + ", " + point.getLongitude() + "</name>\n";
+        tag += "<description>sample description</description>\n<Point>\n<coordinates>" + point.getLatitude() + "," + point.getLongitude();
+        tag += "</coordinates>\n</Point>\n</Placemark>\n";
+
+        return tag;
+    }
+
+   /* public String createPolygon(){
+        String tag = "";
+        tag += "<Placemark>\n<name>" + point.getLatitude() + ", " + point.getLongitude() + "</name>\n";
+        tag += "<description>sample description</description>\n<Point>\n<coordinates>" + point.getLatitude() + "," + point.getLongitude();
+        tag += "</coordinates>\n</Point>\n</Placemark>\n";
+
+        return tag;
+    }*/
+
     public class Point {
         double latitude, longitude;
-        Point(double latitude, double longitude){
+
+        Point(double latitude, double longitude) {
             this.latitude = latitude;
             this.longitude = longitude;
         }
@@ -48,8 +67,8 @@ public class KmlGenerator {
             return longitude;
         }
 
-        public String getCoordinate(){
-            return(""+longitude + latitude);
+        public String getCoordinate() {
+            return ("" + longitude + latitude);
         }
     }
 

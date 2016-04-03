@@ -23,6 +23,11 @@ public class Main {
         }
 
     }
+
+    /**
+     * Defines the aisData table headers
+     * @param c Connection to JDBC datatbase
+     */
     public static void createTable(Connection c) {
         try {
             PreparedStatement create = c.prepareStatement("CREATE TABLE PUBLIC.AISDATA\n" +

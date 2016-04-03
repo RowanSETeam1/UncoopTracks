@@ -4,7 +4,9 @@ package io.evolution;
  * Created by 1994r on 4/3/2016.
  */
 public final class Constants {
-    private Constants(){}
+    private Constants() {
+    }
+
     public static final String DATETIME = "DATETIME";
     public static final String MMSI = "MMSI";
     public static final String LAT = "LATITUDE";

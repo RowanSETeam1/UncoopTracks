@@ -26,17 +26,54 @@ public class AreaPredictor {
         ArrayList<float[]> outerBoundryCoordinates = new ArrayList<float[]>();
     }
 
-    private float getHeading(){
 
-        float[] firstCoordSet = initialCoordinates;
 
-        float heading = 0;
+    private double getHeading()
+    {
+        float[] secondaryCoordinates = new float[2];
+
+        double lat1 = initialCoordinates[0];
+        double long1 = initialCoordinates[1];
+        double lat2 = secondaryCoordinates[0];
+        double long2 = secondaryCoordinates[1];
+
+        double degreeToRadians = Math.PI / 180.0;
+
+        double lat1Rads = lat1 * degreeToRadians;
+        double lat2Rads = lat2 * degreeToRadians;
+        double long1Rads = long1 * degreeToRadians;
+        double long2Rads = long2 * degreeToRadians;
+
+        return Math.atan2(Math.sin(long2Rads-long1Rads)*Math.cos(lat2Rads),
+                Math.cos(lat1Rads)*Math.sin(lat2Rads) - Math.sin(lat1Rads)
+                        *Math.cos(lat2Rads)*Math.cos(long2Rads-long1Rads)
+        ) * 180/Math.PI;
+    }
+
+
+//    private float getHeading(){
+//
+//        //the coordindates given in second-to-last signal sent
+//        float[] secondaryCoordinates = ;
+//
+//        double lat1Radians = initialCoordinates[0];
+//        double long1Radians = initialCoordinates[1];
+//        double lat2Radians = secondaryCoordinates[0];
+//        double long2Radians = secondaryCoordinates[1];
+//
+//         lat1Radians = Math.toRadians(lat1Radians);
+//         long1Radians = Math.toRadians(long1Radians);
+//         lat2Radians = Math.toRadians(lat2Radians);
+//         long2Radians = Math.toRadians(long2Radians);
+//
+//        float[] firstCoordSet = initialCoordinates;
+//
+//        float heading = 0;
 
         //Get last known coordinates
         //Get second-to-last known coordinates
         //Use math function to determine the degree between the two latitude points
         //Return heading in degrees
-
 
 //        double dLon = (long2 - long1);
 //
@@ -52,8 +89,9 @@ public class AreaPredictor {
 
 
 
-  return heading;
-    }
+//
+//  return heading;
+//    }
 
 
     private double getDistance(int time,float knots){
@@ -68,7 +106,7 @@ public class AreaPredictor {
     }
 
 
-    private float[] calculateCoordinates(float[] coordinates, float heading){
+    private float[] calculateCoordinates(float[] coordinates, double heading){
         //calculates the destination coordinates given the initial coordinates, heading, and time traveled.
 
 
@@ -80,7 +118,7 @@ public class AreaPredictor {
     private float[] setPrimaryBoundry(){
         //get last known coordinates
         double distance = getDistance(travelTime,vesselSpeed);
-        float heading = getHeading();
+        double heading = getHeading();
 
         primaryBoundry = calculateCoordinates(initialCoordinates, getHeading());
 
@@ -93,8 +131,8 @@ public class AreaPredictor {
 
        int currentTime = 0;
        float[] currentCoordinates = initialCoordinates;
-       float initialHeading = getHeading();
-       float currentHeading = getHeading();
+       double initialHeading = getHeading();
+       double currentHeading = getHeading();
 
         while(currentTime <= travelTime){
             outerBoundryCoordinates.add(calculateCoordinates(initialCoordinates, currentHeading));

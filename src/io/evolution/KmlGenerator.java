@@ -103,18 +103,18 @@ public class KmlGenerator {
 
 
     public class Point {
-        double latitude, longitude;
+        float latitude, longitude;
 
-        Point(double latitude, double longitude) {
+        Point(float latitude, float longitude) {
             this.latitude = latitude;
             this.longitude = longitude;
         }
 
-        public double getLatitude() {
+        public float getLatitude() {
             return latitude;
         }
 
-        public double getLongitude() {
+        public float getLongitude() {
             return longitude;
         }
 

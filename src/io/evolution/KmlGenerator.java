@@ -10,7 +10,9 @@ import java.util.ArrayList;
  */
 public class KmlGenerator {
 
-    ArrayList<Point> points = new ArrayList<Point>();
+    ArrayList<Point> points = new ArrayList<Point>(); //polygon points
+    ArrayList<Point> placemarks = new ArrayList<Point>(); //points where pins are dropped.
+
 
     void outputPointsFile() throws IOException {
         File outPutFile = new File("C:\\Users\\Research\\IdeaProjects\\VesselPathFinder\\output\\output.kml");
@@ -42,14 +44,37 @@ public class KmlGenerator {
         return tag;
     }
 
-   /* public String createPolygon(){
+    public String createPolygon() {
         String tag = "";
-        tag += "<Placemark>\n<name>" + point.getLatitude() + ", " + point.getLongitude() + "</name>\n";
-        tag += "<description>sample description</description>\n<Point>\n<coordinates>" + point.getLatitude() + "," + point.getLongitude();
-        tag += "</coordinates>\n</Point>\n</Placemark>\n";
+        tag += " <Placemark>\n" +
+                "<name>Area of Prediction</name>\n" +
+                "<Polygon>\n" +
+                "<extrude>1</extrude>\n" +
+                "<altitudeMode>relativeToGround</altitudeMode>\n" +
+                "<outerBoundaryIs>\n" +
+                "<LinearRing>\n" +
+                "<coordinates>\n";
+
+        for (int i = 0; i < points.size(); i++) {
+            tag += points.get(i).getLatitude() + "," + points.get(i).getLongitude()+"\n";
+        }
+
+        tag += "</coordinates>\n" +
+                "</LinearRing>\n" +
+                "</innerBoundaryIs>\n" +
+                "</Polygon>\n" +
+                "</Placemark>\n";
 
         return tag;
-    }*/
+    }
+
+    public void addPlacemark(Point p) {
+        placemarks.add(p);
+    }
+
+    public void addPolygonPoints(Point p) {
+        points.add(p);
+    }
 
     public class Point {
         double latitude, longitude;

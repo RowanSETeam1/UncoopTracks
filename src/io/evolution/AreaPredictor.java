@@ -22,10 +22,10 @@ public class AreaPredictor {
     private float vesselSpeed;
     private String lastContactTime;
 
-    AreaPredictor(Connection c, String mmsi, String startDate, String startTime, String endDate, String endTime) throws SQLException {
+    AreaPredictor(Connection c, String mmsi, String date) throws SQLException {
         this.c = c;
         PreparedStatement get = c.prepareStatement("SELECT * FROM aisData WHERE (MMSI='"
-                + mmsi + "' AND DATETIME LIKE '%2016-03-15%') ORDER BY "+DATETIME+" DESC LIMIT 2;");
+                + mmsi + "' AND DATETIME LIKE '"+date+"') ORDER BY "+DATETIME+" DESC LIMIT 2;");
         ResultSet resultSet = get.executeQuery();
         ArrayList<ResultSet> needTwo = new ArrayList<>();
 
@@ -205,7 +205,7 @@ public class AreaPredictor {
     }
     public boolean insertCoord(String time, float latitude,float longitude){
         try {
-            PreparedStatement insertCoord = c.prepareStatement("INSERT INTO PUBLIC.KMLPOINTS VALUES (" + time + "," + latitude + "," + longitude + ");");
+            PreparedStatement insertCoord = c.prepareStatement("INSERT INTO PUBLIC.KMLPOINTS VALUES ('" + time + "'," + latitude + "," + longitude + ");");
             insertCoord.execute();
         }catch (SQLException e){return false;}
         return true;

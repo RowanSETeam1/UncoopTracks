@@ -20,7 +20,7 @@ public class AreaPredictor {
 
     private int travelTime;
     private float vesselSpeed;
-    private String lastContactTime;
+
 
     AreaPredictor(Connection c, String mmsi, String startDate, String startTime, String endDate, String endTime) throws SQLException {
         PreparedStatement get = c.prepareStatement("SELECT * FROM aisData WHERE (MMSI='"
@@ -29,15 +29,24 @@ public class AreaPredictor {
         ArrayList<ResultSet> needTwo = new ArrayList<>();
 
         while (resultSet.next()) {
+
+
             needTwo.add(resultSet);
             if (needTwo.size() == 2) {
-                String[] dateSplit = needTwo.get(1).getString(DATETIME).split(" ");
-                lastContactTime = dateSplit[1];
+                float distance = Float.parseFloat(Double.toString(getDistance(60, needTwo.get(1).getFloat(SPEED)) * Math.pow(10, -3)));
+                System.out.println(distance);
+                needTwo = new ArrayList<ResultSet>();
+
             }
         }
     }
 
 
+    public AreaPredictor(int time, float knots) {
+        float travelTime = time;
+        float vesselSpeed = knots;
+        ArrayList<float[]> outerBoundryCoordinates = new ArrayList<float[]>();
+    }
 
 
     private double getHeading() {
@@ -129,7 +138,6 @@ public class AreaPredictor {
     }
 
 
-
     private float[] setPrimaryBoundry() {
         //get last known coordinates of vessel
         double distance = getDistance(travelTime, vesselSpeed);
@@ -200,9 +208,6 @@ public class AreaPredictor {
 
         System.out.println(lat2);
         System.out.println(lon2);
-    }
-    public boolean insertCoord(String time, float latitude,float longitude){
-
     }
 
 }

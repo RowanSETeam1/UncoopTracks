@@ -48,6 +48,8 @@ public class AreaPredictor {
 
 
     private double getHeading() {
+
+        // retrieves the second-to-last known coordinates of the vessel
         float[] secondaryCoordinates = new float[2];
 
         double lat1 = initialCoordinates[0];
@@ -57,11 +59,13 @@ public class AreaPredictor {
 
         double degreeToRadians = Math.PI / 180.0;
 
+        //converts each latitude and longitude to radians to be used in heading calculation
         double lat1Rads = lat1 * degreeToRadians;
         double lat2Rads = lat2 * degreeToRadians;
         double long1Rads = long1 * degreeToRadians;
         double long2Rads = long2 * degreeToRadians;
 
+        //calculates and returns the heading
         return Math.atan2(Math.sin(long2Rads - long1Rads) * Math.cos(lat2Rads),
                 Math.cos(lat1Rads) * Math.sin(lat2Rads) - Math.sin(lat1Rads)
                         * Math.cos(lat2Rads) * Math.cos(long2Rads - long1Rads)
@@ -133,7 +137,7 @@ public class AreaPredictor {
 
 
     private float[] setPrimaryBoundry() {
-        //get last known coordinates
+        //get last known coordinates of vessel
         double distance = getDistance(travelTime, vesselSpeed);
         double heading = getHeading();
 
@@ -171,37 +175,6 @@ public class AreaPredictor {
         return Math.atan2(Math.sin(lam2 - lam1) * Math.cos(phi2),
                 Math.cos(phi1) * Math.sin(phi2) - Math.sin(phi1) * Math.cos(phi2) * Math.cos(lam2 - lam1)
         ) * 180 / Math.PI;
-    }
-
-    public float[] calculateCoordinates(float[] coordinates, float
-            heading, float distance) {
-        float latInit = coordinates[0]; //the latitude of the initial coordinate
-        float longInit = coordinates[1]; //the longitude of the initial coordinate
-        double headRadians = (double) heading;
-        headRadians = java.lang.Math.toRadians(headRadians);
-        double distanceRadians = (double) distance;
-        distanceRadians = java.lang.Math.toRadians(distanceRadians);
-        double latEnd;
-        double longEnd;
-        double pi = Math.PI;
-
-        latEnd = java.lang.Math.asin(java.lang.Math.sin(latInit) * java.lang.Math.cos(distanceRadians) + java.lang.Math.cos(latInit) * java.lang.Math.sin(distanceRadians) * java.lang.Math.cos(headRadians));
-        if (java.lang.Math.cos(latEnd) == 0) {
-            longEnd = longInit;      // endpoint a pole
-        } else {
-            longEnd = java.lang.Math.abs(longInit -
-                    java.lang.Math.asin(java.lang.Math.sin(headRadians) *
-                            java.lang.Math.sin(distanceRadians) / java.lang.Math.cos(latEnd)) +
-
-
-                    pi % (2 * pi)) - pi;
-        }
-        float latFinal = (float) latEnd;
-        float longFinal = (float) longEnd;
-        float[] pointCoordinates = new float[2];
-        pointCoordinates[0] = latFinal;
-        pointCoordinates[1] = longFinal;
-        return pointCoordinates;
     }
 
     public void calculateCoordinates(float lat, float lon, float heading, float distance) {

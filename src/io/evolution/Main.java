@@ -13,9 +13,9 @@ import static io.evolution.Constants.*;
 public class Main {
     static Connection c;
     static String csv = "H:\\IdeaProjects\\UncoopTracks\\csv.csv";
-    static String mmsi = "366238710";
+    static String mmsi = "229206000";
     static String time = "30";
-    static String date = "03-14-2016";
+    static String date = "2016-03-14";
     static csvParser p;
 
     public static void main(String[] args) throws SQLException, IOException {
@@ -32,7 +32,7 @@ public class Main {
 
         //initiating modules, also pass the database connection to them
         // Area Predi ction Algorithm takes db, ship MMSI number, and time after signal loss
-        AreaPredictor areaPredict = new AreaPredictor(c, mmsi, date);
+        AreaPredictor areaPredict = new AreaPredictor(c, mmsi, date, time);
         KmlGenerator kmlGen = new KmlGenerator();  // KML generator
 
         //to grab xml file
@@ -160,13 +160,13 @@ public class Main {
 
     private static void execute(AreaPredictor algo, KmlGenerator kmlGen) throws IOException, SQLException {
         // flag to determine errors
-        boolean flag = true;
+        //boolean flag = true;
         // runs area predictor algorithm
-        //flag = algo.execute();
+        algo.execute();
         // check areaPredict ran with no errors
-        if (flag = !true) {
-            System.err.println("areaPredict Error");
-        }
+       // if (flag = !true) {
+        System.err.println("areaPredict Error");
+      //  }
         // runs the kml generator
         kmlGen.pull(c);
         kmlGen.generate();

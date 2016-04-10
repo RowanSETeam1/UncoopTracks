@@ -8,14 +8,15 @@ import java.util.ArrayList;
 
 import static io.evolution.Constants.DATETIME;
 import static io.evolution.Constants.SPEED;
+import static java.lang.Integer.parseInt;
 
 /**
  * Created by michael on 4/3/2016.
  */
 public class AreaPredictor {
 
-    private float[] initialCoordinates;
-    private float[] primaryBoundry;
+    private float[] initialCoordinates = new float[2];
+    private float[] secondaryCoordinates = new float[2];
     private ArrayList<float[]> outerBoundryCoordinates;
 
     ArrayList<ResultSet> needTwo = new ArrayList<>();
@@ -31,23 +32,75 @@ public class AreaPredictor {
     private float vesselSpeed;
     private String lastContactTime;
 
-    AreaPredictor(Connection c, String mmsi, String date) throws SQLException {
+    AreaPredictor(Connection c, String mmsi, String date, String travelTime) throws SQLException {
+        this.travelTime = parseInt((travelTime));
         this.c = c;
         PreparedStatement get = c.prepareStatement("SELECT * FROM aisData WHERE (MMSI='"
-                + mmsi + "' AND DATETIME LIKE '"+date+"') ORDER BY "+DATETIME+" DESC LIMIT 2;");
+                + mmsi + "' AND DATETIME LIKE '%"+date+"%') ORDER BY "+DATETIME+" DESC LIMIT 2;");
         ResultSet resultSet = get.executeQuery();
+
+        System.out.println("show pulled data: ");
+        int i = 0;
+        while (resultSet.next()) {
+        System.out.println(resultSet.getString("mmsi") +", "+resultSet.getFloat("latitude") +", "+ resultSet.getFloat("longitude"));
+            if(i == 0) {
+                initialCoordinates[0]=resultSet.getFloat("latitude");
+                initialCoordinates[1]=resultSet.getFloat("longitude");
+
+                //sets the coordinates of the loss of signal
+
+                insertCoord(0, initialCoordinates[0], initialCoordinates[1]);
+                vesselSpeed = 5.0f;
+
+                System.out.println("I C :"+initialCoordinates[0]);
+                System.out.println("I C :"+initialCoordinates[1]);
+
+            }else if (i == 1){
+                secondaryCoordinates[0]=resultSet.getFloat("latitude");
+                secondaryCoordinates[1]=resultSet.getFloat("longitude");
+
+                System.out.println("S C :"+secondaryCoordinates[0]);
+                System.out.println("S C :"+ secondaryCoordinates[1]);
+            }
+
+            i++;
+
+        }
+        System.out.println("show pulled data <end>");
+
 
         while (resultSet.next()) {
             needTwo.add(resultSet);
             if (needTwo.size() == 2) {
                 String[] dateSplit = needTwo.get(1).getString(DATETIME).split(" ");
                 lastContactTime = dateSplit[1];
+                System.out.println("lastcontact: " + lastContactTime);
+                System.out.println("needTwo: " + needTwo);
             }
         }
+                if(i == 0) {
+                    initialCoordinates[0]=needTwo.get(0).getFloat("latitude");
+                    initialCoordinates[1]=needTwo.get(0).getFloat("longitude");
+                    vesselSpeed = needTwo.get(0).getFloat("speed");
+
+                    System.out.println("I C :"+initialCoordinates[0]);
+                    System.out.println("I C :"+initialCoordinates[1]);
+
+                }else if (i == 1){
+                    secondaryCoordinates[0]=needTwo.get(1).getFloat("latitude");
+                    secondaryCoordinates[1]=needTwo.get(1).getFloat("longitude");
+
+                    System.out.println("S C :"+secondaryCoordinates[0]);
+                    System.out.println("S C :"+ secondaryCoordinates[1]);
+                }
+
+
+
     }
 
     public boolean insertCoord(int time, float latitude,float longitude){
         try {
+            System.out.println("INSERT INTO PUBLIC.KMLPOINTS VALUES ('" + time + "'," + latitude + "," + longitude + ");");
             PreparedStatement insertCoord = c.prepareStatement("INSERT INTO PUBLIC.KMLPOINTS VALUES ('" + time + "'," + latitude + "," + longitude + ");");
             insertCoord.execute();
         }catch (SQLException e){return false;}
@@ -64,7 +117,6 @@ public class AreaPredictor {
     private float getHeading() {
 
         // retrieves the second-to-last known coordinates of the vessel
-        float[] secondaryCoordinates = new float[2];
 
         float lat1 = initialLat;
         float long1 = initialLong;
@@ -89,7 +141,7 @@ public class AreaPredictor {
 
 //    private float getHeading(){
 //
-//        //the coordindates given in second-to-last signal sent
+//        //the coordinates given in second-to-last signal sent
 //        float[] secondaryCoordinates = ;
 //
 //        double lat1Radians = initialCoordinates[0];
@@ -166,13 +218,14 @@ public class AreaPredictor {
 
         while (currentTime <= travelTime) {
             currentCoordinates = calculateCoordinates(lat, lon, currentHeading, incrementDistance);
-            outerBoundryCoordinates.add(currentCoordinates);
+            //outerBoundryCoordinates.add(currentCoordinates);
             lat = currentCoordinates[0];
             lon = currentCoordinates[1];
-            insertCoord(currentTime, lat, lon);
+            //insertCoord(currentTime, lat, lon);
             currentTime++;
             currentHeading += initialHeading;
         }
+        insertCoord(currentTime, lat, lon);
     }
 
     public double initial(float lat1, float long1, float lat2, float long2) {

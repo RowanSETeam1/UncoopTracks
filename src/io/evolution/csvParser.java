@@ -122,10 +122,10 @@ public class csvParser {
                 }
                 i++;
             }
-            PreparedStatement get = c.prepareStatement("SELECT * FROM aisData;");
+            PreparedStatement get = c.prepareStatement("SELECT * FROM aisData WHERE DATETIME LIKE '%2016-03-14%';");
             ResultSet resultSet = get.executeQuery();
             while (resultSet.next()) {
-                System.out.println(resultSet.getString("mmsi"));
+                System.out.println(resultSet.getString("DATETIME"));
                 System.out.println("\n");
             }
         } catch (SQLException e) {

@@ -26,7 +26,8 @@ public class KmlGenerator {
         PreparedStatement get = c.prepareStatement("SELECT * FROM PUBLIC.KMLPOINTS;");
         ResultSet resultSet = get.executeQuery();
         while (resultSet.next()) {
-            points.add(new Point(resultSet.getFloat("latitude"),resultSet.getFloat("longitude"), resultSet.getString("time")));
+            points.add(new Point(resultSet.getFloat("latitude"),resultSet.getFloat("longitude"), resultSet.getString("datetime")));
+            System.out.println(resultSet.getFloat("latitude") +", "+resultSet.getFloat("longitude")+", "+resultSet.getString("datetime"));
         }
 
     }
@@ -45,13 +46,20 @@ public class KmlGenerator {
             //writting polygon
             writer.write(createPolygon());
 
-           /* //writting placemarks
-            for (int i = 0; i < placemarks.size(); i++) {
-                writer.write(createPlacemark(placemarks.get(i)));
-            }*/
+            //writting placemarks
+            //for (int i = 0; i < placemarks.size(); i++) {
+           //     writer.write(createPlacemark(placemarks.get(i)));
+            //}
 
 
-            writer.write("</Document>\n</kml>");
+            writer.write("</Document>\n    <Style id=\"transBluePoly\">\n" +
+                    "      <LineStyle>\n" +
+                    "        <width>1.5</width>\n" +
+                    "      </LineStyle>\n" +
+                    "      <PolyStyle>\n" +
+                    "        <color>7dff0000</color>\n" +
+                    "      </PolyStyle>\n" +
+                    "    </Style></kml>");
             writer.close();
         } else {
             System.out.println("File Creation Unsuccessful!.");
@@ -63,9 +71,9 @@ public class KmlGenerator {
     public String createPlacemark(Point point) {
         String tag = "";
         tag += "<Placemark>\n<name>" + point.getLatitude() + ", " + point.getLongitude() + "</name>\n";
-        tag += "<description>sample description</description>\n<Point>\n<coordinates>" + point.getLatitude() + "," + point.getLongitude()+"\n"+"Happens at:"+point.getDescription();
+        tag += "<description>"+point.getDescription()+"+</description>\n<Point>\n<coordinates>" + point.getLatitude() + "," + point.getLongitude();
 
-        tag += "</coordinates>\n</Point>\n</Placemark>\n";
+        tag += "</coordinates>\n</Point>\n </Placemark>\n";
 
         return tag;
     }
@@ -87,7 +95,7 @@ public class KmlGenerator {
 
         tag += "</coordinates>\n" +
                 "</LinearRing>\n" +
-                "</innerBoundaryIs>\n" +
+                "</outerBoundaryIs>\n" +
                 "</Polygon>\n" +
                 "</Placemark>\n";
 
@@ -107,7 +115,7 @@ public class KmlGenerator {
         String timeStamp = String.format(""+date);
         timeStamp = timeStamp.replaceAll(" ", "_").toLowerCase();
         timeStamp = timeStamp.replaceAll(":", "_").toLowerCase();
-        timeStamp += timeStamp+".kml";
+        timeStamp += ".kml";
        return timeStamp;
     }
 

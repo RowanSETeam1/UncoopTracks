@@ -49,7 +49,7 @@ public class Main {
             }
 
             try {
-                mmsi = Integer.parseInt(args[1]);
+                mmsi = args[1];
             } catch (NumberFormatException n) {
                 System.err.println("NumberFormatException: Please enter an MMSI  number");
                 System.exit(1);

@@ -56,14 +56,14 @@ public class Main {
             try {
                 date = args[2];
             } catch (IllegalFormatException t) {
-                System.err.println("IllegalFormatException: Please enter Start Date");
+                System.err.println("IllegalFormatException: Please enter Date");
                 System.exit(1);
             }
 
             try {
                 time = args[3];
             } catch (IllegalFormatException t) {
-                System.err.println("IllegalFormatException: Please enter Start Time");
+                System.err.println("IllegalFormatException: Please enter Time");
                 System.exit(1);
             }
 
@@ -84,7 +84,7 @@ public class Main {
         } else {
             System.err.println("Invalid Number of Arguements.");
             System.err.println("Please Enter in the following order:");
-            System.err.println("CSV Filename, MMSI Number, Start Date, Start Time, End Date, End Time");
+            System.err.println("CSV Filename, MMSI Number, Date, Time");
             System.exit(1);
         }
         System.out.println("CSV entered: " + csv);

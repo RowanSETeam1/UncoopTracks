@@ -1,8 +1,11 @@
 package io.evolution;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-
+import static io.evolution.Constants.*;
 
 /**
  * Created by michael on 4/3/2016.
@@ -17,7 +20,7 @@ public class AreaPredictor {
     private float vesselSpeed;
 
 
-    AreaPredictor(Connection c, int MMSI, String startDate, String startTime, String endDate, String endTime) {
+    AreaPredictor(Connection c, String mmsi, String startDate, String startTime, String endDate, String endTime) {
     }
 
 

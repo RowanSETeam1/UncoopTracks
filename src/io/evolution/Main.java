@@ -13,10 +13,8 @@ public class Main {
     static Connection c;
     static String csv = "";
     static String mmsi = "";
-    static String startTime = "";
-    static String endTime = "";
-    static String startDate = "";
-    static String endDate = "";
+    static String time = "";
+    static String date = "";
     static csvParser p;
 
     public static void main(String[] args) throws SQLException {
@@ -28,7 +26,7 @@ public class Main {
 
         //initiating modules, also pass the database connection to them
         // Area Predi ction Algorithm takes db, ship MMSI number, and time after signal loss
-        AreaPredictor areaPredict = new AreaPredictor(c, mmsi, startDate, startTime, endDate, endTime);
+        AreaPredictor areaPredict = new AreaPredictor(c, mmsi, date);
         KmlGenerator kmlGen = new KmlGenerator();  // KML generator
 
         //to grab xml file
@@ -40,7 +38,7 @@ public class Main {
     }
 
     public static boolean parseArgs(String args[]) {
-        if (args.length == 6) {
+        if (args.length == 4) {
             try {
                 csv = args[0];
             } catch (IllegalFormatException s) {
@@ -56,45 +54,45 @@ public class Main {
             }
 
             try {
-                startDate = args[2];
+                date = args[2];
             } catch (IllegalFormatException t) {
-                System.err.println("IllegalFormatException: Please enter Start Date");
+                System.err.println("IllegalFormatException: Please enter Date");
                 System.exit(1);
             }
 
             try {
-                startTime = args[3];
+                time = args[3];
             } catch (IllegalFormatException t) {
-                System.err.println("IllegalFormatException: Please enter Start Time");
+                System.err.println("IllegalFormatException: Please enter Time");
                 System.exit(1);
             }
 
-            try {
-                endDate = args[4];
-            } catch (IllegalFormatException t) {
-                System.err.println("IllegalFormatException: Please enter End Date");
-                System.exit(1);
-            }
-
-            try {
-                startDate = args[5];
-            } catch (IllegalFormatException t) {
-                System.err.println("IllegalFormatException: Please enter End Time");
-                System.exit(1);
-            }
+//            try {
+//                endDate = args[4];
+//            } catch (IllegalFormatException t) {
+//                System.err.println("IllegalFormatException: Please enter End Date");
+//                System.exit(1);
+//            }
+//
+//            try {
+//                startDate = args[5];
+//            } catch (IllegalFormatException t) {
+//                System.err.println("IllegalFormatException: Please enter End Time");
+//                System.exit(1);
+//            }
 
         } else {
             System.err.println("Invalid Number of Arguements.");
             System.err.println("Please Enter in the following order:");
-            System.err.println("CSV Filename, MMSI Number, Start Date, Start Time, End Date, End Time");
+            System.err.println("CSV Filename, MMSI Number, Date, Time");
             System.exit(1);
         }
         System.out.println("CSV entered: " + csv);
         System.out.println("MMSI entered: " + mmsi);
-        System.out.println("Start Date entered: " + startDate);
-        System.out.println("Start Time entered: " + startTime);
-        System.out.println("End Date entered: " + endDate);
-        System.out.println("End Time entered: " + endTime);
+        System.out.println("Date entered: " + date);
+        System.out.println("Time entered: " + time);
+//        System.out.println("End Date entered: " + endDate);
+//        System.out.println("End Time entered: " + endTime);
         return true;
     }
 

@@ -5,7 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import static io.evolution.Constants.*;
+
+import static io.evolution.Constants.SPEED;
 
 /**
  * Created by michael on 4/3/2016.
@@ -20,7 +21,22 @@ public class AreaPredictor {
     private float vesselSpeed;
 
 
-    AreaPredictor(Connection c, String mmsi, String startDate, String startTime, String endDate, String endTime) {
+    AreaPredictor(Connection c, String mmsi, String startDate, String startTime, String endDate, String endTime) throws SQLException {
+        PreparedStatement get = c.prepareStatement("SELECT * FROM aisData WHERE (MMSI='" + mmsi + "' AND DATETIME LIKE '%2016-03-15%') LIMIT 12;");
+        ResultSet resultSet = get.executeQuery();
+        ArrayList<ResultSet> needTwo = new ArrayList<>();
+
+        while (resultSet.next()) {
+
+
+            needTwo.add(resultSet);
+            if (needTwo.size() == 2) {
+                double distance = getDistance(60, needTwo.get(1).getFloat(SPEED)) * Math.pow(10, -3);
+                System.out.println(distance);
+                needTwo = new ArrayList<ResultSet>();
+
+            }
+        }
     }
 
 

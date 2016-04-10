@@ -122,7 +122,8 @@ public class Main {
      */
     public static void createTable(Connection c) {
         try {
-            PreparedStatement create = c.prepareStatement("CREATE TABLE PUBLIC.AISDATA\n" +
+            //create AIS Data table
+            PreparedStatement createAisDataTable = c.prepareStatement("CREATE TABLE PUBLIC.AISDATA\n" +
                     "(ID INTEGER,\n" +
                     DATETIME + " VARCHAR(25),\n" +
                     MMSI + " VARCHAR(25),\n" +
@@ -142,7 +143,11 @@ public class Main {
                     DRAUGHT + " FLOAT,\n" +
                     DESTINATION + " VARCHAR(25),\n" +
                     ETA + " VARCHAR(25));");
-            create.execute();
+            createAisDataTable.execute();
+            //creates database for kmlGenerator
+            PreparedStatement createdKmlGeneratorTable = c.prepareStatement("CREATE TABLE PUBLIC.KMLPOINTS ("+DATETIME+" VARCHAR (255), "+
+                    LAT+" FLOAT, "+LONG+" FLOAT);");
+            createdKmlGeneratorTable.execute();
         } catch (SQLException e) {
 
         }

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import static io.evolution.Constants.DATETIME;
 import static io.evolution.Constants.SPEED;
 
 /**
@@ -27,7 +28,8 @@ public class AreaPredictor {
 
 
     AreaPredictor(Connection c, String mmsi, String startDate, String startTime, String endDate, String endTime) throws SQLException {
-        PreparedStatement get = c.prepareStatement("SELECT * FROM aisData WHERE (MMSI='" + mmsi + "' AND DATETIME LIKE '%2016-03-15%') LIMIT 12;");
+        PreparedStatement get = c.prepareStatement("SELECT * FROM aisData WHERE (MMSI='"
+                + mmsi + "' AND DATETIME LIKE '%2016-03-15%') ORDER BY "+DATETIME+" DESC LIMIT 2;");
         ResultSet resultSet = get.executeQuery();
         ArrayList<ResultSet> needTwo = new ArrayList<>();
 
@@ -36,7 +38,7 @@ public class AreaPredictor {
 
             needTwo.add(resultSet);
             if (needTwo.size() == 2) {
-                double distance = getDistance(60, needTwo.get(1).getFloat(SPEED)) * Math.pow(10, -3);
+                float distance = Float.parseFloat(Double.toString(getDistance(60, needTwo.get(1).getFloat(SPEED)) * Math.pow(10, -3)));
                 System.out.println(distance);
                 needTwo = new ArrayList<ResultSet>();
 

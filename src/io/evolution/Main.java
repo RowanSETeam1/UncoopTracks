@@ -1,6 +1,7 @@
 package io.evolution;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,16 +12,21 @@ import static io.evolution.Constants.*;
 
 public class Main {
     static Connection c;
-    static String csv = "";
-    static String mmsi = "";
-    static String time = "";
-    static String date = "";
+    static String csv = "H:\\IdeaProjects\\UncoopTracks\\csv.csv";
+    static String mmsi = "366238710";
+    static String time = "30";
+    static String date = "03-14-2016";
     static csvParser p;
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, IOException {
+        boolean database = createDatabase();
+        if(database != true)
+        {
+            System.err.println("Does not compute");
+            System.exit(1);
+        }
 
-
-        parseArgs(args);
+        //parseArgs(args);
         p = new csvParser(new File(csv), c);
         p.iterateCsv();
 
@@ -33,7 +39,8 @@ public class Main {
         //File file = new File(“Insert Path to file here\AIS_DATA.xml”); // sets the file as xml file
 
         // executes the methods needed
-        boolean check = execute(areaPredict, kmlGen);
+        //boolean check =
+        execute(areaPredict, kmlGen);
 
     }
 
@@ -151,7 +158,7 @@ public class Main {
         }
     }
 
-    private static boolean execute(AreaPredictor algo, KmlGenerator kmlGen) {
+    private static void execute(AreaPredictor algo, KmlGenerator kmlGen) throws IOException, SQLException {
         // flag to determine errors
         boolean flag = true;
         // runs area predictor algorithm
@@ -161,12 +168,13 @@ public class Main {
             System.err.println("areaPredict Error");
         }
         // runs the kml generator
-        //flag = kmlGen.generate();
+        kmlGen.pull(c);
+        kmlGen.generate();
         // check if kmlGen ran with no errors
-        if (flag = !true) {
-            System.err.println("kmlGen Error");
-        }
-        return flag;
+        //if (flag = !true) {
+        //    System.err.println("kmlGen Error");
+       // }
+      //  return flag;
     }
 }
 

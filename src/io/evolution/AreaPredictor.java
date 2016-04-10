@@ -54,8 +54,12 @@ public class AreaPredictor {
         return true;
     }
 
-
-
+    public boolean execute()
+    {
+        setPrimaryBoundry();
+        setOuterBoundryCoordinates();
+        return true;
+    }
 
     private float getHeading() {
 

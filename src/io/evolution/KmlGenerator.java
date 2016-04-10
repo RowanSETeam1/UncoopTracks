@@ -3,8 +3,14 @@ package io.evolution;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+
+import static io.evolution.Constants.DATETIME;
 
 /**
  * Created by eliakah on 4/3/2016.
@@ -14,10 +20,14 @@ public class KmlGenerator {
     ArrayList<Point> points = new ArrayList<Point>(); //polygon points
     ArrayList<Point> placemarks = new ArrayList<Point>(); //points where pins are dropped.
 
-
     //pull from database
-    void pull(){
+    void pull(Connection c) throws SQLException {
 
+        PreparedStatement get = c.prepareStatement("SELECT * FROM PUBLIC.KMLPOINTS;");
+        ResultSet resultSet = get.executeQuery();
+        while (resultSet.next()) {
+            points.add(new Point(resultSet.getFloat("latitude"),resultSet.getFloat("longitude"), resultSet.getString("time")));
+        }
 
     }
 
@@ -35,10 +45,10 @@ public class KmlGenerator {
             //writting polygon
             writer.write(createPolygon());
 
-            //writting placemarks
+           /* //writting placemarks
             for (int i = 0; i < placemarks.size(); i++) {
                 writer.write(createPlacemark(placemarks.get(i)));
-            }
+            }*/
 
 
             writer.write("</Document>\n</kml>");
@@ -53,7 +63,8 @@ public class KmlGenerator {
     public String createPlacemark(Point point) {
         String tag = "";
         tag += "<Placemark>\n<name>" + point.getLatitude() + ", " + point.getLongitude() + "</name>\n";
-        tag += "<description>sample description</description>\n<Point>\n<coordinates>" + point.getLatitude() + "," + point.getLongitude();
+        tag += "<description>sample description</description>\n<Point>\n<coordinates>" + point.getLatitude() + "," + point.getLongitude()+"\n"+"Happens at:"+point.getDescription();
+
         tag += "</coordinates>\n</Point>\n</Placemark>\n";
 
         return tag;
@@ -104,10 +115,16 @@ public class KmlGenerator {
 
     public class Point {
         float latitude, longitude;
+        String  description;
 
         Point(float latitude, float longitude) {
             this.latitude = latitude;
             this.longitude = longitude;
+        }
+        Point(float latitude, float longitude, String description) {
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.description = description;
         }
 
         public float getLatitude() {
@@ -116,6 +133,9 @@ public class KmlGenerator {
 
         public float getLongitude() {
             return longitude;
+        }
+        public String getDescription() {
+            return description;
         }
 
         public String getCoordinate() {

@@ -165,6 +165,7 @@ public class AreaPredictor {
             lon = currentCoordinates[1];
             currentTime++;
             currentHeading += initialHeading;
+
         }
     }
 

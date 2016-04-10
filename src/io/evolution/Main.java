@@ -12,7 +12,7 @@ import static io.evolution.Constants.*;
 public class Main {
     static Connection c;
     static String csv = "";
-    static int mmsi = 0;
+    static String mmsi = "";
     static String startTime = "";
     static String endTime = "";
     static String startDate = "";
@@ -28,7 +28,7 @@ public class Main {
 
         //initiating modules, also pass the database connection to them
         // Area Predi ction Algorithm takes db, ship MMSI number, and time after signal loss
-        AreaPredictor areaPredict = new AreaPredictor(c, MMSI, startDate, startTime, endDate, endTime);
+        AreaPredictor areaPredict = new AreaPredictor(c, mmsi, startDate, startTime, endDate, endTime);
         KmlGenerator kmlGen = new KmlGenerator();  // KML generator
 
         //to grab xml file

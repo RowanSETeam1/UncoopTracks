@@ -31,7 +31,7 @@ public class csvParser {
         this.csvFile = csvFile;
         this.c = c;
         //Worst case exception handling
-        if(!readFile()){
+        if(csvFile == null || c == null || !readFile()){
             throw new CSVParserException();
         }
     }

@@ -12,33 +12,39 @@ import java.sql.SQLException;
 import static io.evolution.Constants.*;
 
 /**
- * Created by gonzal99 on 3/23/2016.
+ * Created by Roberto Gonzalez on 3/23/2016.
  */
 public class csvParser {
 
+    //global variables
+    private Iterable<CSVRecord> csvRecordIterable;
+    private File csvFile;
+    private Connection c;
 
-    Iterable<CSVRecord> csvRecordIterable;
-    File csvFile;
-    Connection c;
-
-    public csvParser(File csvFile, Connection c) {
+    /**
+     * Instantiates a new Csv parser.
+     *
+     * @param csvFile the csv file to be parsed
+     * @param c       reference to the database connection
+     */
+    csvParser(File csvFile, Connection c) throws CSVParserException {
         this.csvFile = csvFile;
         this.c = c;
-
-        if(readFile()){
-            try {
-                iterateCsv();
-            } catch (SQLException e) {
-                System.out.println("no file");
-                e.printStackTrace();
-            }
+        //Worst case exception handling
+        if(!readFile()){
+            throw new CSVParserException();
         }
     }
 
-    public boolean readFile() {
+    /**
+     * Instantiates the file reader and passes it to the parser initializer
+     *
+     * @return boolean false when file not found
+     */
+    private boolean readFile() {
         try {
             Reader csvReader = new FileReader(csvFile);
-            if (initParser(csvReader) == false) {
+            if (!initParser(csvReader)) {
                 return false;
             }
         } catch (FileNotFoundException e) {
@@ -48,7 +54,14 @@ public class csvParser {
         return true;
     }
 
-    public boolean initParser(Reader csvReader) {
+    /**
+     * Initializes the csv parser with predefined headers
+     *
+     * @param csvReader the csv reader object for the csvFile
+     * @return false if ioException
+     */
+    private boolean initParser(Reader csvReader) {
+        //defines the csv column headers to be referenced by name
         try {
             csvRecordIterable = CSVFormat.EXCEL.withHeader(Constants.DATETIME,
                     MMSI,
@@ -75,15 +88,25 @@ public class csvParser {
         return true;
     }
 
-    public boolean iterateCsv() throws SQLException {
+    /**
+     * Iterates over all csv records found in the file.
+     *
+     * @return false if an an SQLException is thrown
+     */
+    boolean iterateCsv() {
         int i = 0;
         try {
+            /**
+             * Iterates over each csv record to build an SQL query containing a given csv record's data
+             */
             for (CSVRecord record : csvRecordIterable) {
+                //this skips the first record, as it contains header data
                 if (i > 0) {
+                    //goes through each portion of the record and appends it to the string
                     StringBuilder queryBuilder = new StringBuilder("INSERT INTO " + tableName + " VALUES (00,");
-                    queryBuilder.append("'" + record.get(DATETIME) + "'");
+                    queryBuilder.append("'").append(record.get(DATETIME)).append("'");
                     queryBuilder.append(",");
-                    queryBuilder.append("'" + record.get(MMSI) + "'");
+                    queryBuilder.append("'").append(record.get(MMSI)).append("'");
                     queryBuilder.append(",");
                     queryBuilder.append(Float.parseFloat(record.get(LAT)));
                     queryBuilder.append(",");
@@ -95,13 +118,13 @@ public class csvParser {
                     queryBuilder.append(",");
                     queryBuilder.append(Integer.parseInt(record.get(HEADING)));
                     queryBuilder.append(",");
-                    queryBuilder.append("'" + record.get(IMO) + "'");
+                    queryBuilder.append("'").append(record.get(IMO)).append("'");
                     queryBuilder.append(",");
-                    queryBuilder.append("'" + record.get(NAME) + "'");
+                    queryBuilder.append("'").append(record.get(NAME)).append("'");
                     queryBuilder.append(",");
-                    queryBuilder.append("'" + record.get(CALLSIGN) + "'");
+                    queryBuilder.append("'").append(record.get(CALLSIGN)).append("'");
                     queryBuilder.append(",");
-                    queryBuilder.append("'" + record.get(AISTYPE) + "'");
+                    queryBuilder.append("'").append(record.get(AISTYPE)).append("'");
                     queryBuilder.append(",");
                     queryBuilder.append(Integer.parseInt(record.get(A)));
                     queryBuilder.append(",");
@@ -113,26 +136,22 @@ public class csvParser {
                     queryBuilder.append(",");
                     queryBuilder.append(Float.parseFloat(record.get(DRAUGHT)));
                     queryBuilder.append(",");
-                    queryBuilder.append("'" + record.get(DESTINATION) + "'");
+                    queryBuilder.append("'").append(record.get(DESTINATION)).append("'");
                     queryBuilder.append(",");
-                    queryBuilder.append("'" + record.get(ETA) + "'");
+                    queryBuilder.append("'").append(record.get(ETA)).append("'");
                     queryBuilder.append(")");
+                    //Prepares the statement to be executed, then executes the statement to input into the database
                     PreparedStatement insertData = c.prepareStatement(queryBuilder.toString());
                     insertData.execute();
                 }
                 i++;
             }
-            PreparedStatement get = c.prepareStatement("SELECT * FROM aisData WHERE DATETIME LIKE '%2016-03-14%';");
-            ResultSet resultSet = get.executeQuery();
-            while (resultSet.next()) {
-                System.out.println(resultSet.getString("DATETIME"));
-                System.out.println("\n");
-            }
         } catch (SQLException e) {
-            System.out.println("didnt work");
+            System.out.println("problem with sql");
             return false;
         }
         return true;
     }
+
 
 }

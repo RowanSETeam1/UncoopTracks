@@ -1,7 +1,11 @@
 package io.evolution;
 
 /**
- * Created by 1994r on 4/3/2016.
+ * Created by Roberto Gonzalez on 4/3/2016.
+ */
+
+/**
+ * Class defining frequently used string constants
  */
 public final class Constants {
     private Constants() {

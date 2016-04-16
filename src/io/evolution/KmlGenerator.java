@@ -15,10 +15,22 @@ import java.util.Date;
  */
 public class KmlGenerator {
 
+    /**
+     * The Points.
+     */
     ArrayList<Point> points = new ArrayList<Point>(); //polygon points
+    /**
+     * The Placemarks.
+     */
     ArrayList<Point> placemarks = new ArrayList<Point>(); //points where pins are dropped.
 
-    //pull from database
+    /**
+     * Pull.
+     *
+     * @param c the c
+     * @throws SQLException the sql exception
+     */
+//pull from database
     void pull(Connection c) throws SQLException {
 
         PreparedStatement get = c.prepareStatement("SELECT * FROM PUBLIC.KMLPOINTS;");
@@ -30,6 +42,11 @@ public class KmlGenerator {
 
     }
 
+    /**
+     * Generate.
+     *
+     * @throws IOException the io exception
+     */
     void generate() throws IOException {
         //creates file
         String filename = (getFileName());
@@ -65,7 +82,12 @@ public class KmlGenerator {
     }
 
 
-
+    /**
+     * Create placemark string.
+     *
+     * @param point the point
+     * @return the string
+     */
     public String createPlacemark(Point point) {
         String tag = "";
         tag += "<Placemark>\n<name>" + point.getLatitude() + ", " + point.getLongitude() + "</name>\n";
@@ -76,6 +98,11 @@ public class KmlGenerator {
         return tag;
     }
 
+    /**
+     * Create polygon string.
+     *
+     * @return the string
+     */
     public String createPolygon() {
         String tag = "";
         tag += " <Placemark>\n" +
@@ -100,10 +127,20 @@ public class KmlGenerator {
         return tag;
     }
 
+    /**
+     * Add placemark.
+     *
+     * @param p the p
+     */
     public void addPlacemark(Point p) {
         placemarks.add(p);
     }
 
+    /**
+     * Add polygon points.
+     *
+     * @param p the p
+     */
     public void addPolygonPoints(Point p) {
         points.add(p);
     }
@@ -118,32 +155,78 @@ public class KmlGenerator {
     }
 
 
-
+    /**
+     * The type Point.
+     */
     public class Point {
-        float latitude, longitude;
+        /**
+         * The Latitude.
+         */
+        float latitude, /**
+         * The Longitude.
+         */
+        longitude;
+        /**
+         * The Description.
+         */
         String  description;
 
+        /**
+         * Instantiates a new Point.
+         *
+         * @param latitude  the latitude
+         * @param longitude the longitude
+         */
         Point(float latitude, float longitude) {
             this.latitude = latitude;
             this.longitude = longitude;
         }
+
+        /**
+         * Instantiates a new Point.
+         *
+         * @param latitude    the latitude
+         * @param longitude   the longitude
+         * @param description the description
+         */
         Point(float latitude, float longitude, String description) {
             this.latitude = latitude;
             this.longitude = longitude;
             this.description = description;
         }
 
+        /**
+         * Gets latitude.
+         *
+         * @return the latitude
+         */
         public float getLatitude() {
             return latitude;
         }
 
+        /**
+         * Gets longitude.
+         *
+         * @return the longitude
+         */
         public float getLongitude() {
             return longitude;
         }
+
+        /**
+         * Gets description.
+         *
+         * @return the description
+         */
         public String getDescription() {
             return description;
         }
 
+        /**
+         * Gets coordinate.
+         *
+         * @return the coordinate
+         */
         public String getCoordinate() {
             return ("" + longitude + latitude);
         }

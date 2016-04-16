@@ -10,8 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static io.evolution.Constants.DATETIME;
-
 /**
  * Created by eliakah on 4/3/2016.
  */
@@ -71,7 +69,7 @@ public class KmlGenerator {
     public String createPlacemark(Point point) {
         String tag = "";
         tag += "<Placemark>\n<name>" + point.getLatitude() + ", " + point.getLongitude() + "</name>\n";
-        tag += "<description>"+point.getDescription()+"+</description>\n<Point>\n<coordinates>" + point.getLatitude() + "," + point.getLongitude();
+        tag += "<description>"+point.getDescription()+"+</description>\n<Point>\n<coordinates>" + point.getLongitude() + "," + point.getLatitude();
 
         tag += "</coordinates>\n</Point>\n </Placemark>\n";
 
@@ -90,7 +88,7 @@ public class KmlGenerator {
                 "<coordinates>\n";
 
         for (int i = 0; i < points.size(); i++) {
-            tag += points.get(i).getLatitude() + "," + points.get(i).getLongitude()+"\n";
+            tag +=  points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n";
         }
 
         tag += "</coordinates>\n" +

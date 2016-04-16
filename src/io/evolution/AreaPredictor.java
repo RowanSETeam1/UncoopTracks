@@ -175,7 +175,6 @@ public class AreaPredictor {
         insertCoord(currentTime, lat, lon);
     }
 
-
     public float[] calculateCoordinates(float lat, float lon, float heading, float distance) {
 
         //Calculates the destination coordinates given the initial coordinates, heading, and time traveled.

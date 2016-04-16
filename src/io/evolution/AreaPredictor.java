@@ -18,6 +18,9 @@ public class AreaPredictor {
     private float[] secondaryCoordinates = new float[2];
     private ArrayList<float[]> outerBoundaryCoordinates;
 
+    /**
+     * The Need two.
+     */
     ArrayList<ResultSet> needTwo = new ArrayList<>();
     private float initialLat;
     private float initialLong;
@@ -32,6 +35,15 @@ public class AreaPredictor {
     private float vesselSpeed;
     private String lastContactTime;
 
+    /**
+     * Instantiates a new Area predictor.
+     *
+     * @param c          the c
+     * @param mmsi       the mmsi
+     * @param date       the date
+     * @param travelTime the travel time
+     * @throws SQLException the sql exception
+     */
     AreaPredictor(Connection c, String mmsi, String date, String travelTime) throws SQLException {
         this.travelTime = parseInt((travelTime));
         this.c = c;
@@ -70,6 +82,14 @@ public class AreaPredictor {
 
     }
 
+    /**
+     * Insert coord boolean.
+     *
+     * @param time      the time
+     * @param latitude  the latitude
+     * @param longitude the longitude
+     * @return the boolean
+     */
     public boolean insertCoord(int time, float latitude, float longitude) {
         try {
             System.out.println("INSERT INTO PUBLIC.KMLPOINTS VALUES ('" + time + "'," + latitude + "," + longitude + ");");
@@ -81,6 +101,11 @@ public class AreaPredictor {
         return true;
     }
 
+    /**
+     * Execute boolean.
+     *
+     * @return the boolean
+     */
     public boolean execute() {
 
         //Generates primary boundary.
@@ -147,6 +172,9 @@ public class AreaPredictor {
     }
 
 
+    /**
+     * Sets outer boundary coordinates.
+     */
     public void setOuterBoundaryCoordinates() {
 
         //The amount of time simulated to far.
@@ -175,6 +203,15 @@ public class AreaPredictor {
         insertCoord(currentTime, lat, lon);
     }
 
+    /**
+     * Calculate coordinates float [ ].
+     *
+     * @param lat      the lat
+     * @param lon      the lon
+     * @param heading  the heading
+     * @param distance the distance
+     * @return the float [ ]
+     */
     public float[] calculateCoordinates(float lat, float lon, float heading, float distance) {
 
         //Calculates the destination coordinates given the initial coordinates, heading, and time traveled.

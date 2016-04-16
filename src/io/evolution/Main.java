@@ -18,7 +18,7 @@ public class Main {
     static String date = "2016-03-14";
     static csvParser p;
 
-    public static void main(String[] args) throws SQLException, IOException {
+    public static void main(String[] args) throws SQLException, IOException, CSVParserException {
         boolean database = createDatabase();
         if(database != true)
         {

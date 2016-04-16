@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by eliakah on 4/3/2016.
+ * The type Kml generator.
  */
 public class KmlGenerator {
 
@@ -57,14 +57,13 @@ public class KmlGenerator {
             PrintWriter writer = new PrintWriter(filename, "UTF-8");
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n <kml xmlns=\"http://www.opengis.net/kml/2.2\">\n");
             writer.write(" <Document>\n<name>"+filename+"</name> \n");
-
+            //writting first point as placemark
+            writer.write(createPlacemark(points.get(0)));
             //writting polygon
             writer.write(createPolygon());
 
-            //writting placemarks
-            //for (int i = 0; i < placemarks.size(); i++) {
-           //     writer.write(createPlacemark(placemarks.get(i)));
-            //}
+
+
 
 
             writer.write("</Document>\n    <Style id=\"transBluePoly\">\n" +
@@ -162,7 +161,8 @@ public class KmlGenerator {
         /**
          * The Latitude.
          */
-        float latitude, /**
+        float latitude,
+        /**
          * The Longitude.
          */
         longitude;

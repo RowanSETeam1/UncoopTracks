@@ -16,13 +16,13 @@ public class AreaPredictor {
 
     private float[] initialCoordinates = new float[2];
     private float[] secondaryCoordinates = new float[2];
-    private ArrayList<float[]> outerBoundryCoordinates;
+    private ArrayList<float[]> outerBoundaryCoordinates;
 
     ArrayList<ResultSet> needTwo = new ArrayList<>();
     private float initialLat;
     private float initialLong;
-    private float primaryBoundryLat;
-    private float primaryBoundryLong;
+    private float primaryBoundaryLat;
+    private float primaryBoundaryLong;
     private final float PI = Float.parseFloat(Double.toString(Math.PI));
     private ResultSet backup;
 
@@ -82,62 +82,77 @@ public class AreaPredictor {
     }
 
     public boolean execute() {
-        setPrimaryBoundry();
-        setOuterBoundryCoordinates();
+
+        //Generates primary boundary.
+        setPrimaryBoundary();
+
+        //Generates secondary boundary.
+        setOuterBoundaryCoordinates();
+
         return true;
     }
 
     private float getHeading() {
 
-        // retrieves the second-to-last known coordinates of the vessel
-
+        //Retrieves the second-to-last known coordinates of the vessel.
         float lat1 = initialCoordinates[0];
         float long1 = initialCoordinates[1];
         float lat2 = secondaryCoordinates[0];
         float long2 = secondaryCoordinates[1];
 
+        //Constant used to convert degrees to radians.
         float degreeToRadians = PI / 180.0f;
 
-        //converts each latitude and longitude to radians to be used in heading calculation
+        //converts each latitude and longitude to radians to be used in heading calculation.
         float lat1Rads = lat1 * degreeToRadians;
         float lat2Rads = lat2 * degreeToRadians;
         float long1Rads = long1 * degreeToRadians;
         float long2Rads = long2 * degreeToRadians;
+
+
+        //Calculates and returns the heading.
         float result = (float) Math.atan2(Math.sin(long2Rads - long1Rads) * Math.cos(lat2Rads),
                 Math.cos(lat1Rads) * Math.sin(lat2Rads) - Math.sin(lat1Rads)
                         * Math.cos(lat2Rads) * Math.cos(long2Rads - long1Rads)
         ) * 180 / PI;
-        //calculates and returns the heading
+
         return result;
     }
 
 
     private float getDistance(int time, float knots) {
 
-        //
+        //Converts given knots to kilometers per second.
         float knotsToKps = (knots * 0.000514444f);
+
+        //Converts given minutes to seconds.
         float timeToSeconds = time * 60;
 
-        //the distance traveled by the vessel, in meters.
+        //The distance traveled by the vessel, in meters.
         float distance = (knotsToKps * timeToSeconds);
         return distance;
     }
 
 
-    private void setPrimaryBoundry() {
-        //get last known coordinates of vessel
+    private void setPrimaryBoundary() {
+
+        //Get last known coordinates and heading of vessel.
         float distance = getDistance(travelTime, vesselSpeed);
         float heading = getHeading();
 
-        float[] primaryBoundry = calculateCoordinates(initialCoordinates[0], initialCoordinates[1], heading, distance);
 
-        insertCoord(travelTime, primaryBoundry[0], primaryBoundry[1]);
+        //Calculates the primary boundary coordinates.
+        float[] primaryBoundary = calculateCoordinates(initialCoordinates[0], initialCoordinates[1], heading, distance);
+        insertCoord(travelTime, primaryBoundary[0], primaryBoundary[1]);
     }
 
 
-    public void setOuterBoundryCoordinates() {
+    public void setOuterBoundaryCoordinates() {
 
+        //The amount of time simulated to far.
         int currentTime = 0;
+
+        //Initializes the coordinates at the last known signal location.
         float[] currentCoordinates = initialCoordinates;
         float initialHeading = getHeading();
         float currentHeading = getHeading();
@@ -145,28 +160,28 @@ public class AreaPredictor {
         float lat = currentCoordinates[0];
         float lon = currentCoordinates[1];
 
+
+        //Creates outer boundary of the polygon minute by minute until the specified time is reached.
         while (currentTime <= travelTime) {
             currentCoordinates = calculateCoordinates(lat, lon, currentHeading, incrementDistance);
-            //outerBoundryCoordinates.add(currentCoordinates);
+            //outerBoundaryCoordinates.add(currentCoordinates);
             lat = currentCoordinates[0];
             lon = currentCoordinates[1];
             //insertCoord(currentTime, lat, lon);
             currentTime++;
             currentHeading += initialHeading;
         }
+
         insertCoord(currentTime, lat, lon);
     }
 
 
     public float[] calculateCoordinates(float lat, float lon, float heading, float distance) {
 
-        //calculates the destination coordinates given the initial coordinates, heading, and time traveled.
-
-//
-//        float[] calculatedCoordinates = new float[2];
-//        return calculatedCoordinates;
+        //Calculates the destination coordinates given the initial coordinates, heading, and time traveled.
 
         float R = 6378.1f; //Radius of the Earth
+
         //Bearing is 90 degrees converted to radians.
         //Distance in km
 

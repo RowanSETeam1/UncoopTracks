@@ -9,26 +9,16 @@ import java.util.ArrayList;
 import static io.evolution.Constants.*;
 import static java.lang.Integer.parseInt;
 
-/**
- * Created by michael on 4/3/2016.
- */
+
 public class AreaPredictor {
 
     private float[] initialCoordinates = new float[2];
     private float[] secondaryCoordinates = new float[2];
     private ArrayList<float[]> outerBoundaryCoordinates;
 
-    /**
-     * The Need two.
-     */
     ArrayList<ResultSet> needTwo = new ArrayList<>();
-    private float initialLat;
-    private float initialLong;
-    private float primaryBoundaryLat;
-    private float primaryBoundaryLong;
     private final float PI = Float.parseFloat(Double.toString(Math.PI));
     private ResultSet backup;
-
 
     private Connection c;
     private int travelTime;
@@ -79,7 +69,6 @@ public class AreaPredictor {
         System.out.println("show pulled data <end>");
         //execute();
 
-
     }
 
     /**
@@ -117,7 +106,13 @@ public class AreaPredictor {
         return true;
     }
 
-    private float getHeading() {
+
+    /**
+     * Predicts the heading of the vessel by finding the angle between the last two known coordinates.
+     *
+     * @return the heading
+     */
+    public float getHeading() {
 
         //Retrieves the second-to-last known coordinates of the vessel.
         float lat1 = initialCoordinates[0];
@@ -145,7 +140,15 @@ public class AreaPredictor {
     }
 
 
-    private float getDistance(int time, float knots) {
+    /**
+     * Calculates the distance traveled (in kilometers)
+     * in the given time (in minutes)
+     *
+     * @param time  Minutes the vessel has been traveling.
+     * @param knots Speed the vessel in travels (in knots).
+     * @return the distance
+     */
+    public float getDistance(int time, float knots) {
 
         //Converts given knots to kilometers per second.
         float knotsToKps = (knots * 0.000514444f);
@@ -159,7 +162,10 @@ public class AreaPredictor {
     }
 
 
-    private void setPrimaryBoundary() {
+    /**
+     * Sets primary boundary of the predicted area.
+     */
+    public void setPrimaryBoundary() {
 
         //Get last known coordinates and heading of vessel.
         float distance = getDistance(travelTime, vesselSpeed);
@@ -173,7 +179,7 @@ public class AreaPredictor {
 
 
     /**
-     * Sets outer boundary coordinates.
+     * Sets outer boundary coordinates of the predicted area.
      */
     public void setOuterBoundaryCoordinates() {
 
@@ -203,14 +209,17 @@ public class AreaPredictor {
         insertCoord(currentTime, lat, lon);
     }
 
+
+
     /**
      * Calculate coordinates float [ ].
      *
-     * @param lat      the lat
-     * @param lon      the lon
-     * @param heading  the heading
-     * @param distance the distance
-     * @return the float [ ]
+     * @param lat      The latitude of the starting coordinate.
+     * @param lon      The longitude of the starting coordinates.
+     * @param heading  The heading of the vessel at the given coordinates.
+     * @param distance The distance that will be traveled by the vessel from the initial coordinates.
+     *
+     * @return destinationCoordinates   An arraylist holding the latitude and longitude of the destination coordinates
      */
     public float[] calculateCoordinates(float lat, float lon, float heading, float distance) {
 
@@ -218,14 +227,11 @@ public class AreaPredictor {
 
         float R = 6378.1f; //Radius of the Earth
 
-        //Bearing is 90 degrees converted to radians.
-        //Distance in km
-
         //lat2  52.20444 - the lat result I'm hoping for
         //lon2  0.36056 - the long result I'm hoping for.
 
-        float lat1 = (float) Math.toRadians(lat); //Current lat point converted to radians
-        float lon1 = (float) Math.toRadians(lon); //Current long point converted to radians
+        float lat1 = (float) Math.toRadians(lat); //Current latitude point converted to radians.
+        float lon1 = (float) Math.toRadians(lon); //Current longitude point converted to radians.
 
         float lat2 = (float) Math.asin(Math.sin(lat1) * Math.cos(distance / R) +
                 Math.cos(lat1) * Math.sin(distance / R) * Math.cos(heading));
@@ -236,11 +242,11 @@ public class AreaPredictor {
         lat2 = (float) Math.toDegrees(lat2);
         lon2 = (float) Math.toDegrees(lon2);
 
-        float[] calculatedCoordinates = {lat2, lon2};
+        float[] destinationCoordinates = {lat2, lon2};
 
         //System.out.println(lat2);
         // System.out.println(lon2);
-        return calculatedCoordinates;
+        return destinationCoordinates;
     }
 
 }

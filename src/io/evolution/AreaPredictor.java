@@ -10,9 +10,15 @@ import static io.evolution.Constants.*;
 import static java.lang.Integer.parseInt;
 
 
+/**
+ * This class is responsible for calculating a geometric area that
+ * represents possible location of a vessel based on the minutes
+ *  passed since the vessel experienced a loss-of-signal.
+ */
+
 public class AreaPredictor {
 
-    private float[] initialCoordinates = new float[2];
+    private float[] initialCoordinates = new float[2]; //The
     private float[] secondaryCoordinates = new float[2];
     private ArrayList<float[]> outerBoundaryCoordinates;
 
@@ -29,10 +35,10 @@ public class AreaPredictor {
      * Instantiates a new Area predictor.
      *
      * @param c          the c
-     * @param mmsi       the mmsi
+     * @param mmsi       The MMSI number of the vessel being located.
      * @param date       the date
-     * @param travelTime the travel time
-     * @throws SQLException the sql exception
+     * @param travelTime The minutes passed since experiencing a loss-of-signal.
+     * @throws SQLException    An SQL exception.
      */
     AreaPredictor(Connection c, String mmsi, String date, String travelTime) throws SQLException {
         this.travelTime = parseInt((travelTime));

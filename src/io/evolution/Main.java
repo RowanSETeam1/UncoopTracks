@@ -16,11 +16,11 @@ import static io.evolution.Constants.*;
  * , and Date of last AIS signal.
  */
 public class Main {
-    static Connection dbConnection;
-    static String csv = "H:\\IdeaProjects\\UncoopTracks\\csv.csv";
-    static String mmsi = "229206000";
-    static String time = "30";
-    static String date = "2016-03-14";
+    static Connection dbConnect;
+    static String csv = "csv.csv";
+    static String mmsi = "305599000";
+    static String time = "5";
+    static String date = "2016-03-19";
     static csvParser parse;
 
     /**
@@ -44,12 +44,12 @@ public class Main {
         }
 
         //parseArgs(args);
-        parse = new csvParser(new File(csv), dbConnection);
+        parse = new csvParser(new File(csv), dbConnect);
         parse.iterateCsv();
 
         //initiating modules, also pass the database connection to them
         // Area Prediction Algorithm takes db, ship MMSI number, and time after signal loss
-        AreaPredictor areaPredict = new AreaPredictor(dbConnection, mmsi, date, time);
+        AreaPredictor areaPredict = new AreaPredictor(dbConnect, mmsi, date, time);
 
         //to grab xml file
         KmlGenerator kmlGen = new KmlGenerator();  // KML generator
@@ -124,8 +124,8 @@ public class Main {
             return false;
         }
         try {
-            dbConnection = DriverManager.getConnection("jdbc:hsqldb:mem:mydb", "SA", "");
-            createTable(dbConnection);
+            dbConnect = DriverManager.getConnection("jdbc:hsqldb:mem:mydb", "SA", "");
+            createTable(dbConnect);
         } catch (SQLException e) {
             return false;
         }
@@ -186,10 +186,10 @@ public class Main {
         algo.execute();
         // check areaPredict ran with no errors
        // if (flag = !true) {
-        System.err.println("areaPredict Error");
+        //System.err.println("areaPredict Error");
       //  }
         // runs the kml generator
-        kmlGen.pull(dbConnection);
+        kmlGen.pull(dbConnect);
         kmlGen.generate();
         // check if kmlGen ran with no errors
         //if (flag = !true) {

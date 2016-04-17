@@ -135,6 +135,7 @@ public class KmlGenerator {
                 "<coordinates>\n";
 
         tag +=  origin.getLongitude() + "," + origin.getLatitude()+"\n";
+        System.out.println(origin.getLongitude() + "," + origin.getLatitude()+"\n");
         for (int i = 2; i < size; i++) {
             tag +=  points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n";
             System.out.println(points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n");

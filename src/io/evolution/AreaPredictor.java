@@ -108,7 +108,10 @@ public class AreaPredictor {
         setPrimaryBoundary();
 
         //Generates secondary boundary.
-        setOuterBoundaryCoordinates();
+        //setOuterBoundaryCoordinates();
+
+        setLeftBoundaryCoordinates();
+        setRightBoundaryCoordinates();
 
         return true;
     }
@@ -185,21 +188,29 @@ public class AreaPredictor {
     }
 
 
+
+
+
+
     /**
-     * Sets outer boundary coordinates of the predicted area.
+     * Sets left boundary coordinates of the predicted area.
      */
-    public void setOuterBoundaryCoordinates() {
+    public void setLeftBoundaryCoordinates() {
 
         //The amount of time simulated to far.
         int currentTime = 0;
 
         //Initializes the coordinates at the last known signal location.
         float[] currentCoordinates = initialCoordinates;
+        //float initialHeading = getCourse();
+        //float currentHeading = getCourse();
         float initialHeading = getHeading();
         float currentHeading = getHeading();
         float incrementDistance = getDistance(1, vesselSpeed);
         float lat = currentCoordinates[0];
         float lon = currentCoordinates[1];
+
+        float turnRate = 3;
 
 
         //Creates outer boundary of the polygon minute by minute until the specified time is reached.
@@ -210,11 +221,51 @@ public class AreaPredictor {
             lon = currentCoordinates[1];
             //insertCoord(currentTime, lat, lon);
             currentTime++;
-            currentHeading += initialHeading;
+            currentHeading += turnRate;
         }
 
         insertCoord(currentTime, lat, lon);
     }
+
+    /**
+     * Sets right boundary coordinates of the predicted area.
+     */
+    public void setRightBoundaryCoordinates() {
+
+        //The amount of time simulated to far.
+        int currentTime = 0;
+
+        //Initializes the coordinates at the last known signal location.
+        float[] currentCoordinates = initialCoordinates;
+        //float initialHeading = getCourse();
+        //float currentHeading = getCourse();
+        float initialHeading = getHeading();
+        float currentHeading = getHeading();
+        float incrementDistance = getDistance(1, vesselSpeed);
+        float lat = currentCoordinates[0];
+        float lon = currentCoordinates[1];
+
+        float turnRate = 3;
+
+
+        //Creates outer boundary of the polygon minute by minute until the specified time is reached.
+        while (currentTime <= travelTime) {
+            currentCoordinates = calculateCoordinates(lat, lon, currentHeading, incrementDistance);
+            //outerBoundaryCoordinates.add(currentCoordinates);
+            lat = currentCoordinates[0];
+            lon = currentCoordinates[1];
+            //insertCoord(currentTime, lat, lon);
+            currentTime++;
+            currentHeading -= turnRate;
+        }
+
+        insertCoord(currentTime, lat, lon);
+    }
+
+
+
+
+
 
 
 

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static io.evolution.Constants.*;
+import static java.lang.Integer.max;
 import static java.lang.Integer.parseInt;
 
 
@@ -32,6 +33,7 @@ public class AreaPredictor {
     private float vesselCourse;
     private String lastContactTime;
     private float totalDistance;
+    private int counter = 0;
     /**
      * Instantiates a new Area predictor.
      *
@@ -71,7 +73,7 @@ public class AreaPredictor {
             }
         }
         insertCoord(0, initialCoordinates[0], initialCoordinates[1]);
-
+        counter++;
         System.out.println("Initial C :" + initialCoordinates[0]);
         System.out.println("Initial C :" + initialCoordinates[1]);
 
@@ -111,12 +113,13 @@ public class AreaPredictor {
     public boolean execute() {
 
         //Generates primary boundary.
-        setPrimaryBoundary();
+
 
         //Generates secondary boundary.
         //setOuterBoundaryCoordinates();
 
         setLeftBoundaryCoordinates();
+        setPrimaryBoundary();
         setRightBoundaryCoordinates();
 
         return true;
@@ -193,7 +196,8 @@ public class AreaPredictor {
 
         //Calculates the primary boundary coordinates.
         float[] primaryBoundary = calculateCoordinates(initialCoordinates[0], initialCoordinates[1], heading, distance);
-        insertCoord(travelTime, primaryBoundary[0], primaryBoundary[1]);
+        insertCoord(counter, primaryBoundary[0], primaryBoundary[1]);
+        counter++;
     }
 
 
@@ -223,19 +227,16 @@ public class AreaPredictor {
 
 
         //Creates outer boundary of the polygon minute by minute until the specified time is reached.
-        while (currentTime <= travelTime && incrementalDistance <= totalDistance ) {
-            if(currentHeading > vesselCourse+45){
-                break;
-            }
+        while (currentTime <= travelTime  ) {
             currentHeading += turnRate;
             currentCoordinates = calculateCoordinates(lat, lon, currentHeading, incrementDistance);
 
             //outerBoundaryCoordinates.add(currentCoordinates);
             lat = currentCoordinates[0];
             lon = currentCoordinates[1];
-            insertCoord(currentTime, lat, lon);
+            insertCoord(counter, lat, lon);
             currentTime++;
-
+            counter++;
             incrementalDistance += incrementDistance;
         }
 
@@ -249,7 +250,6 @@ public class AreaPredictor {
 
         //The amount of time simulated to far.
         int currentTime = 1;
-
         //Initializes the coordinates at the last known signal location.
         float[] currentCoordinates = initialCoordinates;
         //float initialHeading = getCourse();
@@ -261,18 +261,21 @@ public class AreaPredictor {
         float lon = currentCoordinates[1];
         float incrementalDistance = 0;
         float turnRate = .15f;
-
+        int maxTime = travelTime*2 + 1;
 
         //Creates outer boundary of the polygon minute by minute until the specified time is reached.
-        while (currentTime <= travelTime && incrementalDistance <= totalDistance ) {
+        while (currentTime <= travelTime  ) {
+
             currentHeading -= turnRate;
             currentCoordinates = calculateCoordinates(lat, lon, currentHeading, incrementDistance);
             //outerBoundaryCoordinates.add(currentCoordinates);
             lat = currentCoordinates[0];
             lon = currentCoordinates[1];
-            insertCoord(currentTime, lat, lon);
-            currentTime++;
 
+            insertCoord(maxTime--, lat, lon);
+
+            currentTime++;
+            counter++;
             incrementalDistance += incrementDistance;
         }
 

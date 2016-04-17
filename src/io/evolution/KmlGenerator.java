@@ -60,12 +60,12 @@ filename, "UTF-8");
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n <kml xmlns=\"http://www.opengis.net/kml/2.2\">\n");
             writer.write(" <Document>\n<name>"+filename+"</name> \n");
             //writting first point as placemark
-            for (int i = 0; i < points.size(); i++) {
-                writer.write(createPlacemark(points.get(i)));
-            }
+
+                writer.write(createPlacemark(points.get(0)));
+
 
             //writting polygon
-            //writer.write(createPolygon());
+            writer.write(createPolygon());
 
 
 
@@ -93,9 +93,9 @@ filename, "UTF-8");
      * @return the string
      */
     public String createPlacemark(Point point) {
-        index = index+1;
+
         String style = "";
-        if(index == 1){
+
             style = "<Style id=\"icon\">\n" +
                     "        <IconStyle>\n" +
                     "          <Icon>\n" +
@@ -103,7 +103,7 @@ filename, "UTF-8");
                     "          </Icon>\n" +
                     "        </IconStyle>\n" +
                     " </Style>\n";
-        }
+
         String tag = "";
         tag += "<Placemark>\n<name>" + point.getLatitude() + ", " + point.getLongitude() + "</name>\n";
         tag += "<description>"+index+"</description>\n"+style+"<Point>\n<coordinates>" + point.getLongitude() + "," + point.getLatitude();
@@ -119,6 +119,9 @@ filename, "UTF-8");
      * @return the string
      */
     public String createPolygon() {
+        int size = ((points.size() - 2)/2);
+        Point origin = points.get(0);
+        Point second_p = points.get(1);
         String tag = "";
         tag += " <Placemark>\n" +
                 "<name>Area of Prediction</name>\n" +
@@ -129,7 +132,13 @@ filename, "UTF-8");
                 "<LinearRing>\n" +
                 "<coordinates>\n";
 
-        for (int i = 0; i < points.size(); i++) {
+        tag +=  origin.getLongitude() + "," + origin.getLatitude()+"\n";
+        for (int i = 2; i < size; i++) {
+            tag +=  points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n";
+        }
+        tag +=  second_p.getLongitude() + "," + second_p.getLatitude()+"\n";
+
+        for (int i = (points.size()-1); i >= size ; i--) {
             tag +=  points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n";
         }
 

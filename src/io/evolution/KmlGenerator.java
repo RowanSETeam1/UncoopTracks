@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-
+import static io.evolution.Constants.DATETIME;
 /**
  * The type Kml generator.
  */
@@ -34,7 +34,7 @@ public class KmlGenerator {
 //pull from database
     void pull(Connection c) throws SQLException {
 
-        PreparedStatement get = c.prepareStatement("SELECT * FROM PUBLIC.KMLPOINTS;");
+        PreparedStatement get = c.prepareStatement("SELECT * FROM PUBLIC.KMLPOINTS ORDER BY "+DATETIME+";");
         ResultSet resultSet = get.executeQuery();
         while (resultSet.next()) {
             points.add(new Point(resultSet.getFloat("latitude"),resultSet.getFloat("longitude"), resultSet.getString("datetime")));
@@ -134,19 +134,19 @@ public class KmlGenerator {
                 "<LinearRing>\n" +
                 "<coordinates>\n";
 
-        tag +=  origin.getLongitude() + "," + origin.getLatitude()+"\n";
+        //tag +=  origin.getLongitude() + "," + origin.getLatitude()+"\n";
         System.out.println("original: "+origin.getLongitude() + "," + origin.getLatitude()+"\n");
-        for (int i = 2; i < size; i++) {
+        for (int i = 0; i < points.size(); i++) {
             tag +=  points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n";
-            System.out.println("right: "+points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n");
+            //System.out.println("right: "+points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n");
         }
-        tag +=  second_p.getLongitude() + "," + second_p.getLatitude()+"\n";
-        System.out.println("second: "+second_p.getLongitude() + "," + second_p.getLatitude()+"\n");
-
+       // tag +=  second_p.getLongitude() + "," + second_p.getLatitude()+"\n";
+       // System.out.println("second: "+second_p.getLongitude() + "," + second_p.getLatitude()+"\n");
+/*
         for (int i = (points.size()-1); i >= size ; i--) {
             tag +=  points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n";
             System.out.println("left: "+points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n");
-        }
+        }*/
 
         tag += "</coordinates>\n" +
                 "</LinearRing>\n" +

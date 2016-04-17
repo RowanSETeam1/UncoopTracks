@@ -19,7 +19,7 @@ public class Main {
     static Connection dbConnect;
     static String csv = "csv.csv";
     static String mmsi = "305599000";
-    static String time = "5";
+    static String time = "10";
     static String date = "2016-03-19";
     static csvParser parse;
 

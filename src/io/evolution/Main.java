@@ -162,7 +162,7 @@ public class Main {
                     ETA + " VARCHAR(25));");
             createAisDataTable.execute();
             //creates database for kmlGenerator
-            PreparedStatement createdKmlGeneratorTable = c.prepareStatement("CREATE TABLE PUBLIC.KMLPOINTS ("+DATETIME+" VARCHAR (255), "+
+            PreparedStatement createdKmlGeneratorTable = c.prepareStatement("CREATE TABLE PUBLIC.KMLPOINTS ("+DATETIME+" INT , "+
                     LAT+" FLOAT, "+LONG+" FLOAT);");
             createdKmlGeneratorTable.execute();
         } catch (SQLException e) {

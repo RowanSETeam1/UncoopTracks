@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import static io.evolution.Constants.DATETIME;
-
 /**
  * The type Kml generator.
  */
@@ -20,21 +19,14 @@ public class KmlGenerator {
      * The Points.
      */
     ArrayList<Point> points = new ArrayList<Point>(); //polygon points
-    /**
-     * The Index.
-     */
     int index = 0;
     /**
      * The Placemarks.
      */
     ArrayList<Point> placemarks = new ArrayList<Point>(); //points where pins are dropped.
 
-
-
-
-
     /**
-     * Pulls points from the database sorted by datetime
+     * Pull.
      *
      * @param c the c
      * @throws SQLException the sql exception
@@ -42,64 +34,58 @@ public class KmlGenerator {
 //pull from database
     void pull(Connection c) throws SQLException {
 
-        PreparedStatement get = c.prepareStatement("SELECT * FROM PUBLIC.KMLPOINTS ORDER BY "+DATETIME+";"); //pulls points out of database
+        PreparedStatement get = c.prepareStatement("SELECT * FROM PUBLIC.KMLPOINTS ORDER BY "+DATETIME+";");
         ResultSet resultSet = get.executeQuery();
         while (resultSet.next()) {
-            points.add(new Point(resultSet.getFloat("latitude"),resultSet.getFloat("longitude"), resultSet.getString("datetime")));//puts the points in a global list
+            points.add(new Point(resultSet.getFloat("latitude"),resultSet.getFloat("longitude"), resultSet.getString("datetime")));
             System.out.println(resultSet.getFloat("latitude") +", "+resultSet.getFloat("longitude")+", "+resultSet.getString("datetime"));
         }
 
     }
 
-
-
-
     /**
-     * Generates tthe full kml file
+     * Generate.
      *
      * @throws IOException the io exception
      */
     void generate() throws IOException {
         //creates file
-        String filename = (getFileName()); //gets file name
+        String filename = (getFileName());
         File outPutFile = new File(filename);
 
-        if (outPutFile.createNewFile()) {//creates file
+        if (outPutFile.createNewFile()) {
             String text = "";
-            PrintWriter writer = new PrintWriter( //generates header of file
+            PrintWriter writer = new PrintWriter(
                     filename, "UTF-8");
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n <kml xmlns=\"http://www.opengis.net/kml/2.2\">\n");
             writer.write(" <Document>\n<name>"+filename+"</name> \n");
             //writting first point as placemark
             for (int i = 0; i <points.size() ; i++) {
-                writer.write(createPlacemark(points.get(i))); //writes placemarks to file
+                writer.write(createPlacemark(points.get(i)));
             }
 
 
 
             //writting polygon
-            writer.write(createPolygon()); //writes points to file
+            writer.write(createPolygon());
 
 
 
 
 
-            writer.write("</Document>\n    <Style id=\"transBluePoly\">\n" + //writes the closing of the tags to the file
+            writer.write("</Document>\n    <Style id=\"transBluePoly\">\n" +
                     "      <LineStyle>\n" +
                     "        <width>1.5</width>\n" +
                     "      </LineStyle>\n" +
                     "      <PolyStyle>\n" +
-                    "        <color>7dff0000</color>\n" + //incorporates the color of the lines
+                    "        <color>7dff0000</color>\n" +
                     "      </PolyStyle>\n" +
                     "    </Style></kml>");
             writer.close();
         } else {
-            System.out.println("File Creation Unsuccessful!."); //prints if the file was not created
+            System.out.println("File Creation Unsuccessful!.");
         }
     }
-
-
-
 
 
     /**
@@ -129,16 +115,15 @@ public class KmlGenerator {
         return tag;
     }
 
-
-
-
     /**
      * Create polygon string.
      *
      * @return the string
      */
     public String createPolygon() {
-
+        int size = ((points.size() - 2)/2);
+        Point origin = points.get(0);
+        Point second_p = points.get(1);
         String tag = "";
         tag += " <Placemark>\n" +
                 "<name>Area of Prediction</name>\n" +
@@ -149,22 +134,28 @@ public class KmlGenerator {
                 "<LinearRing>\n" +
                 "<coordinates>\n";
 
+        //tag +=  origin.getLongitude() + "," + origin.getLatitude()+"\n";
+        System.out.println("original: "+origin.getLongitude() + "," + origin.getLatitude()+"\n");
         for (int i = 0; i < points.size(); i++) {
-            tag +=  points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n"; //prints the points as they are written
+            tag +=  points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n";
+            //System.out.println("right: "+points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n");
         }
+       // tag +=  second_p.getLongitude() + "," + second_p.getLatitude()+"\n";
+       // System.out.println("second: "+second_p.getLongitude() + "," + second_p.getLatitude()+"\n");
+/*
+        for (int i = (points.size()-1); i >= size ; i--) {
+            tag +=  points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n";
+            System.out.println("left: "+points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n");
+        }*/
 
-        tag += "</coordinates>\n" + //closes tags
+        tag += "</coordinates>\n" +
                 "</LinearRing>\n" +
                 "</outerBoundaryIs>\n" +
                 "</Polygon>\n" +
                 "</Placemark>\n";
 
-        return tag; //returns string
+        return tag;
     }
-
-
-
-
 
     /**
      * Add placemark.
@@ -192,11 +183,6 @@ public class KmlGenerator {
         timeStamp += ".kml";
         return timeStamp;
     }
-
-
-
-
-
 
 
     /**

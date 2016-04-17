@@ -152,7 +152,7 @@ public class AreaPredictor {
                         * Math.cos(lat2Rads) * Math.cos(long2Rads - long1Rads)
         ) * 180 / PI;
 
-        return result;
+        return vesselCourse;
     }
 
 
@@ -219,11 +219,14 @@ public class AreaPredictor {
         float lat = currentCoordinates[0];
         float lon = currentCoordinates[1];
         float incrementalDistance = 0;
-        float turnRate = .3f;
+        float turnRate = .15f;
 
 
         //Creates outer boundary of the polygon minute by minute until the specified time is reached.
         while (currentTime <= travelTime && incrementalDistance <= totalDistance ) {
+            if(currentHeading > vesselCourse+45){
+                break;
+            }
             currentCoordinates = calculateCoordinates(lat, lon, currentHeading, incrementDistance);
 
             //outerBoundaryCoordinates.add(currentCoordinates);
@@ -256,7 +259,7 @@ public class AreaPredictor {
         float lat = currentCoordinates[0];
         float lon = currentCoordinates[1];
         float incrementalDistance = 0;
-        float turnRate = .3f;
+        float turnRate = .15f;
 
 
         //Creates outer boundary of the polygon minute by minute until the specified time is reached.

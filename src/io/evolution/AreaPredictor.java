@@ -53,14 +53,18 @@ public class AreaPredictor {
         while (resultSet.next()) {
             needTwo.add(resultSet);
             if (needTwo.size() == 1) {
-                initialCoordinates[0] = resultSet.getFloat(LAT);
-                initialCoordinates[1] = resultSet.getFloat(LONG);
+                //initialCoordinates[0] = resultSet.getFloat(LAT);
+               // initialCoordinates[1] = resultSet.getFloat(LONG);
+                secondaryCoordinates[0] = resultSet.getFloat(LAT);
+                secondaryCoordinates[1] = resultSet.getFloat(LONG);
             } else if (needTwo.size() == 2) {
                 String[] dateSplit = needTwo.get(1).getString(DATETIME).split(" ");
                 lastContactTime = dateSplit[1];
                 System.out.println("lastcontact: " + lastContactTime);
-                secondaryCoordinates[0] = resultSet.getFloat(LAT);
-                secondaryCoordinates[1] = resultSet.getFloat(LONG);
+                initialCoordinates[0] = resultSet.getFloat(LAT);
+                initialCoordinates[1] = resultSet.getFloat(LONG);
+                //secondaryCoordinates[0] = resultSet.getFloat(LAT);
+                //secondaryCoordinates[1] = resultSet.getFloat(LONG);
                 vesselSpeed = resultSet.getFloat(SPEED);
                 vesselCourse = resultSet.getFloat(COURSE);
                 //System.out.println("needTwo: " + needTwo);
@@ -74,6 +78,7 @@ public class AreaPredictor {
         System.out.println("Secondary Coord :" + secondaryCoordinates[0]);
         System.out.println("Secondary Coord :" + secondaryCoordinates[1]);
         System.out.println("Vessel Speed:" + vesselSpeed);
+        System.out.println("Vessel Course" + vesselCourse);
         System.out.println("show pulled data <end>");
         //execute();
 
@@ -112,7 +117,7 @@ public class AreaPredictor {
         //setOuterBoundaryCoordinates();
 
         setLeftBoundaryCoordinates();
-        setRightBoundaryCoordinates();
+        //setRightBoundaryCoordinates();
 
         return true;
     }
@@ -181,6 +186,7 @@ public class AreaPredictor {
         //Get last known coordinates and heading of vessel.
         float distance = getDistance(travelTime, vesselSpeed);
         float heading = getHeading();
+        System.out.println(heading);
 
 
         //Calculates the primary boundary coordinates.
@@ -207,7 +213,7 @@ public class AreaPredictor {
         //float currentHeading = getCourse();
         float initialHeading = getHeading();
         float currentHeading = getHeading();
-        float incrementDistance = getDistance(1, vesselSpeed);
+        float incrementDistance= getDistance(1, vesselSpeed);
         float lat = currentCoordinates[0];
         float lon = currentCoordinates[1];
 
@@ -225,7 +231,7 @@ public class AreaPredictor {
             currentHeading += turnRate;
         }
 
-        insertCoord(currentTime, lat, lon);
+       // insertCoord(currentTime, lat, lon);
     }
 
     /**
@@ -251,6 +257,7 @@ public class AreaPredictor {
 
         //Creates outer boundary of the polygon minute by minute until the specified time is reached.
         while (currentTime <= travelTime) {
+
             currentCoordinates = calculateCoordinates(lat, lon, currentHeading, incrementDistance);
             //outerBoundaryCoordinates.add(currentCoordinates);
             lat = currentCoordinates[0];
@@ -260,7 +267,7 @@ public class AreaPredictor {
             currentHeading -= turnRate;
         }
 
-        insertCoord(currentTime, lat, lon);
+       // insertCoord(currentTime, lat, lon);
     }
 
 

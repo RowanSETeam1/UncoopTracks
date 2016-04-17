@@ -54,18 +54,19 @@ public class AreaPredictor {
                 System.out.println("lastcontact: " + lastContactTime);
                 secondaryCoordinates[0] = resultSet.getFloat(LAT);
                 secondaryCoordinates[1] = resultSet.getFloat(LONG);
+                vesselSpeed = resultSet.getFloat(SPEED);
                 //System.out.println("needTwo: " + needTwo);
             }
         }
         insertCoord(0, initialCoordinates[0], initialCoordinates[1]);
-        vesselSpeed = 5.0f;
+        //vesselSpeed = 5.0f;
 
         System.out.println("Initial C :" + initialCoordinates[0]);
         System.out.println("Initial C :" + initialCoordinates[1]);
 
         System.out.println("Secondary Coord :" + secondaryCoordinates[0]);
         System.out.println("Secondary Coord :" + secondaryCoordinates[1]);
-
+        System.out.println("Vessel Speed:" + vesselSpeed);
         System.out.println("show pulled data <end>");
         //execute();
 

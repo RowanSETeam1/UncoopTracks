@@ -11,7 +11,7 @@ import java.util.IllegalFormatException;
 import static io.evolution.Constants.*;
 
 /**
- * The main will accept  4 arguments, which are the CSV filename
+ * //The main will accept  4 arguments, which are the CSV filename
  * containing AIS data set, MMSI#, Time since last known AIS signal
  * , and Date of last AIS signal.
  */

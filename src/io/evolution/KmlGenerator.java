@@ -135,17 +135,17 @@ public class KmlGenerator {
                 "<coordinates>\n";
 
         tag +=  origin.getLongitude() + "," + origin.getLatitude()+"\n";
-        System.out.println(origin.getLongitude() + "," + origin.getLatitude()+"\n");
+        System.out.println("original: "+origin.getLongitude() + "," + origin.getLatitude()+"\n");
         for (int i = 2; i < size; i++) {
             tag +=  points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n";
-            System.out.println(points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n");
+            System.out.println("right: "+points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n");
         }
         tag +=  second_p.getLongitude() + "," + second_p.getLatitude()+"\n";
-        System.out.println(second_p.getLongitude() + "," + second_p.getLatitude()+"\n");
+        System.out.println("second: "+second_p.getLongitude() + "," + second_p.getLatitude()+"\n");
 
         for (int i = (points.size()-1); i >= size ; i--) {
             tag +=  points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n";
-            System.out.println(points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n");
+            System.out.println("left: "+points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n");
         }
 
         tag += "</coordinates>\n" +

@@ -5,9 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import static io.evolution.Constants.*;
-import static java.lang.Integer.max;
 import static java.lang.Integer.parseInt;
 
 
@@ -19,44 +17,36 @@ import static java.lang.Integer.parseInt;
 
 public class AreaPredictor {
 
-    private float[] initialCoordinates = new float[2]; //The
+    private float[] initialCoordinates = new float[2];
     private float[] secondaryCoordinates = new float[2];
-    private ArrayList<float[]> outerBoundaryCoordinates;
-
     ArrayList<ResultSet> needTwo = new ArrayList<>();
     private final float PI = Float.parseFloat(Double.toString(Math.PI));
-    private ResultSet backup;
-
-    private Connection c;
+    private Connection dbConnect;
     private int travelTime;
     private float vesselSpeed;
     private float vesselCourse;
     private String lastContactTime;
-    private float totalDistance;
     private int counter = 0;
+
     /**
      * Instantiates a new Area predictor.
      *
-     * @param c          the c
+     * @param dbConnect          the database connection
      * @param mmsi       The MMSI number of the vessel being located.
      * @param date       the date
      * @param travelTime The minutes passed since experiencing a loss-of-signal.
      * @throws SQLException    An SQL exception.
      */
-    AreaPredictor(Connection c, String mmsi, String date, String travelTime) throws SQLException {
+    AreaPredictor(Connection dbConnect, String mmsi, String date, String travelTime) throws SQLException {
         this.travelTime = parseInt((travelTime));
-        this.c = c;
-        PreparedStatement get = c.prepareStatement("SELECT * FROM aisData WHERE (MMSI='"
+        this.dbConnect = dbConnect;
+        PreparedStatement get = dbConnect.prepareStatement("SELECT * FROM aisData WHERE (MMSI='"
                 + mmsi + "' AND DATETIME LIKE '%" + date + "%') ORDER BY " + DATETIME + " DESC LIMIT 2;");
         ResultSet resultSet = get.executeQuery();
-        // backup = resultSet.
-        //System.out.println("show pulled data: ");
 
         while (resultSet.next()) {
             needTwo.add(resultSet);
             if (needTwo.size() == 1) {
-                //initialCoordinates[0] = resultSet.getFloat(LAT);
-               // initialCoordinates[1] = resultSet.getFloat(LONG);
                 secondaryCoordinates[0] = resultSet.getFloat(LAT);
                 secondaryCoordinates[1] = resultSet.getFloat(LONG);
             } else if (needTwo.size() == 2) {
@@ -65,25 +55,12 @@ public class AreaPredictor {
                 System.out.println("lastcontact: " + lastContactTime);
                 initialCoordinates[0] = resultSet.getFloat(LAT);
                 initialCoordinates[1] = resultSet.getFloat(LONG);
-                //secondaryCoordinates[0] = resultSet.getFloat(LAT);
-                //secondaryCoordinates[1] = resultSet.getFloat(LONG);
                 vesselSpeed = resultSet.getFloat(SPEED);
                 vesselCourse = resultSet.getFloat(COURSE);
-                //System.out.println("needTwo: " + needTwo);
             }
         }
         insertCoord(0, initialCoordinates[0], initialCoordinates[1]);
         counter++;
-        System.out.println("Initial C :" + initialCoordinates[0]);
-        System.out.println("Initial C :" + initialCoordinates[1]);
-
-        System.out.println("Secondary Coord :" + secondaryCoordinates[0]);
-        System.out.println("Secondary Coord :" + secondaryCoordinates[1]);
-        System.out.println("Vessel Speed:" + vesselSpeed);
-        System.out.println("Vessel Course" + vesselCourse);
-        System.out.println("show pulled data <end>");
-        //execute();
-
     }
 
     /**
@@ -97,7 +74,7 @@ public class AreaPredictor {
     public boolean insertCoord(int time, float latitude, float longitude) {
         try {
             System.out.println("INSERT INTO PUBLIC.KMLPOINTS VALUES ('" + time + "'," + latitude + "," + longitude + ");");
-            PreparedStatement insertCoord = c.prepareStatement("INSERT INTO PUBLIC.KMLPOINTS VALUES ('" + time + "'," + latitude + "," + longitude + ");");
+            PreparedStatement insertCoord = dbConnect.prepareStatement("INSERT INTO PUBLIC.KMLPOINTS VALUES ('" + time + "'," + latitude + "," + longitude + ");");
             insertCoord.execute();
         } catch (SQLException e) {
             return false;
@@ -106,22 +83,14 @@ public class AreaPredictor {
     }
 
     /**
-     * Execute boolean.
+     * Execute the predictive algorithm.
      *
-     * @return the boolean
+     * @return the boolean flag
      */
     public boolean execute() {
-
-        //Generates primary boundary.
-
-
-        //Generates secondary boundary.
-        //setOuterBoundaryCoordinates();
-
         setLeftBoundaryCoordinates();
         setPrimaryBoundary();
         setRightBoundaryCoordinates();
-
         return true;
     }
 
@@ -177,6 +146,7 @@ public class AreaPredictor {
 
         //The distance traveled by the vessel, in meters.
         float distance = (knotsToKps * timeToSeconds);
+
         return distance;
     }
 
@@ -189,10 +159,6 @@ public class AreaPredictor {
         //Get last known coordinates and heading of vessel.
         float distance = getDistance(travelTime, vesselSpeed);
         float heading = getHeading();
-        totalDistance = distance;
-        System.out.println(distance);
-        System.out.println(heading);
-
 
         //Calculates the primary boundary coordinates.
         float[] primaryBoundary = calculateCoordinates(initialCoordinates[0], initialCoordinates[1], heading, distance);
@@ -215,14 +181,10 @@ public class AreaPredictor {
 
         //Initializes the coordinates at the last known signal location.
         float[] currentCoordinates = initialCoordinates;
-        //float initialHeading = getCourse();
-        //float currentHeading = getCourse();
-        float initialHeading = getHeading();
         float currentHeading = getHeading();
         float incrementDistance= getDistance(1, vesselSpeed);
         float lat = currentCoordinates[0];
         float lon = currentCoordinates[1];
-        float incrementalDistance = 0;
         float turnRate = .15f;
 
 
@@ -231,16 +193,12 @@ public class AreaPredictor {
             currentHeading += turnRate;
             currentCoordinates = calculateCoordinates(lat, lon, currentHeading, incrementDistance);
 
-            //outerBoundaryCoordinates.add(currentCoordinates);
             lat = currentCoordinates[0];
             lon = currentCoordinates[1];
             insertCoord(counter, lat, lon);
             currentTime++;
             counter++;
-            incrementalDistance += incrementDistance;
         }
-
-       // insertCoord(currentTime, lat, lon);
     }
 
     /**
@@ -250,16 +208,13 @@ public class AreaPredictor {
 
         //The amount of time simulated to far.
         int currentTime = 1;
+
         //Initializes the coordinates at the last known signal location.
         float[] currentCoordinates = initialCoordinates;
-        //float initialHeading = getCourse();
-        //float currentHeading = getCourse();
-        float initialHeading = getHeading();
         float currentHeading = getHeading();
         float incrementDistance = getDistance(1, vesselSpeed);
         float lat = currentCoordinates[0];
         float lon = currentCoordinates[1];
-        float incrementalDistance = 0;
         float turnRate = .15f;
         int maxTime = travelTime*2 + 1;
 
@@ -268,7 +223,6 @@ public class AreaPredictor {
 
             currentHeading -= turnRate;
             currentCoordinates = calculateCoordinates(lat, lon, currentHeading, incrementDistance);
-            //outerBoundaryCoordinates.add(currentCoordinates);
             lat = currentCoordinates[0];
             lon = currentCoordinates[1];
 
@@ -276,10 +230,7 @@ public class AreaPredictor {
 
             currentTime++;
             counter++;
-            incrementalDistance += incrementDistance;
         }
-
-       // insertCoord(currentTime, lat, lon);
     }
 
 
@@ -305,9 +256,6 @@ public class AreaPredictor {
 
         float R = 6378.1f; //Radius of the Earth
 
-        //lat2  52.20444 - the lat result I'm hoping for
-        //lon2  0.36056 - the long result I'm hoping for.
-
         float lat1 = (float) Math.toRadians(lat); //Current latitude point converted to radians.
         float lon1 = (float) Math.toRadians(lon); //Current longitude point converted to radians.
 
@@ -322,8 +270,6 @@ public class AreaPredictor {
 
         float[] destinationCoordinates = {lat2, lon2};
 
-        //System.out.println(lat2);
-        // System.out.println(lon2);
         return destinationCoordinates;
     }
 

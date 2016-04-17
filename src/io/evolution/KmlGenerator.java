@@ -95,7 +95,7 @@ filename, "UTF-8");
      * @return the string
      */
     public String createPlacemark(Point point) {
-        index = index++;
+        index = index+1;
         String style = "";
 
             style = "<Style id=\"icon\">\n" +

@@ -67,7 +67,7 @@ filename, "UTF-8");
 
 
             //writting polygon
-          //  writer.write(createPolygon());
+            writer.write(createPolygon());
 
 
 

@@ -19,6 +19,7 @@ public class KmlGenerator {
      * The Points.
      */
     ArrayList<Point> points = new ArrayList<Point>(); //polygon points
+    int index = 0;
     /**
      * The Placemarks.
      */
@@ -54,13 +55,17 @@ public class KmlGenerator {
 
         if (outPutFile.createNewFile()) {
             String text = "";
-            PrintWriter writer = new PrintWriter(filename, "UTF-8");
+            PrintWriter writer = new PrintWriter(
+filename, "UTF-8");
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n <kml xmlns=\"http://www.opengis.net/kml/2.2\">\n");
             writer.write(" <Document>\n<name>"+filename+"</name> \n");
             //writting first point as placemark
-            writer.write(createPlacemark(points.get(0)));
+            for (int i = 0; i < points.size(); i++) {
+                writer.write(createPlacemark(points.get(i)));
+            }
+
             //writting polygon
-            writer.write(createPolygon());
+            //writer.write(createPolygon());
 
 
 
@@ -90,7 +95,7 @@ public class KmlGenerator {
     public String createPlacemark(Point point) {
         String tag = "";
         tag += "<Placemark>\n<name>" + point.getLatitude() + ", " + point.getLongitude() + "</name>\n";
-        tag += "<description>"+point.getDescription()+"+</description>\n<Point>\n<coordinates>" + point.getLongitude() + "," + point.getLatitude();
+        tag += "<description>"+(index+1)+"+</description>\n<Point>\n<coordinates>" + point.getLongitude() + "," + point.getLatitude();
 
         tag += "</coordinates>\n</Point>\n </Placemark>\n";
 

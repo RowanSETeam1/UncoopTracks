@@ -56,7 +56,7 @@ public class KmlGenerator {
         if (outPutFile.createNewFile()) {
             String text = "";
             PrintWriter writer = new PrintWriter(
-filename, "UTF-8");
+                    filename, "UTF-8");
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n <kml xmlns=\"http://www.opengis.net/kml/2.2\">\n");
             writer.write(" <Document>\n<name>"+filename+"</name> \n");
             //writting first point as placemark
@@ -98,13 +98,13 @@ filename, "UTF-8");
         index = index+1;
         String style = "";
 
-            style = "<Style id=\"icon\">\n" +
-                    "        <IconStyle>\n" +
-                    "          <Icon>\n" +
-                    "            <href>placemark.png</href>\n" +
-                    "          </Icon>\n" +
-                    "        </IconStyle>\n" +
-                    " </Style>\n";
+        style = "<Style id=\"icon\">\n" +
+                "        <IconStyle>\n" +
+                "          <Icon>\n" +
+                "            <href>placemark.png</href>\n" +
+                "          </Icon>\n" +
+                "        </IconStyle>\n" +
+                " </Style>\n";
 
         String tag = "";
         tag += "<Placemark>\n<name>" + point.getLatitude() + ", " + point.getLongitude() + "</name>\n";
@@ -180,7 +180,7 @@ filename, "UTF-8");
         timeStamp = timeStamp.replaceAll(" ", "_").toLowerCase();
         timeStamp = timeStamp.replaceAll(":", "_").toLowerCase();
         timeStamp += ".kml";
-       return timeStamp;
+        return timeStamp;
     }
 
 

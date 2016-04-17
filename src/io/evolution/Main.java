@@ -17,10 +17,10 @@ import static io.evolution.Constants.*;
  */
 public class Main {
     static Connection c;
-    static String csv = "H:\\IdeaProjects\\UncoopTracks\\csv.csv";
-    static String mmsi = "229206000";
-    static String time = "30";
-    static String date = "2016-03-14";
+    static String csv = "csv.csv";
+    static String mmsi = "305599000";
+    static String time = "5";
+    static String date = "2016-03-19";
     static csvParser p;
 
     /**
@@ -186,7 +186,7 @@ public class Main {
         algo.execute();
         // check areaPredict ran with no errors
        // if (flag = !true) {
-        System.err.println("areaPredict Error");
+        //System.err.println("areaPredict Error");
       //  }
         // runs the kml generator
         kmlGen.pull(c);

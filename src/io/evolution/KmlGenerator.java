@@ -121,7 +121,7 @@ filename, "UTF-8");
      * @return the string
      */
     public String createPolygon() {
-        int size = ((points.size() - 2)/2);
+        int size = ((points.size() - 3)/2);
         Point origin = points.get(0);
         Point second_p = points.get(1);
         String tag = "";
@@ -135,12 +135,12 @@ filename, "UTF-8");
                 "<coordinates>\n";
 
         tag +=  origin.getLongitude() + "," + origin.getLatitude()+"\n";
-        for (int i = 2; i < size; i++) {
+        for (int i = 2; i <= size; i++) {
             tag +=  points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n";
         }
         tag +=  second_p.getLongitude() + "," + second_p.getLatitude()+"\n";
 
-        for (int i = (points.size()-1); i >= size ; i--) {
+        for (int i = (points.size()-1); i > size ; i--) {
             tag +=  points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n";
         }
 

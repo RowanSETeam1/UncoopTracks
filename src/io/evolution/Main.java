@@ -11,17 +11,17 @@ import java.util.IllegalFormatException;
 import static io.evolution.Constants.*;
 
 /**
- * The main will accept  4 arguments, which are the CSV filename
+ * //The main will accept  4 arguments, which are the CSV filename
  * containing AIS data set, MMSI#, Time since last known AIS signal
  * , and Date of last AIS signal.
  */
 public class Main {
-    static Connection c;
+    static Connection dbConnect;
     static String csv = "csv.csv";
     static String mmsi = "305599000";
     static String time = "5";
     static String date = "2016-03-19";
-    static csvParser p;
+    static csvParser parse;
 
     /**
      * Creates all needed modules (AreaPredictor, KMLGenerator) and gives
@@ -44,12 +44,12 @@ public class Main {
         }
 
         //parseArgs(args);
-        p = new csvParser(new File(csv), c);
-        p.iterateCsv();
+        parse = new csvParser(new File(csv), dbConnect);
+        parse.iterateCsv();
 
         //initiating modules, also pass the database connection to them
         // Area Prediction Algorithm takes db, ship MMSI number, and time after signal loss
-        AreaPredictor areaPredict = new AreaPredictor(c, mmsi, date, time);
+        AreaPredictor areaPredict = new AreaPredictor(dbConnect, mmsi, date, time);
 
         //to grab xml file
         KmlGenerator kmlGen = new KmlGenerator();  // KML generator
@@ -124,8 +124,8 @@ public class Main {
             return false;
         }
         try {
-            c = DriverManager.getConnection("jdbc:hsqldb:mem:mydb", "SA", "");
-            createTable(c);
+            dbConnect = DriverManager.getConnection("jdbc:hsqldb:mem:mydb", "SA", "");
+            createTable(dbConnect);
         } catch (SQLException e) {
             return false;
         }
@@ -189,7 +189,7 @@ public class Main {
         //System.err.println("areaPredict Error");
       //  }
         // runs the kml generator
-        kmlGen.pull(c);
+        kmlGen.pull(dbConnect);
         kmlGen.generate();
         // check if kmlGen ran with no errors
         //if (flag = !true) {

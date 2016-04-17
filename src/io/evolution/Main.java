@@ -10,6 +10,11 @@ import java.util.IllegalFormatException;
 
 import static io.evolution.Constants.*;
 
+/**
+ * The main will accept  4 arguments, which are the CSV filename
+ * containing AIS data set, MMSI#, Time since last known AIS signal
+ * , and Date of last AIS signal.
+ */
 public class Main {
     static Connection c;
     static String csv = "H:\\IdeaProjects\\UncoopTracks\\csv.csv";
@@ -18,6 +23,18 @@ public class Main {
     static String date = "2016-03-14";
     static csvParser p;
 
+    /**
+     * Creates all needed modules (AreaPredictor, KMLGenerator) and gives
+     * each module the needed variables.
+     *
+     * Runs execute() function  at the end which handles methods
+     * called within modules.
+     *
+     * @param args CSV Filename, MMSI, Time, Date
+     * @throws SQLException
+     * @throws IOException
+     * @throws CSVParserException
+     */
     public static void main(String[] args) throws SQLException, IOException, CSVParserException {
         boolean database = createDatabase();
         if(database != true)
@@ -31,19 +48,25 @@ public class Main {
         p.iterateCsv();
 
         //initiating modules, also pass the database connection to them
-        // Area Predi ction Algorithm takes db, ship MMSI number, and time after signal loss
+        // Area Prediction Algorithm takes db, ship MMSI number, and time after signal loss
         AreaPredictor areaPredict = new AreaPredictor(c, mmsi, date, time);
-        KmlGenerator kmlGen = new KmlGenerator();  // KML generator
 
         //to grab xml file
+        KmlGenerator kmlGen = new KmlGenerator();  // KML generator
         //File file = new File(“Insert Path to file here\AIS_DATA.xml”); // sets the file as xml file
 
         // executes the methods needed
-        //boolean check =
         execute(areaPredict, kmlGen);
 
     }
 
+    /**
+     * Will check if all of the inputs are in proper format and will
+     * return an error if any arguements are not in correct format
+     *
+     * @param args CSV Filename, MMSI, Time, Date
+     * @return check
+     */
     public static boolean parseArgs(String args[]) {
         if (args.length == 4) {
             try {
@@ -73,21 +96,6 @@ public class Main {
                 System.err.println("IllegalFormatException: Please enter Time");
                 System.exit(1);
             }
-
-//            try {
-//                endDate = args[4];
-//            } catch (IllegalFormatException t) {
-//                System.err.println("IllegalFormatException: Please enter End Date");
-//                System.exit(1);
-//            }
-//
-//            try {
-//                startDate = args[5];
-//            } catch (IllegalFormatException t) {
-//                System.err.println("IllegalFormatException: Please enter End Time");
-//                System.exit(1);
-//            }
-
         } else {
             System.err.println("Invalid Number of Arguements.");
             System.err.println("Please Enter in the following order:");
@@ -98,11 +106,15 @@ public class Main {
         System.out.println("MMSI entered: " + mmsi);
         System.out.println("Date entered: " + date);
         System.out.println("Time entered: " + time);
-//        System.out.println("End Date entered: " + endDate);
-//        System.out.println("End Time entered: " + endTime);
         return true;
     }
 
+    /**
+     * Creates the database that will hold the AIS data set that was parsed from
+     * the CSV file.
+     *
+     * @return check
+     */
     public static boolean createDatabase() {
         try {
             Class.forName("org.hsqldb.jdbc.JDBCDriver");
@@ -158,6 +170,15 @@ public class Main {
         }
     }
 
+    /**
+     * This method will execute the needed methods from in their specific
+     * order. If any of method returns false an error will be returned specifying
+     * which module did not function correctly.
+     *
+     * @param algo Area predictor algorithm
+     * @param kmlGen kml generating algorithm
+     * @return boolean check
+     */
     private static void execute(AreaPredictor algo, KmlGenerator kmlGen) throws IOException, SQLException {
         // flag to determine errors
         //boolean flag = true;

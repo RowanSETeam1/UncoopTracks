@@ -19,6 +19,7 @@ public class KmlGenerator {
      * The Points.
      */
     ArrayList<Point> points = new ArrayList<Point>(); //polygon points
+    int index = 0;
     /**
      * The Placemarks.
      */
@@ -54,11 +55,17 @@ public class KmlGenerator {
 
         if (outPutFile.createNewFile()) {
             String text = "";
-            PrintWriter writer = new PrintWriter(filename, "UTF-8");
+            PrintWriter writer = new PrintWriter(
+                    filename, "UTF-8");
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n <kml xmlns=\"http://www.opengis.net/kml/2.2\">\n");
             writer.write(" <Document>\n<name>"+filename+"</name> \n");
             //writting first point as placemark
-            writer.write(createPlacemark(points.get(0)));
+            for (int i = 0; i <points.size() ; i++) {
+                writer.write(createPlacemark(points.get(i)));
+            }
+
+
+
             //writting polygon
             writer.write(createPolygon());
 
@@ -88,9 +95,20 @@ public class KmlGenerator {
      * @return the string
      */
     public String createPlacemark(Point point) {
+        index = index+1;
+        String style = "";
+
+        style = "<Style id=\"icon\">\n" +
+                "        <IconStyle>\n" +
+                "          <Icon>\n" +
+                "            <href>placemark.png</href>\n" +
+                "          </Icon>\n" +
+                "        </IconStyle>\n" +
+                " </Style>\n";
+
         String tag = "";
         tag += "<Placemark>\n<name>" + point.getLatitude() + ", " + point.getLongitude() + "</name>\n";
-        tag += "<description>"+point.getDescription()+"+</description>\n<Point>\n<coordinates>" + point.getLongitude() + "," + point.getLatitude();
+        tag += "<description>"+index+"</description>\n <Point>\n<coordinates>" + point.getLongitude() + "," + point.getLatitude();
 
         tag += "</coordinates>\n</Point>\n </Placemark>\n";
 
@@ -103,6 +121,9 @@ public class KmlGenerator {
      * @return the string
      */
     public String createPolygon() {
+        int size = ((points.size() - 2)/2);
+        Point origin = points.get(0);
+        Point second_p = points.get(1);
         String tag = "";
         tag += " <Placemark>\n" +
                 "<name>Area of Prediction</name>\n" +
@@ -113,8 +134,18 @@ public class KmlGenerator {
                 "<LinearRing>\n" +
                 "<coordinates>\n";
 
-        for (int i = 0; i < points.size(); i++) {
+        tag +=  origin.getLongitude() + "," + origin.getLatitude()+"\n";
+        System.out.println(origin.getLongitude() + "," + origin.getLatitude()+"\n");
+        for (int i = 2; i < size; i++) {
             tag +=  points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n";
+            System.out.println(points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n");
+        }
+        tag +=  second_p.getLongitude() + "," + second_p.getLatitude()+"\n";
+        System.out.println(second_p.getLongitude() + "," + second_p.getLatitude()+"\n");
+
+        for (int i = (points.size()-1); i >= size ; i--) {
+            tag +=  points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n";
+            System.out.println(points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n");
         }
 
         tag += "</coordinates>\n" +
@@ -150,7 +181,7 @@ public class KmlGenerator {
         timeStamp = timeStamp.replaceAll(" ", "_").toLowerCase();
         timeStamp = timeStamp.replaceAll(":", "_").toLowerCase();
         timeStamp += ".kml";
-       return timeStamp;
+        return timeStamp;
     }
 
 

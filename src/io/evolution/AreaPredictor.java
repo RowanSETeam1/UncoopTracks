@@ -220,7 +220,7 @@ public class AreaPredictor {
             //outerBoundaryCoordinates.add(currentCoordinates);
             lat = currentCoordinates[0];
             lon = currentCoordinates[1];
-            //insertCoord(currentTime, lat, lon);
+            insertCoord(currentTime, lat, lon);
             currentTime++;
             currentHeading += turnRate;
         }
@@ -255,7 +255,7 @@ public class AreaPredictor {
             //outerBoundaryCoordinates.add(currentCoordinates);
             lat = currentCoordinates[0];
             lon = currentCoordinates[1];
-            //insertCoord(currentTime, lat, lon);
+            insertCoord(currentTime, lat, lon);
             currentTime++;
             currentHeading -= turnRate;
         }

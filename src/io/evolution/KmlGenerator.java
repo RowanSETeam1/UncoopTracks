@@ -60,8 +60,10 @@ filename, "UTF-8");
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n <kml xmlns=\"http://www.opengis.net/kml/2.2\">\n");
             writer.write(" <Document>\n<name>"+filename+"</name> \n");
             //writting first point as placemark
+            for (int i = 0; i <points.size() ; i++) {
+                writer.write(createPlacemark(points.get(i)));
+            }
 
-                writer.write(createPlacemark(points.get(0)));
 
 
             //writting polygon
@@ -93,7 +95,7 @@ filename, "UTF-8");
      * @return the string
      */
     public String createPlacemark(Point point) {
-
+        index = index++;
         String style = "";
 
             style = "<Style id=\"icon\">\n" +
@@ -106,7 +108,7 @@ filename, "UTF-8");
 
         String tag = "";
         tag += "<Placemark>\n<name>" + point.getLatitude() + ", " + point.getLongitude() + "</name>\n";
-        tag += "<description>"+index+"</description>\n"+style+"<Point>\n<coordinates>" + point.getLongitude() + "," + point.getLatitude();
+        tag += "<description>"+index+"</description>\n <Point>\n<coordinates>" + point.getLongitude() + "," + point.getLatitude();
 
         tag += "</coordinates>\n</Point>\n </Placemark>\n";
 

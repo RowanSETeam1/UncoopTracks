@@ -29,6 +29,7 @@ public class AreaPredictor {
     private Connection c;
     private int travelTime;
     private float vesselSpeed;
+    private float vesselCourse;
     private String lastContactTime;
 
     /**
@@ -61,11 +62,11 @@ public class AreaPredictor {
                 secondaryCoordinates[0] = resultSet.getFloat(LAT);
                 secondaryCoordinates[1] = resultSet.getFloat(LONG);
                 vesselSpeed = resultSet.getFloat(SPEED);
+                vesselCourse = resultSet.getFloat(COURSE);
                 //System.out.println("needTwo: " + needTwo);
             }
         }
         insertCoord(0, initialCoordinates[0], initialCoordinates[1]);
-        //vesselSpeed = 5.0f;
 
         System.out.println("Initial C :" + initialCoordinates[0]);
         System.out.println("Initial C :" + initialCoordinates[1]);

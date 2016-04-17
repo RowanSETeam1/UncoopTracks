@@ -96,8 +96,13 @@ filename, "UTF-8");
         index = index+1;
         String style = "";
         if(index == 1){
-            style = " <visibility>0</visibility>\n" +
-                    "<styleUrl>#exampleStyleMap</styleUrl>\n";
+            style = "<Style id=\"icon\">\n" +
+                    "        <IconStyle>\n" +
+                    "          <Icon>\n" +
+                    "            <href>placemark.png</href>\n" +
+                    "          </Icon>\n" +
+                    "        </IconStyle>\n" +
+                    " </Style>\n";
         }
         String tag = "";
         tag += "<Placemark>\n<name>" + point.getLatitude() + ", " + point.getLongitude() + "</name>\n";

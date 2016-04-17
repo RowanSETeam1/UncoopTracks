@@ -94,9 +94,14 @@ filename, "UTF-8");
      */
     public String createPlacemark(Point point) {
         index = index+1;
+        String style = "";
+        if(index == 1){
+            style = " <visibility>0</visibility>\n" +
+                    "<styleUrl>#exampleStyleMap</styleUrl>\n";
+        }
         String tag = "";
         tag += "<Placemark>\n<name>" + point.getLatitude() + ", " + point.getLongitude() + "</name>\n";
-        tag += "<description>"+index+"</description>\n<Point>\n<coordinates>" + point.getLongitude() + "," + point.getLatitude();
+        tag += "<description>"+index+"</description>\n"+style+"<Point>\n<coordinates>" + point.getLongitude() + "," + point.getLatitude();
 
         tag += "</coordinates>\n</Point>\n </Placemark>\n";
 

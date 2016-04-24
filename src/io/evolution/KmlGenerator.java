@@ -61,7 +61,7 @@ public class KmlGenerator {
             writer.write(" <Document>\n<name>"+filename+"</name> \n");
             //writting first point as placemark
             for (int i = 0; i <points.size() ; i++) {
-                writer.write(createPlacemark(points.get(i)));
+                writer.write(createPlacemark(points.get(0), "Initial Point"));
             }
 
 
@@ -94,7 +94,7 @@ public class KmlGenerator {
      * @param point the point
      * @return the string
      */
-    public String createPlacemark(Point point) {
+    public String createPlacemark(Point point, String des) {
         index = index+1;
         String style = "";
 
@@ -108,7 +108,8 @@ public class KmlGenerator {
 
         String tag = "";
         tag += "<Placemark>\n<name>" + point.getLatitude() + ", " + point.getLongitude() + "</name>\n";
-        tag += "<description>"+index+"</description>\n <Point>\n<coordinates>" + point.getLongitude() + "," + point.getLatitude();
+        tag += "<description>"+index+"\n" +
+                des+"</description>\n <Point>\n<coordinates>" + point.getLongitude() + "," + point.getLatitude();
 
         tag += "</coordinates>\n</Point>\n </Placemark>\n";
 
@@ -134,19 +135,12 @@ public class KmlGenerator {
                 "<LinearRing>\n" +
                 "<coordinates>\n";
 
-        //tag +=  origin.getLongitude() + "," + origin.getLatitude()+"\n";
+
         System.out.println("original: "+origin.getLongitude() + "," + origin.getLatitude()+"\n");
         for (int i = 0; i < points.size(); i++) {
             tag +=  points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n";
-            //System.out.println("right: "+points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n");
+
         }
-       // tag +=  second_p.getLongitude() + "," + second_p.getLatitude()+"\n";
-       // System.out.println("second: "+second_p.getLongitude() + "," + second_p.getLatitude()+"\n");
-/*
-        for (int i = (points.size()-1); i >= size ; i--) {
-            tag +=  points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n";
-            System.out.println("left: "+points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n");
-        }*/
 
         tag += "</coordinates>\n" +
                 "</LinearRing>\n" +
@@ -181,6 +175,7 @@ public class KmlGenerator {
         timeStamp = timeStamp.replaceAll(" ", "_").toLowerCase();
         timeStamp = timeStamp.replaceAll(":", "_").toLowerCase();
         timeStamp += ".kml";
+        timeStamp = "output/"+timeStamp;
         return timeStamp;
     }
 

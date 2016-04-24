@@ -15,12 +15,12 @@ import static io.evolution.Constants.*;
  * containing AIS data set, MMSI#, Time since last known AIS signal
  * , and Date of last AIS signal.
  */
-public class Controller {
+public class Main {
     static Connection dbConnect;
-    static String csv = "csv.csv";
-    static String mmsi = "305599000";
-    static String time = "10";
-    static String date = "2016-03-19";
+    static String csv = "new.csv";
+    static String mmsi = "351732000";
+    static String time = "60";
+    static String date = "2016-04-16";
     static csvParser parse;
 
     /**

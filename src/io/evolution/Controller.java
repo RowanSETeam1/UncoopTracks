@@ -21,7 +21,7 @@ public class Controller {
     static String mmsi = "351732000";
     static String time = "60";
     static String date = "2016-04-16";
-    static csvParser parse;
+    static CSVParser parse;
 
     /**
      * Creates all needed modules (AreaPredictor, KMLGenerator) and gives
@@ -43,8 +43,8 @@ public class Controller {
             System.exit(1);
         }
 
-        //parseArgs(args);
-        parse = new csvParser(new File(csv), dbConnect);
+        parseArgs(args);
+        parse = new CSVParser(new File(csv), dbConnect);
         parse.iterateCsv();
 
         //initiating modules, also pass the database connection to them

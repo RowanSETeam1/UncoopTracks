@@ -14,7 +14,7 @@ import static io.evolution.Constants.*;
 /**
  * Created by Roberto Gonzalez on 3/23/2016.
  */
-public class csvParser {
+public class CSVParser {
 
     //global variables
     private Iterable<CSVRecord> csvRecordIterable;
@@ -27,7 +27,7 @@ public class csvParser {
      * @param csvFile the csv file to be parsed
      * @param c       reference to the database connection
      */
-    csvParser(File csvFile, Connection c) throws CSVParserException {
+    CSVParser(File csvFile, Connection c) throws CSVParserException {
         this.csvFile = csvFile;
         this.c = c;
         //Worst case exception handling

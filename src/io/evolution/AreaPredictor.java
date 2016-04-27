@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
-
 import static io.evolution.Constants.*;
 import static java.lang.Integer.parseInt;
 
@@ -20,7 +19,6 @@ import static java.lang.Integer.parseInt;
 public class AreaPredictor {
 
     private float[] initialCoordinates = new float[2];
-    private float[] secondaryCoordinates = new float[2];
     ArrayList<ResultSet> needTwo = new ArrayList<>();
     private final float PI = Float.parseFloat(Double.toString(Math.PI));
     private Connection dbConnect;
@@ -30,7 +28,6 @@ public class AreaPredictor {
     private String lastContactTime;
     private final float MAX_TURN = 60f;
     private float vesselTurnRate;
-
     private ArrayList<Point> leftCoordinates = new ArrayList<Point>();
     private ArrayList<Point> rightCoordinates = new ArrayList<Point>();
     private ArrayList<Point> forwardCoordinates = new ArrayList<Point>();
@@ -38,7 +35,7 @@ public class AreaPredictor {
     /**
      * Instantiates a new Area predictor.
      *
-     * @param dbConnect          the database connection
+     * @param dbConnect  The database connection
      * @param mmsi       The MMSI number of the vessel being located.
      * @param date       the date
      * @param travelTime The minutes passed since experiencing a loss-of-signal.
@@ -54,8 +51,8 @@ public class AreaPredictor {
         while (resultSet.next()) {
             needTwo.add(resultSet);
             if (needTwo.size() == 1) {
-                secondaryCoordinates[0] = resultSet.getFloat(LAT);
-                secondaryCoordinates[1] = resultSet.getFloat(LONG);
+                //secondaryCoordinates[0] = resultSet.getFloat(LAT);
+                //secondaryCoordinates[1] = resultSet.getFloat(LONG);
             } else if (needTwo.size() == 2) {
                 String[] dateSplit = needTwo.get(1).getString(DATETIME).split(" ");
                 lastContactTime = dateSplit[1];
@@ -103,72 +100,6 @@ public class AreaPredictor {
 
 
     /**
-     * Predicts the heading of the vessel by finding the angle between the last two known coordinates.
-     *
-     * @return the heading
-     */
-    public float getHeading() {
-
-        //Retrieves the second-to-last known coordinates of the vessel.
-        float lat2 = secondaryCoordinates[0];
-        float long2 = secondaryCoordinates[1];
-        float lat1 = initialCoordinates[0];
-        float long1 = initialCoordinates[1];
-
-        //Constant used to convert degrees to radians.
-        float degreeToRadians = PI / 180.0f;
-
-        //converts each latitude and longitude to radians to be used in heading calculation.
-        float lat1Rads = lat1 * degreeToRadians;
-        float lat2Rads = lat2 * degreeToRadians;
-        float long1Rads = long1 * degreeToRadians;
-        float long2Rads = long2 * degreeToRadians;
-
-
-        //Calculates and returns the heading.
-        float result = (float) Math.atan2(Math.sin(long2Rads - long1Rads) * Math.cos(lat2Rads),
-                Math.cos(lat1Rads) * Math.sin(lat2Rads) - Math.sin(lat1Rads)
-                        * Math.cos(lat2Rads) * Math.cos(long2Rads - long1Rads)
-        ) * 180 / PI;
-
-        return vesselCourse;
-    }
-
-
-    /**
-     * Predicts the heading of the vessel by finding the angle between the last two known coordinates.
-     *
-     * @return the heading
-     */
-    public float getMaxAngle(float latitude1, float longitude1,float latitude2, float longitude2) {
-
-        //Retrieves the second-to-last known coordinates of the vessel.
-        float lat1 = latitude1;
-        float long1 = longitude1;
-        float lat2 = latitude2;
-        float long2 = longitude2;
-
-        //Constant used to convert degrees to radians.
-        float degreeToRadians = PI / 180.0f;
-
-        //converts each latitude and longitude to radians to be used in heading calculation.
-        float lat1Rads = lat1 * degreeToRadians;
-        float lat2Rads = lat2 * degreeToRadians;
-        float long1Rads = long1 * degreeToRadians;
-        float long2Rads = long2 * degreeToRadians;
-
-
-        //Calculates and returns the heading.
-        float result = (float) Math.atan2(Math.sin(long2Rads - long1Rads) * Math.cos(lat2Rads),
-                Math.cos(lat1Rads) * Math.sin(lat2Rads) - Math.sin(lat1Rads)
-                        * Math.cos(lat2Rads) * Math.cos(long2Rads - long1Rads)
-        ) * 180 / PI;
-
-        return result;
-    }
-
-
-    /**
      * Calculates the distance traveled (in kilometers)
      * in the given time (in minutes)
      *
@@ -196,22 +127,11 @@ public class AreaPredictor {
      */
     public void setPrimaryBoundary(float course, float lat , float lng, float distance) {
 
-
-        //Get last known coordinates and heading of vessel.
-        //float distance = getDistance(travelTime, vesselSpeed);
-
-        //Calculates the primary boundary coordinates.
-        //float[] primaryBoundary = calculateCoordinates(initialCoordinates[0], initialCoordinates[1], course, distance);
-
         float[] primaryBoundary = calculateCoordinates(lat, lng, course, distance);
 
         Point tempPoint = new Point(primaryBoundary[0], primaryBoundary[1]);
         forwardCoordinates.add(tempPoint);
     }
-
-
-
-
 
 
     /**
@@ -226,7 +146,7 @@ public class AreaPredictor {
         //Initializes the coordinates at the last known signal location.
         float[] currentCoordinates = initialCoordinates;
 
-        float currentHeading = getHeading();
+        float currentHeading = vesselCourse;
         float incrementDistance= getDistance(1, vesselSpeed);
         float lat = currentCoordinates[0];
         float lon = currentCoordinates[1];
@@ -251,7 +171,6 @@ public class AreaPredictor {
             lat = currentCoordinates[0];
             lon = currentCoordinates[1];
             tempPoint = new Point(lat, lon);
-            //insertCoord(counter, lat, lon);
             rightCoordinates.add(tempPoint);
             currentTime++;
         }
@@ -269,17 +188,11 @@ public class AreaPredictor {
 
         //Initializes the coordinates at the last known signal location.
         float[] currentCoordinates = initialCoordinates;
-        float initialHeading = getHeading();
-        float currentHeading = getHeading();
+        float currentHeading = vesselCourse;
         float incrementDistance = getDistance(1, vesselSpeed);
         float lat = currentCoordinates[0];
         float lon = currentCoordinates[1];
         float turnRate = vesselTurnRate;
-        int maxTime = travelTime*2 + 1;
-
-        Boolean initalPointFlag = true;
-
-        float maxAngle;
 
         float maxDist = getDistance(travelTime, vesselSpeed);
 
@@ -301,8 +214,6 @@ public class AreaPredictor {
 
             tempPoint = new Point(lat, lon);
             leftCoordinates.add(tempPoint);
-
-            //insertCoord(maxTime--, lat, lon);
 
             currentTime++;
         }
@@ -329,14 +240,6 @@ public class AreaPredictor {
     }
 
 
-
-
-
-
-
-
-
-
     /**
      * Calculate coordinates float [ ].
      *
@@ -350,10 +253,8 @@ public class AreaPredictor {
     public float[] calculateCoordinates(float lat, float lon, float heading, float distance) {
 
         //Calculates the destination coordinates given the initial coordinates, heading, and time traveled.
-
         float R = 6378.1f; //Radius of the Earth
         float bearing = (float) Math.toRadians(heading);
-
 
         float lat1 = (float) Math.toRadians(lat); //Current latitude point converted to radians.
         float lon1 = (float) Math.toRadians(lon); //Current longitude point converted to radians.
@@ -371,31 +272,7 @@ public class AreaPredictor {
 
         return destinationCoordinates;
     }
-/*
-    public double[] calculateCoordinates(double lat, double lon, double heading, double distance) {
 
-        double R = 6378.1; //#Radius of the Earth
-    brng = 1.57 #Bearing is 90 degrees converted to radians.
-    d = 15 #Distance in km
-
-    #lat2  52.20444 - the lat result I'm hoping for
-            #lon2  0.36056 - the long result I'm hoping for.
-
-    lat1 = math.radians(52.20472) #Current lat point converted to radians
-    lon1 = math.radians(0.14056) #Current long point converted to radians
-
-            lat2 = math.asin( math.sin(lat1)*math.cos(d/R) +
-            math.cos(lat1)*math.sin(d/R)*math.cos(brng))
-
-    lon2 = lon1 + math.atan2(math.sin(brng)*math.sin(d/R)*math.cos(lat1),
-            math.cos(d/R)-math.sin(lat1)*math.sin(lat2))
-
-    lat2 = math.degrees(lat2)
-    lon2 = math.degrees(lon2)
-
-    print(lat2)
-    print(lon2)
-    }*/
 
     /**
      * This method will determine whether or not the vessel's length is greater than or equal to 100 meters.
@@ -409,8 +286,10 @@ public class AreaPredictor {
         PreparedStatement get = dbConnect.prepareStatement("SELECT * FROM aisData WHERE( MMSI='"+mmsi+"');");
         ResultSet resultSet = get.executeQuery();
         resultSet.next();
+
         //retrieve the bow length of the vessel from the database
         int bowLength = resultSet.getInt("A");
+
         //retrieve the stern length of the vessel from the database
         int sternLength = resultSet.getInt("B");
 
@@ -421,10 +300,7 @@ public class AreaPredictor {
             return;
         }
         vesselTurnRate = 5f;
-        return;
     }
-
-
 
 
 
@@ -505,5 +381,4 @@ public class AreaPredictor {
             return ("" + longitude + latitude);
         }
     }
-
 }

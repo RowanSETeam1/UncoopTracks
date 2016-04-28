@@ -92,12 +92,10 @@ public class AreaPredictor {
      */
     public boolean execute() {
         setLeftBoundaryCoordinates();
-        //(getHeading());
         setRightBoundaryCoordinates();
         populateDB();
         return true;
     }
-
 
     /**
      * Calculates the distance traveled (in kilometers)

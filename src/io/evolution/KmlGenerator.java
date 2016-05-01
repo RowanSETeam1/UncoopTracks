@@ -148,7 +148,7 @@ public class KmlGenerator {
                 "</Polygon>\n" +
                 " <Style> \n" +
                 "  <PolyStyle>  \n" +
-                "   <color>#228b22ff</color>\n" +
+                "   <color>#a00000ff</color>\n" +
                 "  <outline>0</outline>\n" +
                 "  </PolyStyle> \n" +
                 " </Style>" +

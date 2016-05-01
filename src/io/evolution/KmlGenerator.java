@@ -73,13 +73,30 @@ public class KmlGenerator {
             String text = "";
             PrintWriter writer = new PrintWriter(
                     filename, "UTF-8");
-            writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n <kml xmlns=\"http://www.opengis.net/kml/2.2\">\n");
-            writer.write(createPath());
-            writer.write(" <Document>\n<name>"+filename+"</name> \n");
+            writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n"+
+                    "<kml xmlns=\"http://www.opengis.net/kml/2.2\">\n");
+            writer.write(" <Document>\n<name>"+filename+"</name>\n" +
+                    "    <description>Examples of paths. Note that the tessellate tag is by default\n" +
+                    "      set to 0. If you want to create tessellated lines, they must be authored\n" +
+                    "      (or edited) directly in KML.</description>\n" +
+                    "    <Style id=\"yellowLineGreenPoly\">\n" +
+                    "      <LineStyle>\n" +
+                    "        <color>7f00ffff</color>\n" +
+                    "        <width>4</width>\n" +
+                    "      </LineStyle>\n" +
+                    "      <PolyStyle>\n" +
+                    "        <color>7f00ff00</color>\n" +
+                    "      </PolyStyle>\n" +
+                    "    </Style>\n");
             //writting first point as placemark
                 writer.write(createPlacemark(points.get(0), "Initial Point"));
+            for (int i = 0; i < path.size(); i++) {
+                writer.write(createPlacemark(path.get(i), path.get(i).description));
+            }
+
             //writting polygon
             writer.write(createPolygon());
+            writer.write(createPath());
             writer.write("</Document>\n");
 
 
@@ -164,24 +181,10 @@ public class KmlGenerator {
 
     public String createPath() {
 
-        String tag = "  <Document>\n" +
-                "    <name>Paths</name>\n" +
-                "    <description>Examples of paths. Note that the tessellate tag is by default\n" +
-                "      set to 0. If you want to create tessellated lines, they must be authored\n" +
-                "      (or edited) directly in KML.</description>\n" +
-                "    <Style id=\"yellowLineGreenPoly\">\n" +
-                "      <LineStyle>\n" +
-                "        <color>7f00ffff</color>\n" +
-                "        <width>4</width>\n" +
-                "      </LineStyle>\n" +
-                "      <PolyStyle>\n" +
-                "        <color>7f00ff00</color>\n" +
-                "      </PolyStyle>\n" +
-                "    </Style>\n";
+        String tag = "";
 
 
         for (int i = 0; i < (path.size()-1); i++) {
-
             tag += "    <Placemark>\n" +
                     "      <name>Absolute Extruded</name>\n" +
                     "      <description>Transparent green wall with yellow outlines</description>\n" +
@@ -191,8 +194,8 @@ public class KmlGenerator {
                     "        <tessellate>1</tessellate>\n" +
                     "        <altitudeMode>absolute</altitudeMode>\n" +
                     "        <coordinates>";
-            tag +=  path.get(i).getLatitude() + "," + path.get(i).getLongitude() + "\n";
-            tag +=  path.get(i+1).getLatitude() + "," + path.get(i+1).getLongitude() + "\n";
+            tag +=  path.get(i).getLongitude() + "," + path.get(i).getLatitude() + "\n";
+            tag +=  path.get(i+1).getLongitude() + "," + path.get(i+1).getLatitude() + "\n";
 
             tag += "  </coordinates>\n" +
                     "      </LineString>\n" +
@@ -201,7 +204,6 @@ public class KmlGenerator {
         }
 
 
-        tag += "   </Document>\n";
 
         return tag;
     }

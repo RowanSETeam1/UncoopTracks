@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+
 import static io.evolution.Constants.*;
 import static java.lang.Integer.parseInt;
 
@@ -13,7 +14,7 @@ import static java.lang.Integer.parseInt;
 /**
  * This class is responsible for calculating a geometric area that
  * represents possible location of a vessel based on the minutes
- *  passed since the vessel experienced a loss-of-signal.
+ * passed since the vessel experienced a loss-of-signal.
  */
 
 public class AreaPredictor {
@@ -39,29 +40,23 @@ public class AreaPredictor {
      * @param mmsi       The MMSI number of the vessel being located.
      * @param date       the date
      * @param travelTime The minutes passed since experiencing a loss-of-signal.
-     * @throws SQLException    An SQL exception.
+     * @throws SQLException An SQL exception.
      */
     AreaPredictor(Connection dbConnect, String mmsi, String date, String travelTime) throws SQLException {
         this.travelTime = parseInt((travelTime));
         this.dbConnect = dbConnect;
         PreparedStatement get = dbConnect.prepareStatement("SELECT * FROM aisData WHERE (MMSI='"
-                + mmsi + "' AND DATETIME LIKE '%" + date + "%') ORDER BY " + DATETIME + " DESC LIMIT 2;");
+                + mmsi + "' AND DATETIME LIKE '%" + date + "%') ORDER BY " + DATETIME + " DESC LIMIT 1;");
         ResultSet resultSet = get.executeQuery();
         vesselSize(dbConnect, mmsi);
         while (resultSet.next()) {
-            needTwo.add(resultSet);
-            if (needTwo.size() == 1) {
-                //secondaryCoordinates[0] = resultSet.getFloat(LAT);
-                //secondaryCoordinates[1] = resultSet.getFloat(LONG);
-            } else if (needTwo.size() == 2) {
-                String[] dateSplit = needTwo.get(1).getString(DATETIME).split(" ");
-                lastContactTime = dateSplit[1];
-                System.out.println("lastcontact: " + lastContactTime);
-                initialCoordinates[0] = resultSet.getFloat(LAT);
-                initialCoordinates[1] = resultSet.getFloat(LONG);
-                vesselSpeed = resultSet.getFloat(SPEED);
-                vesselCourse = resultSet.getFloat(COURSE);
-            }
+            String[] dateSplit = resultSet.getString(DATETIME).split(" ");
+            lastContactTime = dateSplit[1];
+            System.out.println("lastcontact: " + lastContactTime);
+            initialCoordinates[0] = resultSet.getFloat(LAT);
+            initialCoordinates[1] = resultSet.getFloat(LONG);
+            vesselSpeed = resultSet.getFloat(SPEED);
+            vesselCourse = resultSet.getFloat(COURSE);
         }
         insertCoord(0, initialCoordinates[0], initialCoordinates[1]);
     }
@@ -123,7 +118,7 @@ public class AreaPredictor {
     /**
      * Sets primary boundary of the predicted area.
      */
-    public void setPrimaryBoundary(float course, float lat , float lng, float distance) {
+    public void setPrimaryBoundary(float course, float lat, float lng, float distance) {
 
         float[] primaryBoundary = calculateCoordinates(lat, lng, course, distance);
 
@@ -145,7 +140,7 @@ public class AreaPredictor {
         float[] currentCoordinates = initialCoordinates;
 
         float currentHeading = vesselCourse;
-        float incrementDistance= getDistance(1, vesselSpeed);
+        float incrementDistance = getDistance(1, vesselSpeed);
         float lat = currentCoordinates[0];
         float lon = currentCoordinates[1];
         float turnRate = vesselTurnRate;
@@ -155,10 +150,10 @@ public class AreaPredictor {
 
 
         //Creates outer boundary of the polygon minute by minute until the specified time is reached.
-        while (currentTime <= travelTime  ) {
-            if(changeInCourse < MAX_TURN) {
-                setPrimaryBoundary(currentHeading,lat,lon,maxDist);
-                maxDist-=incrementDistance;
+        while (currentTime <= travelTime) {
+            if (changeInCourse < MAX_TURN) {
+                setPrimaryBoundary(currentHeading, lat, lon, maxDist);
+                maxDist -= incrementDistance;
                 currentHeading += turnRate;
                 changeInCourse += turnRate;
             }
@@ -196,12 +191,12 @@ public class AreaPredictor {
 
 
         //Creates outer boundary of the polygon minute by minute until the specified time is reached.
-        while (currentTime <= travelTime  ) {
-            if(changeInCourse > MAX_TURN * -1) {
+        while (currentTime <= travelTime) {
+            if (changeInCourse > MAX_TURN * -1) {
 
-                setPrimaryBoundary(currentHeading,lat,lon,maxDist);
+                setPrimaryBoundary(currentHeading, lat, lon, maxDist);
 
-                maxDist-=incrementDistance;
+                maxDist -= incrementDistance;
 
                 currentHeading -= turnRate;
                 changeInCourse -= turnRate;
@@ -218,19 +213,19 @@ public class AreaPredictor {
         Collections.reverse(forwardCoordinates);
     }
 
-    public void populateDB(){
+    public void populateDB() {
         int pointCounter = 1;
-        for(Point p : leftCoordinates){
+        for (Point p : leftCoordinates) {
             insertCoord(pointCounter, p.getLatitude(), p.getLongitude());
             pointCounter++;
         }
 
-        for(Point p : forwardCoordinates){
+        for (Point p : forwardCoordinates) {
             insertCoord(pointCounter, p.getLatitude(), p.getLongitude());
             pointCounter++;
         }
 
-        for(int i=rightCoordinates.size()-1; i>= 0; i--){
+        for (int i = rightCoordinates.size() - 1; i >= 0; i--) {
             Point p = new Point(rightCoordinates.get(i).getLatitude(), rightCoordinates.get(i).getLongitude());
             insertCoord(pointCounter, p.getLatitude(), p.getLongitude());
             pointCounter++;
@@ -245,7 +240,6 @@ public class AreaPredictor {
      * @param lon      The longitude of the starting coordinates.
      * @param heading  The heading of the vessel at the given coordinates.
      * @param distance The distance that will be traveled by the vessel from the initial coordinates.
-     *
      * @return destinationCoordinates   An arraylist holding the latitude and longitude of the destination coordinates
      */
     public float[] calculateCoordinates(float lat, float lon, float heading, float distance) {
@@ -276,12 +270,12 @@ public class AreaPredictor {
      * This method will determine whether or not the vessel's length is greater than or equal to 100 meters.
      * If it is, then is sets the vesselTurnRate to 3 degrees. Otherwise, vesselTurnRate is set to 5 degrees.
      *
-     * @param mmsi the targeted vessel's MMSI number
+     * @param mmsi      the targeted vessel's MMSI number
      * @param dbConnect the connection to the database
      */
     void vesselSize(Connection dbConnect, String mmsi) throws SQLException {
         //pulls points out of database
-        PreparedStatement get = dbConnect.prepareStatement("SELECT * FROM aisData WHERE( MMSI='"+mmsi+"');");
+        PreparedStatement get = dbConnect.prepareStatement("SELECT * FROM aisData WHERE( MMSI='" + mmsi + "');");
         ResultSet resultSet = get.executeQuery();
         resultSet.next();
 
@@ -292,14 +286,12 @@ public class AreaPredictor {
         int sternLength = resultSet.getInt("B");
 
         //if the total length of the vessel is greater than or equal to 100 meters
-        if((bowLength + sternLength) >= 100)
-        {
+        if ((bowLength + sternLength) >= 100) {
             vesselTurnRate = 3f;
             return;
         }
         vesselTurnRate = 5f;
     }
-
 
 
     /**
@@ -317,7 +309,7 @@ public class AreaPredictor {
         /**
          * The Description.
          */
-        String  description;
+        String description;
 
         /**
          * Instantiates a new Point.

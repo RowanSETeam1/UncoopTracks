@@ -52,7 +52,7 @@ public class Controller {
         AreaPredictor areaPredict = new AreaPredictor(dbConnect, mmsi, date, time);
 
         //to grab xml file
-        KmlGenerator kmlGen = new KmlGenerator();  // KML generator
+        KmlGenerator kmlGen = new KmlGenerator(mmsi, dbConnect);  // KML generator
         //File file = new File(“Insert Path to file here\AIS_DATA.xml”); // sets the file as xml file
 
         // executes the methods needed
@@ -189,7 +189,7 @@ public class Controller {
         //System.err.println("areaPredict Error");
       //  }
         // runs the kml generator
-        kmlGen.pull(dbConnect);
+        kmlGen.pull();
         kmlGen.generate();
         // check if kmlGen ran with no errors
         //if (flag = !true) {

@@ -16,17 +16,16 @@ import static io.evolution.Constants.DATETIME;
 public class KmlGenerator {
     String mmsi;
     Connection c;
+    ArrayList<Point> points = new ArrayList<Point>(); //polygon points
+    ArrayList<Point> path = new ArrayList<Point>(); //polygon points
+    int index = 0;
 
 
     public KmlGenerator(String mmsi,Connection c ){
         this.c = c;
         this.mmsi = mmsi;
     }
-    /**
-     * The Points.
-     */
-    ArrayList<Point> points = new ArrayList<Point>(); //polygon points
-    int index = 0;
+
     /**
      * The Placemarks.
      */
@@ -34,8 +33,6 @@ public class KmlGenerator {
 
     /**
      * Pull.
-     *
-     * @param c the c
      * @throws SQLException the sql exception
      */
 
@@ -46,6 +43,17 @@ public class KmlGenerator {
         ResultSet resultSet = get.executeQuery();
         while (resultSet.next()) {
             points.add(new Point(resultSet.getFloat("latitude"),resultSet.getFloat("longitude"), resultSet.getString("datetime")));
+            System.out.println(resultSet.getFloat("latitude") +", "+resultSet.getFloat("longitude")+", "+resultSet.getString("datetime"));
+        }
+
+    }
+    void pullPath() throws SQLException {
+
+        PreparedStatement get = c.prepareStatement("SELECT * FROM aisData WHERE (MMSI='"
+                + mmsi+ "') ORDER BY " + DATETIME+";");
+        ResultSet resultSet = get.executeQuery();
+        while (resultSet.next()) {
+            path.add(new Point(resultSet.getFloat("latitude"),resultSet.getFloat("longitude"), resultSet.getString("datetime")));
             System.out.println(resultSet.getFloat("latitude") +", "+resultSet.getFloat("longitude")+", "+resultSet.getString("datetime"));
         }
 
@@ -88,7 +96,11 @@ public class KmlGenerator {
                     "      <PolyStyle>\n" +
                     "        <color>7dff0000</color>\n" +
                     "      </PolyStyle>\n" +
-                    "    </Style></kml>");
+                    "    </Style>\n");
+
+            writer.write(createPath());
+
+            writer.write("</kml>\n");
             writer.close();
         } else {
             System.out.println("File Creation Unsuccessful!.");
@@ -164,6 +176,52 @@ public class KmlGenerator {
 
         return tag;
     }
+
+
+    public String createPath() {
+
+        String tag = "  <Document>\n" +
+                "    <name>Paths</name>\n" +
+                "    <description>Examples of paths. Note that the tessellate tag is by default\n" +
+                "      set to 0. If you want to create tessellated lines, they must be authored\n" +
+                "      (or edited) directly in KML.</description>\n" +
+                "    <Style id=\"yellowLineGreenPoly\">\n" +
+                "      <LineStyle>\n" +
+                "        <color>7f00ffff</color>\n" +
+                "        <width>4</width>\n" +
+                "      </LineStyle>\n" +
+                "      <PolyStyle>\n" +
+                "        <color>7f00ff00</color>\n" +
+                "      </PolyStyle>\n" +
+                "    </Style>\n";
+
+
+        for (int i = 0; i < (path.size()-1); i++) {
+
+            tag += "    <Placemark>\n" +
+                    "      <name>Absolute Extruded</name>\n" +
+                    "      <description>Transparent green wall with yellow outlines</description>\n" +
+                    "      <styleUrl>#yellowLineGreenPoly</styleUrl>\n" +
+                    "      <LineString>\n" +
+                    "        <extrude>1</extrude>\n" +
+                    "        <tessellate>1</tessellate>\n" +
+                    "        <altitudeMode>absolute</altitudeMode>\n" +
+                    "        <coordinates>";
+            tag +=  path.get(i).getLatitude() + "," + path.get(i).getLongitude() + "\n";
+            tag +=  path.get(i+1).getLatitude() + "," + path.get(i+1).getLongitude() + "\n";
+
+            tag += "  </coordinates>\n" +
+                    "      </LineString>\n" +
+                    "    </Placemark>\n"+
+                    "    </Document>\n";
+
+        }
+
+
+
+        return tag;
+    }
+
 
     /**
      * Add placemark.

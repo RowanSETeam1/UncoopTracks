@@ -77,27 +77,10 @@ public class KmlGenerator {
             writer.write(createPath());
             writer.write(" <Document>\n<name>"+filename+"</name> \n");
             //writting first point as placemark
-
                 writer.write(createPlacemark(points.get(0), "Initial Point"));
-
-
-
-
             //writting polygon
             writer.write(createPolygon());
-
-
-
-
-
-            writer.write("</Document>\n    <Style id=\"transBluePoly\">\n" +
-                    "      <LineStyle>\n" +
-                    "        <width>1.5</width>\n" +
-                    "      </LineStyle>\n" +
-                    "      <PolyStyle>\n" +
-                    "        <color>7dff0000</color>\n" +
-                    "      </PolyStyle>\n" +
-                    "    </Style>\n");
+            writer.write("</Document>\n");
 
 
 

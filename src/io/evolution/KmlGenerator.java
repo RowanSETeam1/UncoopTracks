@@ -146,6 +146,12 @@ public class KmlGenerator {
                 "</LinearRing>\n" +
                 "</outerBoundaryIs>\n" +
                 "</Polygon>\n" +
+                " <Style> \n" +
+                "  <PolyStyle>  \n" +
+                "   <color>#228b22ff</color>\n" +
+                "  <outline>0</outline>\n" +
+                "  </PolyStyle> \n" +
+                " </Style>" +
                 "</Placemark>\n";
 
         return tag;

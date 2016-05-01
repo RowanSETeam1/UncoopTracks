@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import static io.evolution.Constants.DATETIME;
+import static io.evolution.Constants.*;
 /**
  * The type Kml generator.
  */
@@ -18,12 +18,15 @@ public class KmlGenerator {
     Connection c;
     ArrayList<Point> points = new ArrayList<Point>(); //polygon points
     ArrayList<Point> path = new ArrayList<Point>(); //polygon points
+    ArrayList<Point> ports = new ArrayList<>();
+    Connection portDBConnect;
     int index = 0;
 
 
-    public KmlGenerator(String mmsi,Connection c ){
+    public KmlGenerator(String mmsi,Connection c , Connection portDBConnect){
         this.c = c;
         this.mmsi = mmsi;
+        this.portDBConnect = portDBConnect;
     }
 
     /**
@@ -58,6 +61,14 @@ public class KmlGenerator {
         }
 
     }
+    void pullPorts() throws SQLException{
+        PreparedStatement getPorts = portDBConnect.prepareStatement("SELECT * FROM PUBLIC.PORTS");
+        ResultSet resultSet = getPorts.executeQuery();
+        while (resultSet.next()){
+            ports.add(new Point(resultSet.getFloat(LAT),resultSet.getFloat(LONG),resultSet.getString("PORTNAME")));
+            System.out.println(resultSet.getFloat(LAT) +", "+resultSet.getFloat(LONG)+", "+resultSet.getString("PORTNAME"));
+        }
+    }
 
     /**
      * Generate.
@@ -76,6 +87,14 @@ public class KmlGenerator {
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n"+
                     "<kml xmlns=\"http://www.opengis.net/kml/2.2\">\n");
             writer.write(" <Document>\n<name>"+filename+"</name>\n" +
+                    "<LookAt>\n" +
+                    "    <longitude>"+points.get(0).longitude+"</longitude>\n" +
+                    "    <latitude>"+points.get(0).latitude+"</latitude>\n" +
+                    "    <altitude>0</altitude>\n" +
+                    "    <range>14794.882995</range>\n" +
+                    "    <tilt>66.768762</tilt>\n" +
+                    "    <heading>71.131493</heading>\n" +
+                    "  </LookAt>" +
                     "    <description>Examples of paths. Note that the tessellate tag is by default\n" +
                     "      set to 0. If you want to create tessellated lines, they must be authored\n" +
                     "      (or edited) directly in KML.</description>\n" +
@@ -93,7 +112,9 @@ public class KmlGenerator {
             for (int i = 0; i < path.size(); i++) {
                 writer.write(createPlacemark(path.get(i), path.get(i).description));
             }
-
+            for (int i = 0; i < ports.size() ; i++) {
+                writer.write(createPlacemark(ports.get(i),ports.get(i).description));
+            }
             //writting polygon
             writer.write(createPolygon());
             writer.write(createPath());

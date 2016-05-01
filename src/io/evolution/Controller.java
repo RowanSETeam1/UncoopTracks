@@ -17,11 +17,11 @@ import static io.evolution.Constants.*;
  */
 public class Controller {
     static Connection dbConnect;
-    //static Connection portDBConnect;
+    static Connection portDBConnect;
     static String csv = "new.csv";
-    static String mmsi = "351732000";
+    static String mmsi = "271042759";
     static String time = "60";
-    static String date = "2016-04-16";
+    static String date = "2016-04-17";
     static CSVParser parse;
 
     /**
@@ -44,7 +44,7 @@ public class Controller {
             System.exit(1);
         }
 
-        parseArgs(args);
+        //parseArgs(args);
         parse = new CSVParser(new File(csv), dbConnect);
         parse.iterateCsv();
 
@@ -53,7 +53,7 @@ public class Controller {
         AreaPredictor areaPredict = new AreaPredictor(dbConnect, mmsi, date, time);
 
         //to grab xml file
-        KmlGenerator kmlGen = new KmlGenerator(mmsi, dbConnect);  // KML generator
+        KmlGenerator kmlGen = new KmlGenerator(mmsi, dbConnect,portDBConnect);  // KML generator
         //File file = new File(“Insert Path to file here\AIS_DATA.xml”); // sets the file as xml file
 
         // executes the methods needed
@@ -126,7 +126,7 @@ public class Controller {
         }
         try {
             dbConnect = DriverManager.getConnection("jdbc:hsqldb:mem:mydb", "SA", "");
-            //portDBConnect = DriverManager.getConnection("jdbc:hsqldb:file:portDb;shutdown=true;ifexists=true", "SA", "");
+            portDBConnect = DriverManager.getConnection("jdbc:hsqldb:file:portDb;shutdown=true;ifexists=true", "SA", "");
             createTable(dbConnect);
         } catch (SQLException e) {
             return false;

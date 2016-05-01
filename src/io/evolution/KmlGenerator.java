@@ -130,7 +130,7 @@ public class KmlGenerator {
                 "<name>Area of Prediction</name>\n" +
                 "<Polygon>\n" +
                 "<extrude>1</extrude>\n" +
-                "<altitudeMode>relativeToGround</altitudeMode>\n" +
+                "<altitudeMode>clampToGround</altitudeMode>\n" +
                 "<outerBoundaryIs>\n" +
                 "<LinearRing>\n" +
                 "<coordinates>\n";

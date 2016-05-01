@@ -51,7 +51,7 @@ public class Controller {
 
         //initiating modules, also pass the database connection to them
         // Area Prediction Algorithm takes db, ship MMSI number, and time after signal loss
-        AreaPredictor areaPredict = new AreaPredictor(dbConnect, mmsi, date, time);
+        AreaPredictor areaPredict = new AreaPredictor(dbConnect, mmsi, date, time, maxTurn);
 
         //to grab xml file
         KmlGenerator kmlGen = new KmlGenerator(mmsi, dbConnect,portDBConnect);  // KML generator

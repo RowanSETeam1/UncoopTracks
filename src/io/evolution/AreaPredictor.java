@@ -27,7 +27,7 @@ public class AreaPredictor {
     private float vesselSpeed;
     private float vesselCourse;
     private String lastContactTime;
-    private final float MAX_TURN = 60f;
+    private float maxTurn = 180;
     private float vesselTurnRate;
     private ArrayList<Point> leftCoordinates = new ArrayList<Point>();
     private ArrayList<Point> rightCoordinates = new ArrayList<Point>();
@@ -42,9 +42,10 @@ public class AreaPredictor {
      * @param travelTime The minutes passed since experiencing a loss-of-signal.
      * @throws SQLException An SQL exception.
      */
-    AreaPredictor(Connection dbConnect, String mmsi, String date, String travelTime) throws SQLException {
+    AreaPredictor(Connection dbConnect, String mmsi, String date, String travelTime, Float maxTurn) throws SQLException {
         this.travelTime = parseInt((travelTime));
         this.dbConnect = dbConnect;
+        this.maxTurn = maxTurn;
         PreparedStatement get = dbConnect.prepareStatement("SELECT * FROM aisData WHERE (MMSI='"
                 + mmsi + "' AND DATETIME LIKE '%" + date + "%') ORDER BY " + DATETIME + " DESC LIMIT 1;");
         ResultSet resultSet = get.executeQuery();
@@ -151,7 +152,7 @@ public class AreaPredictor {
 
         //Creates outer boundary of the polygon minute by minute until the specified time is reached.
         while (currentTime <= travelTime) {
-            if (changeInCourse < MAX_TURN) {
+            if (changeInCourse < maxTurn/2) {
                 setPrimaryBoundary(currentHeading, lat, lon, maxDist);
                 maxDist -= incrementDistance;
                 currentHeading += turnRate;
@@ -192,7 +193,7 @@ public class AreaPredictor {
 
         //Creates outer boundary of the polygon minute by minute until the specified time is reached.
         while (currentTime <= travelTime) {
-            if (changeInCourse > MAX_TURN * -1) {
+            if (changeInCourse > maxTurn/2 * -1) {
 
                 setPrimaryBoundary(currentHeading, lat, lon, maxDist);
 

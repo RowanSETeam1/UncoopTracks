@@ -196,12 +196,12 @@ public class KmlGenerator {
 
             tag += "  </coordinates>\n" +
                     "      </LineString>\n" +
-                    "    </Placemark>\n"+
-                    "    </Document>\n";
+                    "    </Placemark>\n";
 
         }
 
 
+        tag += "   </Document>\n";
 
         return tag;
     }

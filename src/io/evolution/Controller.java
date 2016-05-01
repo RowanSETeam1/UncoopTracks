@@ -18,10 +18,11 @@ import static io.evolution.Constants.*;
 public class Controller {
     static Connection dbConnect;
     static Connection portDBConnect;
-    static String csv = "new.csv";
-    static String mmsi = "271042759";
-    static String time = "60";
-    static String date = "2016-04-17";
+    static String csv;
+    static String mmsi;
+    static String time;
+    static String date;
+    static float maxTurn = 180f;
     static CSVParser parse;
 
     /**
@@ -31,7 +32,7 @@ public class Controller {
      * Runs execute() function  at the end which handles methods
      * called within modules.
      *
-     * @param args CSV Filename, MMSI, Time, Date
+     * @param args CSV Filename, MMSI, Time, Date, Max Turn Radius
      * @throws SQLException
      * @throws IOException
      * @throws CSVParserException
@@ -44,7 +45,7 @@ public class Controller {
             System.exit(1);
         }
 
-        //parseArgs(args);
+        parseArgs(args);
         parse = new CSVParser(new File(csv), dbConnect);
         parse.iterateCsv();
 
@@ -69,7 +70,7 @@ public class Controller {
      * @return check
      */
     public static boolean parseArgs(String args[]) {
-        if (args.length == 4) {
+        if (args.length >= 4) {
             try {
                 csv = args[0];
             } catch (IllegalFormatException s) {
@@ -97,16 +98,28 @@ public class Controller {
                 System.err.println("IllegalFormatException: Please enter Time");
                 System.exit(1);
             }
-        } else {
+            if(args.length == 5)
+            {
+                try{
+                    maxTurn = Float.parseFloat(args[4]);
+                }
+                catch (IllegalFormatException t) {
+                    System.err.println("IllegalFormatException: Please enter a maximum turn radius for the vessel. Default is automatically set to 180 degrees.");
+                    System.exit(1);
+                }
+            }
+        }
+        else {
             System.err.println("Invalid Number of Arguements.");
             System.err.println("Please Enter in the following order:");
-            System.err.println("CSV Filename, MMSI Number, Date, Time");
+            System.err.println("CSV Filename, MMSI Number, Date, Time, Max Turn");
             System.exit(1);
         }
         System.out.println("CSV entered: " + csv);
         System.out.println("MMSI entered: " + mmsi);
         System.out.println("Date entered: " + date);
         System.out.println("Time entered: " + time);
+        System.out.println("Current Max Turn: " + maxTurn);
         return true;
     }
 

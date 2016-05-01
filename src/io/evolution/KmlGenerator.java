@@ -49,7 +49,7 @@ public class KmlGenerator {
     }
     void pullPath() throws SQLException {
 
-        PreparedStatement get = c.prepareStatement("SELECT * FROM aisData WHERE (MMSI='"
+        PreparedStatement get = c.prepareStatement("SELECT * FROM PUBLIC.AISDATA WHERE (MMSI='"
                 + mmsi+ "') ORDER BY " + DATETIME+";");
         ResultSet resultSet = get.executeQuery();
         while (resultSet.next()) {

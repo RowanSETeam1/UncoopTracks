@@ -60,9 +60,9 @@ public class KmlGenerator {
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n <kml xmlns=\"http://www.opengis.net/kml/2.2\">\n");
             writer.write(" <Document>\n<name>"+filename+"</name> \n");
             //writting first point as placemark
-            for (int i = 0; i <points.size() ; i++) {
+
                 writer.write(createPlacemark(points.get(0), "Initial Point"));
-            }
+
 
 
 

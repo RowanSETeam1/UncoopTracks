@@ -14,10 +14,13 @@ import static io.evolution.Constants.DATETIME;
  * The type Kml generator.
  */
 public class KmlGenerator {
+    String mmsi;
+    Connection c;
 
 
     public KmlGenerator(String mmsi,Connection c ){
-
+        this.c = c;
+        this.mmsi = mmsi;
     }
     /**
      * The Points.

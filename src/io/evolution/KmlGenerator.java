@@ -15,6 +15,10 @@ import static io.evolution.Constants.DATETIME;
  */
 public class KmlGenerator {
 
+
+    public KmlGenerator(String mmsi,Connection c ){
+
+    }
     /**
      * The Points.
      */
@@ -31,8 +35,9 @@ public class KmlGenerator {
      * @param c the c
      * @throws SQLException the sql exception
      */
+
 //pull from database
-    void pull(Connection c) throws SQLException {
+    void pull() throws SQLException {
 
         PreparedStatement get = c.prepareStatement("SELECT * FROM PUBLIC.KMLPOINTS ORDER BY "+DATETIME+";");
         ResultSet resultSet = get.executeQuery();

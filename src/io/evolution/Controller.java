@@ -17,7 +17,7 @@ import static io.evolution.Constants.*;
  */
 public class Controller {
     static Connection dbConnect;
-    static Connection portDBConnect;
+    //static Connection portDBConnect;
     static String csv = "new.csv";
     static String mmsi = "351732000";
     static String time = "60";
@@ -126,7 +126,7 @@ public class Controller {
         }
         try {
             dbConnect = DriverManager.getConnection("jdbc:hsqldb:mem:mydb", "SA", "");
-            portDBConnect = DriverManager.getConnection("jdbc:hsqldb:file:portDb;shutdown=true;ifexists=true", "SA", "");
+            //portDBConnect = DriverManager.getConnection("jdbc:hsqldb:file:portDb;shutdown=true;ifexists=true", "SA", "");
             createTable(dbConnect);
         } catch (SQLException e) {
             return false;
@@ -193,6 +193,7 @@ public class Controller {
         // runs the kml generator
         kmlGen.pull();
         kmlGen.pullPath();
+        kmlGen.pullPorts();
         kmlGen.generate();
         // check if kmlGen ran with no errors
         //if (flag = !true) {

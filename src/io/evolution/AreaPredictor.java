@@ -149,7 +149,6 @@ public class AreaPredictor {
 
         float maxDist = getDistance(travelTime, vesselSpeed);
 
-
         //Creates outer boundary of the polygon minute by minute until the specified time is reached.
         while (currentTime <= travelTime) {
             if (changeInCourse < maxTurn/2) {

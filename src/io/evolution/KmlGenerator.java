@@ -74,6 +74,7 @@ public class KmlGenerator {
             PrintWriter writer = new PrintWriter(
                     filename, "UTF-8");
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n <kml xmlns=\"http://www.opengis.net/kml/2.2\">\n");
+            writer.write(createPath());
             writer.write(" <Document>\n<name>"+filename+"</name> \n");
             //writting first point as placemark
 
@@ -98,7 +99,7 @@ public class KmlGenerator {
                     "      </PolyStyle>\n" +
                     "    </Style>\n");
 
-            writer.write(createPath());
+
 
             writer.write("</kml>\n");
             writer.close();

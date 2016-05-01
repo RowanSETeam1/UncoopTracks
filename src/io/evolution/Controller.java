@@ -192,6 +192,7 @@ public class Controller {
       //  }
         // runs the kml generator
         kmlGen.pull();
+        kmlGen.pullPath();
         kmlGen.generate();
         // check if kmlGen ran with no errors
         //if (flag = !true) {

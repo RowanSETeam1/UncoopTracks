@@ -49,7 +49,7 @@ public class KmlGenerator {
     }
     void pullPath() throws SQLException {
 
-        PreparedStatement get = c.prepareStatement("SELECT * FROM aisData WHERE (MMSI='"
+        PreparedStatement get = c.prepareStatement("SELECT * FROM PUBLIC.AISDATA WHERE (MMSI='"
                 + mmsi+ "') ORDER BY " + DATETIME+";");
         ResultSet resultSet = get.executeQuery();
         while (resultSet.next()) {
@@ -77,27 +77,10 @@ public class KmlGenerator {
             writer.write(createPath());
             writer.write(" <Document>\n<name>"+filename+"</name> \n");
             //writting first point as placemark
-
                 writer.write(createPlacemark(points.get(0), "Initial Point"));
-
-
-
-
             //writting polygon
             writer.write(createPolygon());
-
-
-
-
-
-            writer.write("</Document>\n    <Style id=\"transBluePoly\">\n" +
-                    "      <LineStyle>\n" +
-                    "        <width>1.5</width>\n" +
-                    "      </LineStyle>\n" +
-                    "      <PolyStyle>\n" +
-                    "        <color>7dff0000</color>\n" +
-                    "      </PolyStyle>\n" +
-                    "    </Style>\n");
+            writer.write("</Document>\n");
 
 
 

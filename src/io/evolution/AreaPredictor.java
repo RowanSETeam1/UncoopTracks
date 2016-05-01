@@ -133,7 +133,7 @@ public class AreaPredictor {
 
 
     /**
-     * Sets left boundary coordinates of the predicted area.
+     * Sets right boundary coordinates of the predicted area.
      */
     public void setRightBoundaryCoordinates() {
 
@@ -175,7 +175,7 @@ public class AreaPredictor {
     }
 
     /**
-     * Sets right boundary coordinates of the predicted area.
+     * Sets left boundary coordinates of the predicted area.
      */
     public void setLeftBoundaryCoordinates() {
 

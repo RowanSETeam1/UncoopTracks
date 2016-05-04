@@ -10,19 +10,50 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import static io.evolution.Constants.*;
+
 /**
- * The type Kml generator.
+ * This class is responsible pulling points from a database
+ * and generating a file containing those points with the appropriate formatting,
+ * which allows the user to visualise the output of the algorithm.
  */
 public class KmlGenerator {
+    /**
+     * The Mmsi.
+     */
     String mmsi;
+    /**
+     * The C.
+     */
     Connection c;
+    /**
+     * The Points.
+     */
     ArrayList<Point> points = new ArrayList<Point>(); //polygon points
+    /**
+     * The Path.
+     */
     ArrayList<Point> path = new ArrayList<Point>(); //polygon points
+    /**
+     * The Ports.
+     */
     ArrayList<Point> ports = new ArrayList<>();
+    /**
+     * The Port db connect.
+     */
     Connection portDBConnect;
+    /**
+     * The Index.
+     */
     int index = 0;
 
 
+    /**
+     * Instantiates a new Kml generator.
+     *
+     * @param mmsi          the mmsi
+     * @param c             the c
+     * @param portDBConnect the port db connect
+     */
     public KmlGenerator(String mmsi,Connection c , Connection portDBConnect){
         this.c = c;
         this.mmsi = mmsi;
@@ -35,11 +66,11 @@ public class KmlGenerator {
     ArrayList<Point> placemarks = new ArrayList<Point>(); //points where pins are dropped.
 
     /**
-     * Pull.
+     * 
+     * Pulls the points making up the predicted area from database.
+     *
      * @throws SQLException the sql exception
      */
-
-//pull from database
     void pull() throws SQLException {
 
         PreparedStatement get = c.prepareStatement("SELECT * FROM PUBLIC.KMLPOINTS ORDER BY "+DATETIME+";");
@@ -50,6 +81,12 @@ public class KmlGenerator {
         }
 
     }
+
+    /**
+     *Pulls the points making up the path of the vessel.
+     *
+     * @throws SQLException the sql exception
+     */
     void pullPath() throws SQLException {
 
         PreparedStatement get = c.prepareStatement("SELECT * FROM PUBLIC.AISDATA WHERE (MMSI='"
@@ -61,6 +98,11 @@ public class KmlGenerator {
         }
 
     }
+
+    /**
+     * Pulls the points representing known ports from database.
+     * @throws SQLException the sql exception
+     */
     void pullPorts() throws SQLException{
         PreparedStatement getPorts = portDBConnect.prepareStatement("SELECT * FROM PUBLIC.PORTS");
         ResultSet resultSet = getPorts.executeQuery();
@@ -71,14 +113,13 @@ public class KmlGenerator {
     }
 
     /**
-     * Generate.
-     *
+     * This generates the KML file using the helper methods.
      * @throws IOException the io exception
      */
     void generate() throws IOException {
         //creates file
         String filename = (getFileName());
-        File outPutFile = new File(filename);
+        File outPutFile = new File(filename);//gets file name from timestamp
 
         if (outPutFile.createNewFile()) {
             String text = "";
@@ -107,22 +148,23 @@ public class KmlGenerator {
                     "        <color>7f00ff00</color>\n" +
                     "      </PolyStyle>\n" +
                     "    </Style>\n");
-            //writting first point as placemark
+            //writing initial point as placemark
                 writer.write(createPlacemark(points.get(0), "Initial Point"));
             for (int i = 0; i < path.size(); i++) {
                 writer.write(createPlacemark(path.get(i), path.get(i).description));
             }
+            //writing ports as placemark
             for (int i = 0; i < ports.size() ; i++) {
                 writer.write(createPlacemark(ports.get(i),ports.get(i).description));
             }
-            //writting polygon
+            //writing polygon
             writer.write(createPolygon());
             writer.write(createPath());
             writer.write("</Document>\n");
 
 
 
-            writer.write("</kml>\n");
+            writer.write("</kml>\n");//closing tag
             writer.close();
         } else {
             System.out.println("File Creation Unsuccessful!.");
@@ -131,9 +173,10 @@ public class KmlGenerator {
 
 
     /**
-     * Create placemark string.
+     * Creates placemark string.
      *
      * @param point the point
+     * @param des   the des
      * @return the string
      */
     public String createPlacemark(Point point, String des) {
@@ -159,7 +202,7 @@ public class KmlGenerator {
     }
 
     /**
-     * Create polygon string.
+     * Creates polygon string.
      *
      * @return the string
      */
@@ -200,6 +243,11 @@ public class KmlGenerator {
     }
 
 
+    /**
+     * Create path string.
+     *
+     * @return the string
+     */
     public String createPath() {
 
         String tag = "";
@@ -230,23 +278,6 @@ public class KmlGenerator {
     }
 
 
-    /**
-     * Add placemark.
-     *
-     * @param p the p
-     */
-    public void addPlacemark(Point p) {
-        placemarks.add(p);
-    }
-
-    /**
-     * Add polygon points.
-     *
-     * @param p the p
-     */
-    public void addPolygonPoints(Point p) {
-        points.add(p);
-    }
 
     private String getFileName(){
         Date date = new Date();

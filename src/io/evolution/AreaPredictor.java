@@ -20,8 +20,6 @@ import static java.lang.Integer.parseInt;
 public class AreaPredictor {
 
     private float[] initialCoordinates = new float[2];
-    ArrayList<ResultSet> needTwo = new ArrayList<>();
-    private final float PI = Float.parseFloat(Double.toString(Math.PI));
     private Connection dbConnect;
     private int travelTime;
     private float vesselSpeed;
@@ -63,12 +61,12 @@ public class AreaPredictor {
     }
 
     /**
-     * Insert coord boolean.
+     * Insert a coordinate
      *
      * @param time      the time
      * @param latitude  the latitude
      * @param longitude the longitude
-     * @return the boolean
+     * @return true is successful, false otherwise
      */
     public boolean insertCoord(int time, float latitude, float longitude) {
         try {
@@ -213,6 +211,10 @@ public class AreaPredictor {
         Collections.reverse(forwardCoordinates);
     }
 
+    /**
+     * Populates the database with the calculated points.
+     * They are added in such a way to make drawing and viewing the area easy.
+     */
     public void populateDB() {
         int pointCounter = 1;
         for (Point p : leftCoordinates) {
@@ -234,7 +236,8 @@ public class AreaPredictor {
 
 
     /**
-     * Calculate coordinates float [ ].
+     * Calculate coordinates based on previous latitude, longitude, heading, and distance.
+     * Formula Reference: http://stackoverflow.com/questions/7222382/get-lat-long-given-current-point-distance-and-bearing
      *
      * @param lat      The latitude of the starting coordinate.
      * @param lon      The longitude of the starting coordinates.

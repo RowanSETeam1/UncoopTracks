@@ -192,27 +192,13 @@ public class Controller {
      *
      * @param algo Area predictor algorithm
      * @param kmlGen kml generating algorithm
-     * @return boolean check
      */
     private static void execute(AreaPredictor algo, KmlGenerator kmlGen) throws IOException, SQLException {
-        // flag to determine errors
-        //boolean flag = true;
-        // runs area predictor algorithm
         algo.execute();
-        // check areaPredict ran with no errors
-       // if (flag = !true) {
-        //System.err.println("areaPredict Error");
-      //  }
-        // runs the kml generator
         kmlGen.pull();
         kmlGen.pullPath();
         kmlGen.pullPorts();
         kmlGen.generate();
-        // check if kmlGen ran with no errors
-        //if (flag = !true) {
-        //    System.err.println("kmlGen Error");
-       // }
-      //  return flag;
     }
 }
 

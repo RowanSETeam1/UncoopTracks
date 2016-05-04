@@ -18,11 +18,11 @@ import static io.evolution.Constants.*;
  */
 public class KmlGenerator {
     /**
-     * The Mmsi.
+     * The MMSI.
      */
     String mmsi;
     /**
-     * The C.
+     * The Connection.
      */
     Connection connection;
     /**
@@ -38,7 +38,7 @@ public class KmlGenerator {
      */
     ArrayList<Point> ports = new ArrayList<>();
     /**
-     * The Port db connect.
+     * The Port db connection.
      */
     Connection portDBConnect;
     /**
@@ -51,7 +51,7 @@ public class KmlGenerator {
      * Instantiates a new Kml generator.
      *
      * @param mmsi          the mmsi
-     * @param connection             the connection
+     * @param connection    the connection
      * @param portDBConnect the port db connect
      */
     public KmlGenerator(String mmsi,Connection connection , Connection portDBConnect){
@@ -278,8 +278,11 @@ public class KmlGenerator {
     }
 
 
-
-    private String getFileName(){
+    /**
+     * Generates a file name based on date and time
+     * @return File name as a string.
+     */
+    public String getFileName(){
         Date date = new Date();
         String timeStamp = String.format(""+date);
         timeStamp = timeStamp.replaceAll(" ", "_").toLowerCase();

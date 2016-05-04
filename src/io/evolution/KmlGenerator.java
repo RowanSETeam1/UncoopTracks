@@ -24,7 +24,7 @@ public class KmlGenerator {
     /**
      * The C.
      */
-    Connection c;
+    Connection connection;
     /**
      * The Points.
      */
@@ -51,11 +51,11 @@ public class KmlGenerator {
      * Instantiates a new Kml generator.
      *
      * @param mmsi          the mmsi
-     * @param c             the c
+     * @param connection             the connection
      * @param portDBConnect the port db connect
      */
-    public KmlGenerator(String mmsi,Connection c , Connection portDBConnect){
-        this.c = c;
+    public KmlGenerator(String mmsi,Connection connection , Connection portDBConnect){
+        this.connection = connection;
         this.mmsi = mmsi;
         this.portDBConnect = portDBConnect;
     }
@@ -73,7 +73,7 @@ public class KmlGenerator {
      */
     void pull() throws SQLException {
 
-        PreparedStatement get = c.prepareStatement("SELECT * FROM PUBLIC.KMLPOINTS ORDER BY "+DATETIME+";");
+        PreparedStatement get = connection.prepareStatement("SELECT * FROM PUBLIC.KMLPOINTS ORDER BY "+DATETIME+";");
         ResultSet resultSet = get.executeQuery();
         while (resultSet.next()) {
             points.add(new Point(resultSet.getFloat("latitude"),resultSet.getFloat("longitude"), resultSet.getString("datetime")));
@@ -89,7 +89,7 @@ public class KmlGenerator {
      */
     void pullPath() throws SQLException {
 
-        PreparedStatement get = c.prepareStatement("SELECT * FROM PUBLIC.AISDATA WHERE (MMSI='"
+        PreparedStatement get = connection.prepareStatement("SELECT * FROM PUBLIC.AISDATA WHERE (MMSI='"
                 + mmsi+ "') ORDER BY " + DATETIME+";");
         ResultSet resultSet = get.executeQuery();
         while (resultSet.next()) {

@@ -54,7 +54,7 @@ public class KMLGenerator {
      * @param connection    the connection
      * @param portDBConnect the port db connect
      */
-    public KmlGenerator(String mmsi,Connection connection , Connection portDBConnect){
+    public KMLGenerator(String mmsi,Connection connection , Connection portDBConnect){
         this.connection = connection;
         this.mmsi = mmsi;
         this.portDBConnect = portDBConnect;

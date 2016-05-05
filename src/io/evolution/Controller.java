@@ -193,7 +193,7 @@ public class Controller {
      * @param algo Area predictor algorithm
      * @param kmlGen kml generating algorithm
      */
-    private static void execute(AreaPredictor algo, KmlGenerator kmlGen) throws IOException, SQLException {
+    private static void execute(AreaPredictor algo, KMLGenerator kmlGen) throws IOException, SQLException {
         algo.execute();
         kmlGen.pull();
         kmlGen.pullPath();

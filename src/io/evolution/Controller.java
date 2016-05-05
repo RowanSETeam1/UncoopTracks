@@ -54,7 +54,7 @@ public class Controller {
         AreaPredictor areaPredict = new AreaPredictor(dbConnect, mmsi, date, time, maxTurn);
 
         //to grab xml file
-        KmlGenerator kmlGen = new KmlGenerator(mmsi, dbConnect,portDBConnect);  // KML generator
+        KMLGenerator kmlGen = new KMLGenerator(mmsi, dbConnect,portDBConnect);  // KML generator
         //File file = new File(“Insert Path to file here\AIS_DATA.xml”); // sets the file as xml file
 
         // executes the methods needed

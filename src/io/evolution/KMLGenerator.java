@@ -16,7 +16,7 @@ import static io.evolution.Constants.*;
  * and generating a file containing those points with the appropriate formatting,
  * which allows the user to visualise the output of the algorithm.
  */
-public class KmlGenerator {
+public class KMLGenerator {
     /**
      * The MMSI.
      */

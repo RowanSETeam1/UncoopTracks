@@ -134,9 +134,7 @@ public class KMLGenerator {
                     "    <tilt>66.768762</tilt>\n" +
                     "    <heading>71.131493</heading>\n" +
                     "  </LookAt>" +
-                    "    <description>Examples of paths. Note that the tessellate tag is by default\n" +
-                    "      set to 0. If you want to create tessellated lines, they must be authored\n" +
-                    "      (or edited) directly in KML.</description>\n" +
+                    "    <description>Area Predicted</description>\n" +
                     "    <Style id=\"yellowLineGreenPoly\">\n" +
                     "      <LineStyle>\n" +
                     "        <color>7f00ffff</color>\n" +
@@ -253,8 +251,8 @@ public class KMLGenerator {
 
         for (int i = 0; i < (path.size()-1); i++) {
             tag += "    <Placemark>\n" +
-                    "      <name>Absolute Extruded</name>\n" +
-                    "      <description>Transparent green wall with yellow outlines</description>\n" +
+                    "      <name>Vessel Path</name>\n" +
+                    "      <description>Vessel path</description>\n" +
                     "      <styleUrl>#yellowLineGreenPoly</styleUrl>\n" +
                     "      <LineString>\n" +
                     "        <extrude>1</extrude>\n" +

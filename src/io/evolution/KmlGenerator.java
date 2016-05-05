@@ -46,7 +46,7 @@ public class KmlGenerator {
         ResultSet resultSet = get.executeQuery();
         while (resultSet.next()) {
             points.add(new Point(resultSet.getFloat("latitude"),resultSet.getFloat("longitude"), resultSet.getString("datetime")));
-            System.out.println(resultSet.getFloat("latitude") +", "+resultSet.getFloat("longitude")+", "+resultSet.getString("datetime"));
+           // System.out.println(resultSet.getFloat("latitude") +", "+resultSet.getFloat("longitude")+", "+resultSet.getString("datetime"));
         }
 
     }
@@ -57,7 +57,7 @@ public class KmlGenerator {
         ResultSet resultSet = get.executeQuery();
         while (resultSet.next()) {
             path.add(new Point(resultSet.getFloat("latitude"),resultSet.getFloat("longitude"), resultSet.getString("datetime")));
-            System.out.println(resultSet.getFloat("latitude") +", "+resultSet.getFloat("longitude")+", "+resultSet.getString("datetime"));
+           // System.out.println(resultSet.getFloat("latitude") +", "+resultSet.getFloat("longitude")+", "+resultSet.getString("datetime"));
         }
 
     }
@@ -66,7 +66,7 @@ public class KmlGenerator {
         ResultSet resultSet = getPorts.executeQuery();
         while (resultSet.next()){
             ports.add(new Point(resultSet.getFloat(LAT),resultSet.getFloat(LONG),resultSet.getString("PORTNAME")));
-            System.out.println(resultSet.getFloat(LAT) +", "+resultSet.getFloat(LONG)+", "+resultSet.getString("PORTNAME"));
+           // System.out.println(resultSet.getFloat(LAT) +", "+resultSet.getFloat(LONG)+", "+resultSet.getString("PORTNAME"));
         }
     }
 
@@ -149,7 +149,7 @@ public class KmlGenerator {
                 " </Style>\n";
 
         String tag = "";
-        tag += "<Placemark>\n<name>" + point.getLatitude() + ", " + point.getLongitude() + "</name>\n";
+        tag += "<Placemark>\n<name>" + des+ "</name>\n";
         tag += "<description>"+index+"\n" +
                 des+"</description>\n <Point>\n<coordinates>" + point.getLongitude() + "," + point.getLatitude();
 

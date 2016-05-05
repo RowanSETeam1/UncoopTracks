@@ -53,7 +53,7 @@ public class AreaPredictor {
         while (resultSet.next()) {
             String[] dateSplit = resultSet.getString(DATETIME).split(" ");
             lastContactTime = dateSplit[1];
-            System.out.println("lastcontact: " + lastContactTime);
+           // System.out.println("lastcontact: " + lastContactTime);
             initialCoordinates[0] = resultSet.getFloat(LAT);
             initialCoordinates[1] = resultSet.getFloat(LONG);
             vesselSpeed = resultSet.getFloat(SPEED);
@@ -72,7 +72,7 @@ public class AreaPredictor {
      */
     public boolean insertCoord(int time, float latitude, float longitude) {
         try {
-            System.out.println("INSERT INTO PUBLIC.KMLPOINTS VALUES ('" + time + "'," + latitude + "," + longitude + ");");
+            //System.out.println("INSERT INTO PUBLIC.KMLPOINTS VALUES ('" + time + "'," + latitude + "," + longitude + ");");
             PreparedStatement insertCoord = dbConnect.prepareStatement("INSERT INTO PUBLIC.KMLPOINTS VALUES ('" + time + "'," + latitude + "," + longitude + ");");
             insertCoord.execute();
         } catch (SQLException e) {

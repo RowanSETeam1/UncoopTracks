@@ -94,7 +94,6 @@ public class KMLGenerator {
         ResultSet resultSet = get.executeQuery();
         while (resultSet.next()) {
             path.add(new Point(resultSet.getFloat("latitude"),resultSet.getFloat("longitude"), resultSet.getString("datetime")));
-           // System.out.println(resultSet.getFloat("latitude") +", "+resultSet.getFloat("longitude")+", "+resultSet.getString("datetime"));
         }
 
     }
@@ -108,7 +107,6 @@ public class KMLGenerator {
         ResultSet resultSet = getPorts.executeQuery();
         while (resultSet.next()){
             ports.add(new Point(resultSet.getFloat(LAT),resultSet.getFloat(LONG),resultSet.getString("PORTNAME")));
-           // System.out.println(resultSet.getFloat(LAT) +", "+resultSet.getFloat(LONG)+", "+resultSet.getString("PORTNAME"));
         }
     }
 

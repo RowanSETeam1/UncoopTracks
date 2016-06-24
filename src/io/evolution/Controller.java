@@ -25,6 +25,69 @@ public class Controller {
     static float maxTurn = 180f;
     static CSVParser parse;
 
+
+    public  Controller(String csv, String mmsi, String date, String time) throws IOException, SQLException, CSVParserException {
+        this.csv = csv;
+        this.mmsi = mmsi;
+        this.date = date;
+        this.time = time;
+
+
+        boolean database = createDatabase();
+        if(database != true)
+        {
+            System.err.println("Does not compute");
+            System.exit(1);
+        }
+
+        parseArgs();
+        parse = new CSVParser(new File(csv), dbConnect);
+        parse.iterateCsv();
+
+        //initiating modules, also pass the database connection to them
+        // Area Prediction Algorithm takes db, ship MMSI number, and time after signal loss
+        AreaPredictor areaPredict = new AreaPredictor(dbConnect, mmsi, date, time, maxTurn);
+
+        //to grab xml file
+        KMLGenerator kmlGen = new KMLGenerator(mmsi, dbConnect,portDBConnect);  // KML generator
+        //File file = new File(“Insert Path to file here\AIS_DATA.xml”); // sets the file as xml file
+
+        // executes the methods needed
+        execute(areaPredict, kmlGen);
+
+    }
+    public  Controller(String csv, String mmsi, String date, String time, float maxTurn) throws IOException, SQLException, CSVParserException {
+        this.csv = csv;
+        this.mmsi = mmsi;
+        this.date = date;
+        this.time = time;
+        this.maxTurn = maxTurn;
+
+        boolean database = createDatabase();
+        if(database != true)
+        {
+            System.err.println("Does not compute");
+            System.exit(1);
+        }
+
+        parseArgs();
+        parse = new CSVParser(new File(csv), dbConnect);
+        parse.iterateCsv();
+
+        //initiating modules, also pass the database connection to them
+        // Area Prediction Algorithm takes db, ship MMSI number, and time after signal loss
+        AreaPredictor areaPredict = new AreaPredictor(dbConnect, mmsi, date, time, maxTurn);
+
+        //to grab xml file
+        KMLGenerator kmlGen = new KMLGenerator(mmsi, dbConnect,portDBConnect);  // KML generator
+        //File file = new File(“Insert Path to file here\AIS_DATA.xml”); // sets the file as xml file
+
+        // executes the methods needed
+        execute(areaPredict, kmlGen);
+
+    }
+
+
     /**
      * Creates all needed modules (AreaPredictor, KMLGenerator) and gives
      * each module the needed variables.
@@ -37,7 +100,7 @@ public class Controller {
      * @throws IOException
      * @throws CSVParserException
      */
-    public static void main(String[] args) throws SQLException, IOException, CSVParserException {
+   /* public static void main(String[] args) throws SQLException, IOException, CSVParserException {
         boolean database = createDatabase();
         if(database != true)
         {
@@ -61,16 +124,16 @@ public class Controller {
         execute(areaPredict, kmlGen);
 
     }
-
+*/
     /**
      * Will check if all of the inputs are in proper format and will
      * return an error if any arguements are not in correct format
      *
-     * @param args CSV Filename, MMSI, Time, Date
+     * @param
      * @return check
      */
-    public static boolean parseArgs(String args[]) {
-        if (args.length >= 4) {
+    public static boolean parseArgs() {
+       /* if (args.length >= 4) {
             try {
                 csv = args[0];
             } catch (IllegalFormatException s) {
@@ -114,7 +177,7 @@ public class Controller {
             System.err.println("Please Enter in the following order:");
             System.err.println("CSV Filename, MMSI Number, Date, Time, Max Turn");
             System.exit(1);
-        }
+        }*/
         System.out.println("CSV entered: " + csv);
         System.out.println("MMSI entered: " + mmsi);
         System.out.println("Date entered: " + date);

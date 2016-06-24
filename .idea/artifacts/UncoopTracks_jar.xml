@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="UncoopTracks:jar">
+  <artifact type="jar" build-on-make="true" name="UncoopTracks:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/UncoopTracks_jar</output-path>
     <root id="archive" name="UncoopTracks.jar">
       <element id="module-output" name="UncoopTracks" />

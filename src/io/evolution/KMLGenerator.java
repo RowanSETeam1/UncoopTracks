@@ -284,7 +284,7 @@ public class KMLGenerator {
         timeStamp = timeStamp.replaceAll(" ", "_").toLowerCase();
         timeStamp = timeStamp.replaceAll(":", "_").toLowerCase();
         timeStamp += ".kml";
-        timeStamp = "output/"+timeStamp;
+        timeStamp = timeStamp;
         return timeStamp;
     }
 

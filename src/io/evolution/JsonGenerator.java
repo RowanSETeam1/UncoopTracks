@@ -7,7 +7,7 @@ import java.io.*;
  * THis class takes in a 2d array and generates a json file as an output
  * list properties :
  * 0:name
- * 1:location
+ * 1:coordinates
  * 2:winds
  * 3:wave height
  * 4:wave period
@@ -15,13 +15,43 @@ import java.io.*;
  * 6:water temperature
  */
 public class JsonGenerator {
-    String [][] graph; //2d array containing all items
-    public JsonGenerator(String [][] graph){
-        this.graph = graph;
+
+    public static void  main (String[] args) throws IOException {
+        Parser p = new Parser("testfile.kml");
+        JsonGenerator gen = new JsonGenerator(11,p.table.length, p.table);
+        System.out.print(gen.generate());
+
     }
 
+
+    String [][] graph; //2d array containing all items
+    int x;
+    int y;
+    String[] properties = new String[] { "snippet","coordinates","datetime","winds","aPressure","atemperature","dewPoint","height","period","direction","temperature[i]"};
+    public JsonGenerator(int x, int y, String [][] graph) {
+        this.x= x;
+        this.y= y;
+        this.graph = graph;
+
+
+
+    }
     String generate(){
-        String content="";
+        String content = "{\"bouy\":[\n";
+        for (int i = 0; i < y; i++) {
+            content += "{";
+            for (int j = 0; j < x; j++) {
+               content +=  "\""+properties[j]+"\""+ ": " + "\""+graph[j][i]+"\"";
+                if(j != (properties.length - 1)){
+                    content+=",";
+                }
+            }
+            content +="}";
+            if(i != (y - 1)){
+                content+=",\n";
+            }
+        }
+        content += "]\n}";
 
 
 

@@ -7,10 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="13e32e7d-5009-4863-9e93-159fc91100b8" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/io/evolution/JsonGenerator.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/testfile.kml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/evolution/JsonGenerator.java" afterPath="$PROJECT_DIR$/src/io/evolution/JsonGenerator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/evolution/Parser.java" afterPath="$PROJECT_DIR$/src/io/evolution/Parser.java" />
     </list>
     <ignored path="UncoopTracks.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,8 +35,8 @@
       <file leaf-file-name="Controller.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/io/evolution/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1050">
-              <caret line="231" column="29" selection-start-line="231" selection-start-column="29" selection-end-line="231" selection-end-column="29" />
+            <state relative-caret-position="414">
+              <caret line="201" column="9" selection-start-line="201" selection-start-column="9" selection-end-line="201" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <marker date="1466515939337" expanded="true" signature="7556:8429" ph="CREATE TABLE... AISDATA" />
@@ -47,11 +46,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Parser.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Parser.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/io/evolution/Parser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="35" column="49" selection-start-line="35" selection-start-column="49" selection-end-line="35" selection-end-column="49" />
+            <state relative-caret-position="221">
+              <caret line="76" column="49" selection-start-line="76" selection-start-column="49" selection-end-line="76" selection-end-column="49" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JsonGenerator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/io/evolution/JsonGenerator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="190">
+              <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -60,22 +71,9 @@
       <file leaf-file-name="testfile.kml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testfile.kml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-4828">
-              <caret line="4" column="15" selection-start-line="4" selection-start-column="15" selection-end-line="4" selection-end-column="15" />
+            <state relative-caret-position="-431">
+              <caret line="836" column="26" selection-start-line="836" selection-start-column="26" selection-end-line="836" selection-end-column="26" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JsonGenerator.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/io/evolution/JsonGenerator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="28" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="28" />
-              <folding>
-                <element signature="e#420#421#0" expanded="true" />
-                <element signature="e#454#455#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -83,12 +81,22 @@
       <file leaf-file-name="AreaPredictor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/io/evolution/AreaPredictor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
+            <state relative-caret-position="2618">
               <caret line="162" column="44" selection-start-line="162" selection-start-column="44" selection-end-line="162" selection-end-column="44" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#857#864#0" expanded="false" />
+                <element signature="e#929#936#0" expanded="false" />
+                <element signature="e#1003#1010#0" expanded="false" />
                 <element signature="docComment;class#Point#0;class#AreaPredictor#0" expanded="false" />
                 <element signature="class#Point#0;class#AreaPredictor#0" expanded="false" />
+                <element signature="e#11922#11923#0" expanded="false" />
+                <element signature="e#11961#11962#0" expanded="false" />
+                <element signature="e#12095#12096#0" expanded="false" />
+                <element signature="e#12135#12136#0" expanded="false" />
+                <element signature="e#12276#12277#0" expanded="false" />
+                <element signature="e#12318#12319#0" expanded="false" />
+                <element signature="e#12456#12457#0" expanded="false" />
+                <element signature="e#12514#12515#0" expanded="false" />
                 <marker date="1465924185549" expanded="true" signature="1660:1799" ph="SELECT * FRO... aisData" />
                 <marker date="1465924185549" expanded="true" signature="2734:2821" ph="INSERT INTO PUBLIC.KMLPOINTS... " />
                 <marker date="1465924185549" expanded="true" signature="10213:10262" ph="SELECT * FRO... aisData" />
@@ -112,9 +120,21 @@
       <file leaf-file-name="KMLGenerator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/io/evolution/KMLGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="151">
+            <state relative-caret-position="1938">
               <caret line="123" column="23" selection-start-line="123" selection-start-column="11" selection-end-line="123" selection-end-column="23" />
               <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#751#758#0" expanded="false" />
+                <element signature="e#853#860#0" expanded="false" />
+                <element signature="e#1575#1582#0" expanded="false" />
+                <element signature="e#10627#10628#0" expanded="false" />
+                <element signature="e#10666#10667#0" expanded="false" />
+                <element signature="e#10800#10801#0" expanded="false" />
+                <element signature="e#10840#10841#0" expanded="false" />
+                <element signature="e#10981#10982#0" expanded="false" />
+                <element signature="e#11023#11024#0" expanded="false" />
+                <element signature="e#11161#11162#0" expanded="false" />
+                <element signature="e#11219#11220#0" expanded="false" />
                 <marker date="1466516459841" expanded="true" signature="1865:1905" ph="SELECT * FRO... KMLPOINTS" />
                 <marker date="1466516459841" expanded="true" signature="2528:2609" ph="SELECT * FRO... AISDATA" />
                 <marker date="1466516459841" expanded="true" signature="3098:3124" ph="SELECT * FRO... PORTS" />
@@ -136,11 +156,9 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/io/evolution/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
+            <state relative-caret-position="221">
               <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -192,8 +210,8 @@
         <option value="$PROJECT_DIR$/src/io/evolution/Controller.java" />
         <option value="$PROJECT_DIR$/src/io/evolution/KMLGenerator.java" />
         <option value="$PROJECT_DIR$/src/io/evolution/Main.java" />
-        <option value="$PROJECT_DIR$/src/io/evolution/Parser.java" />
         <option value="$PROJECT_DIR$/src/io/evolution/JsonGenerator.java" />
+        <option value="$PROJECT_DIR$/src/io/evolution/Parser.java" />
       </list>
     </option>
   </component>
@@ -248,8 +266,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -339,6 +355,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -381,10 +399,11 @@
       <recent name="io.evolution" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Research\IdeaProjects\uncoopTracks\UncoopTracks\src\io\evolution" />
       <recent name="C:\Users\Research\IdeaProjects\uncoopTracks\UncoopTracks" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.parser">
+  <component name="RunManager" selected="Application.jsonG">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="DEPLOY" value="true" />
@@ -960,6 +979,21 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
+    <configuration default="false" name="jsonG" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="io.evolution.JsonGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="UncoopTracks" />
+      <envs />
+      <method />
+    </configuration>
     <configuration default="false" name="parser" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="io.evolution.Parser" />
@@ -992,9 +1026,10 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <list size="2">
-      <item index="0" class="java.lang.String" itemvalue="Application.parser" />
-      <item index="1" class="java.lang.String" itemvalue="Application.Main" />
+    <list size="3">
+      <item index="0" class="java.lang.String" itemvalue="Application.jsonG" />
+      <item index="1" class="java.lang.String" itemvalue="Application.parser" />
+      <item index="2" class="java.lang.String" itemvalue="Application.Main" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
@@ -1024,7 +1059,8 @@
       <workItem from="1465924211335" duration="4012000" />
       <workItem from="1466089552836" duration="1296000" />
       <workItem from="1466099823266" duration="6036000" />
-      <workItem from="1466776611609" duration="4964000" />
+      <workItem from="1466776611609" duration="6376000" />
+      <workItem from="1467033919446" duration="13781000" />
     </task>
     <task id="LOCAL-00001" summary="create database in main">
       <created>1459691725943</created>
@@ -1173,11 +1209,18 @@
       <option name="project" value="LOCAL" />
       <updated>1466777095799</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Version 4-24-16&#10;&#10;adding main and parser to src file">
+      <created>1466783987361</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1466783987361</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="49596000" />
+    <option name="totallyTimeSpent" value="64789000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1974" y="-8" width="1874" height="1096" extended-state="6" />
@@ -1185,17 +1228,17 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32850778" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3275862" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32932165" sideWeight="0.50208336" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29614604" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.46855983" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.46855983" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12109795" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12109795" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1255,7 +1298,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2431">
           <caret line="143" column="32" selection-start-line="143" selection-start-column="32" selection-end-line="143" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1271,9 +1313,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="11" column="85" selection-start-line="0" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1282,6 +1322,18 @@
         <state relative-caret-position="4709">
           <caret line="286" column="20" selection-start-line="286" selection-start-column="20" selection-end-line="286" selection-end-column="20" />
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#751#758#0" expanded="false" />
+            <element signature="e#853#860#0" expanded="false" />
+            <element signature="e#1575#1582#0" expanded="false" />
+            <element signature="e#10627#10628#0" expanded="false" />
+            <element signature="e#10666#10667#0" expanded="false" />
+            <element signature="e#10800#10801#0" expanded="false" />
+            <element signature="e#10840#10841#0" expanded="false" />
+            <element signature="e#10981#10982#0" expanded="false" />
+            <element signature="e#11023#11024#0" expanded="false" />
+            <element signature="e#11161#11162#0" expanded="false" />
+            <element signature="e#11219#11220#0" expanded="false" />
             <marker date="1466516459841" expanded="true" signature="1865:1905" ph="SELECT * FRO... KMLPOINTS" />
             <marker date="1466516459841" expanded="true" signature="2528:2609" ph="SELECT * FRO... AISDATA" />
             <marker date="1466516459841" expanded="true" signature="3098:3124" ph="SELECT * FRO... PORTS" />
@@ -1293,7 +1345,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1751">
           <caret line="103" column="15" selection-start-line="103" selection-start-column="15" selection-end-line="103" selection-end-column="15" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1342,9 +1393,19 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#857#864#0" expanded="false" />
+            <element signature="e#929#936#0" expanded="false" />
+            <element signature="e#1003#1010#0" expanded="false" />
             <element signature="docComment;class#Point#0;class#AreaPredictor#0" expanded="false" />
             <element signature="class#Point#0;class#AreaPredictor#0" expanded="false" />
+            <element signature="e#11922#11923#0" expanded="false" />
+            <element signature="e#11961#11962#0" expanded="false" />
+            <element signature="e#12095#12096#0" expanded="false" />
+            <element signature="e#12135#12136#0" expanded="false" />
+            <element signature="e#12276#12277#0" expanded="false" />
+            <element signature="e#12318#12319#0" expanded="false" />
+            <element signature="e#12456#12457#0" expanded="false" />
+            <element signature="e#12514#12515#0" expanded="false" />
             <marker date="1465924185549" expanded="true" signature="1660:1799" ph="SELECT * FRO... aisData" />
             <marker date="1465924185549" expanded="true" signature="2734:2821" ph="INSERT INTO PUBLIC.KMLPOINTS... " />
             <marker date="1465924185549" expanded="true" signature="10213:10262" ph="SELECT * FRO... aisData" />
@@ -1374,9 +1435,19 @@
         <state relative-caret-position="0">
           <caret line="277" column="19" selection-start-line="277" selection-start-column="19" selection-end-line="277" selection-end-column="19" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#857#864#0" expanded="false" />
+            <element signature="e#929#936#0" expanded="false" />
+            <element signature="e#1003#1010#0" expanded="false" />
             <element signature="docComment;class#Point#0;class#AreaPredictor#0" expanded="false" />
             <element signature="class#Point#0;class#AreaPredictor#0" expanded="false" />
+            <element signature="e#11922#11923#0" expanded="false" />
+            <element signature="e#11961#11962#0" expanded="false" />
+            <element signature="e#12095#12096#0" expanded="false" />
+            <element signature="e#12135#12136#0" expanded="false" />
+            <element signature="e#12276#12277#0" expanded="false" />
+            <element signature="e#12318#12319#0" expanded="false" />
+            <element signature="e#12456#12457#0" expanded="false" />
+            <element signature="e#12514#12515#0" expanded="false" />
             <marker date="1465924185549" expanded="true" signature="1660:1799" ph="SELECT * FRO... aisData" />
             <marker date="1465924185549" expanded="true" signature="2734:2821" ph="INSERT INTO PUBLIC.KMLPOINTS... " />
             <marker date="1465924185549" expanded="true" signature="10213:10262" ph="SELECT * FRO... aisData" />
@@ -1389,6 +1460,18 @@
         <state relative-caret-position="0">
           <caret line="138" column="0" selection-start-line="138" selection-start-column="0" selection-end-line="138" selection-end-column="0" />
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#751#758#0" expanded="false" />
+            <element signature="e#853#860#0" expanded="false" />
+            <element signature="e#1575#1582#0" expanded="false" />
+            <element signature="e#10627#10628#0" expanded="false" />
+            <element signature="e#10666#10667#0" expanded="false" />
+            <element signature="e#10800#10801#0" expanded="false" />
+            <element signature="e#10840#10841#0" expanded="false" />
+            <element signature="e#10981#10982#0" expanded="false" />
+            <element signature="e#11023#11024#0" expanded="false" />
+            <element signature="e#11161#11162#0" expanded="false" />
+            <element signature="e#11219#11220#0" expanded="false" />
             <marker date="1466516459841" expanded="true" signature="1865:1905" ph="SELECT * FRO... KMLPOINTS" />
             <marker date="1466516459841" expanded="true" signature="2528:2609" ph="SELECT * FRO... AISDATA" />
             <marker date="1466516459841" expanded="true" signature="3098:3124" ph="SELECT * FRO... PORTS" />
@@ -1401,9 +1484,19 @@
         <state relative-caret-position="0">
           <caret line="275" column="0" selection-start-line="275" selection-start-column="0" selection-end-line="275" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#857#864#0" expanded="false" />
+            <element signature="e#929#936#0" expanded="false" />
+            <element signature="e#1003#1010#0" expanded="false" />
             <element signature="docComment;class#Point#0;class#AreaPredictor#0" expanded="false" />
             <element signature="class#Point#0;class#AreaPredictor#0" expanded="false" />
+            <element signature="e#11922#11923#0" expanded="false" />
+            <element signature="e#11961#11962#0" expanded="false" />
+            <element signature="e#12095#12096#0" expanded="false" />
+            <element signature="e#12135#12136#0" expanded="false" />
+            <element signature="e#12276#12277#0" expanded="false" />
+            <element signature="e#12318#12319#0" expanded="false" />
+            <element signature="e#12456#12457#0" expanded="false" />
+            <element signature="e#12514#12515#0" expanded="false" />
             <marker date="1465924185549" expanded="true" signature="1660:1799" ph="SELECT * FRO... aisData" />
             <marker date="1465924185549" expanded="true" signature="2734:2821" ph="INSERT INTO PUBLIC.KMLPOINTS... " />
             <marker date="1465924185549" expanded="true" signature="10213:10262" ph="SELECT * FRO... aisData" />
@@ -1433,9 +1526,19 @@
         <state relative-caret-position="0">
           <caret line="76" column="5" selection-start-line="76" selection-start-column="5" selection-end-line="76" selection-end-column="5" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#857#864#0" expanded="false" />
+            <element signature="e#929#936#0" expanded="false" />
+            <element signature="e#1003#1010#0" expanded="false" />
             <element signature="docComment;class#Point#0;class#AreaPredictor#0" expanded="false" />
             <element signature="class#Point#0;class#AreaPredictor#0" expanded="false" />
+            <element signature="e#11922#11923#0" expanded="false" />
+            <element signature="e#11961#11962#0" expanded="false" />
+            <element signature="e#12095#12096#0" expanded="false" />
+            <element signature="e#12135#12136#0" expanded="false" />
+            <element signature="e#12276#12277#0" expanded="false" />
+            <element signature="e#12318#12319#0" expanded="false" />
+            <element signature="e#12456#12457#0" expanded="false" />
+            <element signature="e#12514#12515#0" expanded="false" />
             <marker date="1465924185549" expanded="true" signature="1660:1799" ph="SELECT * FRO... aisData" />
             <marker date="1465924185549" expanded="true" signature="2734:2821" ph="INSERT INTO PUBLIC.KMLPOINTS... " />
             <marker date="1465924185549" expanded="true" signature="10213:10262" ph="SELECT * FRO... aisData" />
@@ -1465,9 +1568,19 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#857#864#0" expanded="false" />
+            <element signature="e#929#936#0" expanded="false" />
+            <element signature="e#1003#1010#0" expanded="false" />
             <element signature="docComment;class#Point#0;class#AreaPredictor#0" expanded="false" />
             <element signature="class#Point#0;class#AreaPredictor#0" expanded="false" />
+            <element signature="e#11922#11923#0" expanded="false" />
+            <element signature="e#11961#11962#0" expanded="false" />
+            <element signature="e#12095#12096#0" expanded="false" />
+            <element signature="e#12135#12136#0" expanded="false" />
+            <element signature="e#12276#12277#0" expanded="false" />
+            <element signature="e#12318#12319#0" expanded="false" />
+            <element signature="e#12456#12457#0" expanded="false" />
+            <element signature="e#12514#12515#0" expanded="false" />
             <marker date="1465924185549" expanded="true" signature="1660:1799" ph="SELECT * FRO... aisData" />
             <marker date="1465924185549" expanded="true" signature="2734:2821" ph="INSERT INTO PUBLIC.KMLPOINTS... " />
             <marker date="1465924185549" expanded="true" signature="10213:10262" ph="SELECT * FRO... aisData" />
@@ -1480,9 +1593,19 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#857#864#0" expanded="false" />
+            <element signature="e#929#936#0" expanded="false" />
+            <element signature="e#1003#1010#0" expanded="false" />
             <element signature="docComment;class#Point#0;class#AreaPredictor#0" expanded="false" />
             <element signature="class#Point#0;class#AreaPredictor#0" expanded="false" />
+            <element signature="e#11922#11923#0" expanded="false" />
+            <element signature="e#11961#11962#0" expanded="false" />
+            <element signature="e#12095#12096#0" expanded="false" />
+            <element signature="e#12135#12136#0" expanded="false" />
+            <element signature="e#12276#12277#0" expanded="false" />
+            <element signature="e#12318#12319#0" expanded="false" />
+            <element signature="e#12456#12457#0" expanded="false" />
+            <element signature="e#12514#12515#0" expanded="false" />
             <marker date="1465924185549" expanded="true" signature="1660:1799" ph="SELECT * FRO... aisData" />
             <marker date="1465924185549" expanded="true" signature="2734:2821" ph="INSERT INTO PUBLIC.KMLPOINTS... " />
             <marker date="1465924185549" expanded="true" signature="10213:10262" ph="SELECT * FRO... aisData" />
@@ -1495,9 +1618,19 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#857#864#0" expanded="false" />
+            <element signature="e#929#936#0" expanded="false" />
+            <element signature="e#1003#1010#0" expanded="false" />
             <element signature="docComment;class#Point#0;class#AreaPredictor#0" expanded="false" />
             <element signature="class#Point#0;class#AreaPredictor#0" expanded="false" />
+            <element signature="e#11922#11923#0" expanded="false" />
+            <element signature="e#11961#11962#0" expanded="false" />
+            <element signature="e#12095#12096#0" expanded="false" />
+            <element signature="e#12135#12136#0" expanded="false" />
+            <element signature="e#12276#12277#0" expanded="false" />
+            <element signature="e#12318#12319#0" expanded="false" />
+            <element signature="e#12456#12457#0" expanded="false" />
+            <element signature="e#12514#12515#0" expanded="false" />
             <marker date="1465924185549" expanded="true" signature="1660:1799" ph="SELECT * FRO... aisData" />
             <marker date="1465924185549" expanded="true" signature="2734:2821" ph="INSERT INTO PUBLIC.KMLPOINTS... " />
             <marker date="1465924185549" expanded="true" signature="10213:10262" ph="SELECT * FRO... aisData" />
@@ -1510,9 +1643,19 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#857#864#0" expanded="false" />
+            <element signature="e#929#936#0" expanded="false" />
+            <element signature="e#1003#1010#0" expanded="false" />
             <element signature="docComment;class#Point#0;class#AreaPredictor#0" expanded="false" />
             <element signature="class#Point#0;class#AreaPredictor#0" expanded="false" />
+            <element signature="e#11922#11923#0" expanded="false" />
+            <element signature="e#11961#11962#0" expanded="false" />
+            <element signature="e#12095#12096#0" expanded="false" />
+            <element signature="e#12135#12136#0" expanded="false" />
+            <element signature="e#12276#12277#0" expanded="false" />
+            <element signature="e#12318#12319#0" expanded="false" />
+            <element signature="e#12456#12457#0" expanded="false" />
+            <element signature="e#12514#12515#0" expanded="false" />
             <marker date="1465924185549" expanded="true" signature="1660:1799" ph="SELECT * FRO... aisData" />
             <marker date="1465924185549" expanded="true" signature="2734:2821" ph="INSERT INTO PUBLIC.KMLPOINTS... " />
             <marker date="1465924185549" expanded="true" signature="10213:10262" ph="SELECT * FRO... aisData" />
@@ -1525,9 +1668,19 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#857#864#0" expanded="false" />
+            <element signature="e#929#936#0" expanded="false" />
+            <element signature="e#1003#1010#0" expanded="false" />
             <element signature="docComment;class#Point#0;class#AreaPredictor#0" expanded="false" />
             <element signature="class#Point#0;class#AreaPredictor#0" expanded="false" />
+            <element signature="e#11922#11923#0" expanded="false" />
+            <element signature="e#11961#11962#0" expanded="false" />
+            <element signature="e#12095#12096#0" expanded="false" />
+            <element signature="e#12135#12136#0" expanded="false" />
+            <element signature="e#12276#12277#0" expanded="false" />
+            <element signature="e#12318#12319#0" expanded="false" />
+            <element signature="e#12456#12457#0" expanded="false" />
+            <element signature="e#12514#12515#0" expanded="false" />
             <marker date="1465924185549" expanded="true" signature="1660:1799" ph="SELECT * FRO... aisData" />
             <marker date="1465924185549" expanded="true" signature="2734:2821" ph="INSERT INTO PUBLIC.KMLPOINTS... " />
             <marker date="1465924185549" expanded="true" signature="10213:10262" ph="SELECT * FRO... aisData" />
@@ -1540,9 +1693,19 @@
         <state relative-caret-position="0">
           <caret line="274" column="0" selection-start-line="274" selection-start-column="0" selection-end-line="274" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#857#864#0" expanded="false" />
+            <element signature="e#929#936#0" expanded="false" />
+            <element signature="e#1003#1010#0" expanded="false" />
             <element signature="docComment;class#Point#0;class#AreaPredictor#0" expanded="false" />
             <element signature="class#Point#0;class#AreaPredictor#0" expanded="false" />
+            <element signature="e#11922#11923#0" expanded="false" />
+            <element signature="e#11961#11962#0" expanded="false" />
+            <element signature="e#12095#12096#0" expanded="false" />
+            <element signature="e#12135#12136#0" expanded="false" />
+            <element signature="e#12276#12277#0" expanded="false" />
+            <element signature="e#12318#12319#0" expanded="false" />
+            <element signature="e#12456#12457#0" expanded="false" />
+            <element signature="e#12514#12515#0" expanded="false" />
             <marker date="1465924185549" expanded="true" signature="1660:1799" ph="SELECT * FRO... aisData" />
             <marker date="1465924185549" expanded="true" signature="2734:2821" ph="INSERT INTO PUBLIC.KMLPOINTS... " />
             <marker date="1465924185549" expanded="true" signature="10213:10262" ph="SELECT * FRO... aisData" />
@@ -1617,7 +1780,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2431">
           <caret line="143" column="32" selection-start-line="143" selection-start-column="32" selection-end-line="143" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1625,7 +1787,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1751">
           <caret line="103" column="15" selection-start-line="103" selection-start-column="15" selection-end-line="103" selection-end-column="15" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1645,6 +1806,71 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/io/evolution/KMLGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1938">
+          <caret line="123" column="23" selection-start-line="123" selection-start-column="11" selection-end-line="123" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#751#758#0" expanded="false" />
+            <element signature="e#853#860#0" expanded="false" />
+            <element signature="e#1575#1582#0" expanded="false" />
+            <element signature="e#10627#10628#0" expanded="false" />
+            <element signature="e#10666#10667#0" expanded="false" />
+            <element signature="e#10800#10801#0" expanded="false" />
+            <element signature="e#10840#10841#0" expanded="false" />
+            <element signature="e#10981#10982#0" expanded="false" />
+            <element signature="e#11023#11024#0" expanded="false" />
+            <element signature="e#11161#11162#0" expanded="false" />
+            <element signature="e#11219#11220#0" expanded="false" />
+            <marker date="1466516459841" expanded="true" signature="1865:1905" ph="SELECT * FRO... KMLPOINTS" />
+            <marker date="1466516459841" expanded="true" signature="2528:2609" ph="SELECT * FRO... AISDATA" />
+            <marker date="1466516459841" expanded="true" signature="3098:3124" ph="SELECT * FRO... PORTS" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/io/evolution/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/io/evolution/AreaPredictor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2618">
+          <caret line="162" column="44" selection-start-line="162" selection-start-column="44" selection-end-line="162" selection-end-column="44" />
+          <folding>
+            <element signature="e#857#864#0" expanded="false" />
+            <element signature="e#929#936#0" expanded="false" />
+            <element signature="e#1003#1010#0" expanded="false" />
+            <element signature="docComment;class#Point#0;class#AreaPredictor#0" expanded="false" />
+            <element signature="class#Point#0;class#AreaPredictor#0" expanded="false" />
+            <element signature="e#11922#11923#0" expanded="false" />
+            <element signature="e#11961#11962#0" expanded="false" />
+            <element signature="e#12095#12096#0" expanded="false" />
+            <element signature="e#12135#12136#0" expanded="false" />
+            <element signature="e#12276#12277#0" expanded="false" />
+            <element signature="e#12318#12319#0" expanded="false" />
+            <element signature="e#12456#12457#0" expanded="false" />
+            <element signature="e#12514#12515#0" expanded="false" />
+            <marker date="1465924185549" expanded="true" signature="1660:1799" ph="SELECT * FRO... aisData" />
+            <marker date="1465924185549" expanded="true" signature="2734:2821" ph="INSERT INTO PUBLIC.KMLPOINTS... " />
+            <marker date="1465924185549" expanded="true" signature="10213:10262" ph="SELECT * FRO... aisData" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/io/evolution/CSVParser.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1683">
@@ -1655,43 +1881,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/io/evolution/AreaPredictor.java">
+    <entry file="file://$PROJECT_DIR$/testfile.kml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="162" column="44" selection-start-line="162" selection-start-column="44" selection-end-line="162" selection-end-column="44" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="docComment;class#Point#0;class#AreaPredictor#0" expanded="false" />
-            <element signature="class#Point#0;class#AreaPredictor#0" expanded="false" />
-            <marker date="1465924185549" expanded="true" signature="1660:1799" ph="SELECT * FRO... aisData" />
-            <marker date="1465924185549" expanded="true" signature="2734:2821" ph="INSERT INTO PUBLIC.KMLPOINTS... " />
-            <marker date="1465924185549" expanded="true" signature="10213:10262" ph="SELECT * FRO... aisData" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/io/evolution/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        <state relative-caret-position="-431">
+          <caret line="836" column="26" selection-start-line="836" selection-start-column="26" selection-end-line="836" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/io/evolution/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1050">
-          <caret line="231" column="29" selection-start-line="231" selection-start-column="29" selection-end-line="231" selection-end-column="29" />
+        <state relative-caret-position="414">
+          <caret line="201" column="9" selection-start-line="201" selection-start-column="9" selection-end-line="201" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
             <marker date="1466515939337" expanded="true" signature="7556:8429" ph="CREATE TABLE... AISDATA" />
@@ -1700,41 +1901,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/io/evolution/Parser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="35" column="49" selection-start-line="35" selection-start-column="49" selection-end-line="35" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/io/evolution/KMLGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="123" column="23" selection-start-line="123" selection-start-column="11" selection-end-line="123" selection-end-column="23" />
-          <folding>
-            <marker date="1466516459841" expanded="true" signature="1865:1905" ph="SELECT * FRO... KMLPOINTS" />
-            <marker date="1466516459841" expanded="true" signature="2528:2609" ph="SELECT * FRO... AISDATA" />
-            <marker date="1466516459841" expanded="true" signature="3098:3124" ph="SELECT * FRO... PORTS" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testfile.kml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4828">
-          <caret line="4" column="15" selection-start-line="4" selection-start-column="15" selection-end-line="4" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/io/evolution/JsonGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="28" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="28" />
+        <state relative-caret-position="190">
+          <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/io/evolution/Parser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="76" column="49" selection-start-line="76" selection-start-column="49" selection-end-line="76" selection-end-column="49" />
           <folding>
-            <element signature="e#420#421#0" expanded="true" />
-            <element signature="e#454#455#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

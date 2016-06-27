@@ -15,35 +15,114 @@ import static jdk.nashorn.internal.runtime.JSONFunctions.parse;
  * Parses through its tags
  * creates a csv file where the information from the tags classified
  */
+
+
 public class Parser {
-    String[] table ={"",""};
 
     public static void main(String [] args) throws IOException {
-        Parser p = new Parser("testfile.kml", "description");
+        Parser p = new Parser("testfile.kml");
     }
-
+    int index = 0;
     private File file; //kml file to be read
     private String tag; //tag who's content we're grabbing
-
+    String[][] table ;
+    String[] datetime;
+    String[] winds ;
+    String[] aPressure;
+    String[] atemperature;
+    String[] dewPoint;
+    String[] height ;
+    String[] period;
+    String[] direction ;
+    String[] temperature;
 
     /**
      * Parameter
      * it takes the file name and the tag to extract
      * @param file
-     * @param tag
      * @throws IOException
      */
-    public Parser(String file, String tag ) throws IOException {
+    public Parser(String file) throws IOException {
 
         this.file = new File(file);
-        this.tag = tag;
+        this.tag = "Snippet";
+        ArrayList<String> snippet = getTagContent(getPlacemarkContent());
+        this.tag = "coordinates";
+        ArrayList<String> coordinates = getTagContent(getPlacemarkContent());
+        this.tag = "description";
         ArrayList<String> list = getTagContent(getPlacemarkContent());
         for (int i = 0; i < list.size(); i++) {
-            System.out.println("No\t"+i+":\t"+list.get(i));
+            System.out.println("No\t" + i + ":\t" + list.get(i));
+            System.out.println("snippet\t" + i + ":\t" + snippet.get(i));
+            System.out.println("cood\t" + i + ":\t" + coordinates.get(i));
             System.out.println();
         }
 
+        table = new String[11][list.size()];
+        datetime = new String[list.size()];
+        winds = new String[list.size()];
+        aPressure = new String[list.size()];
+        atemperature = new String[list.size()];
+        dewPoint = new String[list.size()];
+        height = new String[list.size()];
+        period = new String[list.size()];
+        direction = new String[list.size()];
+        temperature = new String[list.size()];
+
+        for (int i = 0; i < list.size(); i++) {
+            list.set(i, (rmString(list.get(i), "<b>")));
+            list.set(i, (rmString(list.get(i), "</b>")));
+            list.set(i, (rmString(list.get(i), "<![CDATA[")));
+            list.set(i, (rmString(list.get(i), "(")));
+            list.set(i, (rmString(list.get(i), ")")));
+            list.set(i, (rmString(list.get(i), "\"]]>")));
+            list.set(i, (rpStringwith(list.get(i), "<br />", "\n")));
+            list.set(i, (rpStringwith(list.get(i), "&#", "<")));
+            list.set(i, (rpStringwith(list.get(i), ";F", "°F")));
+            list.set(i, (rmString(list.get(i), "]]>")));
+        }
+
+
+        for (int i = 0; i < list.size(); i++) {
+            storeInLists(list.get(i));
+        }
+        int count;
+        for (int i = 0; i < list.size(); i++) {
+            count = 0;
+            table[count][i] = snippet.get(i);
+            table[count + 1][i] = coordinates.get(i);
+            table[count + 2][i] = datetime[i];
+            table[count + 3][i] = winds[i];
+            table[count + 4][i] = aPressure[i];
+            table[count + 5][i] = atemperature[i];
+            table[count + 6][i] = dewPoint[i];
+            table[count + 7][i] = height[i];
+            table[count + 8][i] = period[i];
+            table[count + 9][i] = direction[i];
+            table[count + 10][i] = temperature[i];
+
+
+        }
+
+
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println("No\t" + i + ":\t" + list.get(i));
+            System.out.println();
+        }
+
+        if (snippet.size() == coordinates.size()) {
+            if (snippet.size() == list.size())
+                System.out.println("they are equal");
+        }
+
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < 11; j++) {
+                System.out.print("No\t" + i + ":\t" +table[j][i] + "\t");
+                System.out.println();
+            }
+        }
     }
+
 
 
     /**
@@ -135,6 +214,63 @@ public class Parser {
         return secondList;
     }
 
+    private void storeInLists(String str) {
+        Scanner scanner;
+        String line = "";
+            scanner = new Scanner(str);
+            while (scanner.hasNextLine()) {
+                line = scanner.nextLine();
+                if(line.contains("UTC")){
+                    datetime[index] = line;
+                }else if(datetime[index] == null){
+                    datetime[index] = "";
+                }
+
+                if(line.contains("Winds:")){
+                    winds[index] = line.replace("Winds:", "");
+                }else if(winds[index] == null){
+                    winds[index] = "";
+                }
+                if(line.contains("Atmospheric Pressure:")){
+                    aPressure[index] = line.replace("Atmospheric Pressure:", "");
+                }else if(aPressure[index] == null){
+                    aPressure[index] = "";
+                }
+                if(line.contains("Air Temperature:")){
+                    atemperature[index] = line.replace("Air Temperature:", "");
+                }else if(atemperature[index] == null){
+                    atemperature[index] = "";
+                }
+                if(line.contains("Dew Point:")){
+                    dewPoint[index] = line.replace("Dew Point:", "");
+                }else if(dewPoint[index] == null){
+                    dewPoint[index] = "";
+                }
+                if(line.contains("Significant Wave Height:")){
+                    height[index] = line.replace("Significant Wave Height:", "");
+                }else if(height[index] == null){
+                    height[index] = "";
+                }
+                if(line.contains("Dominant Wave period:")){
+                    period[index] = line.replace("Dominant Wave period:", "");
+                }else if(period[index] == null){
+                    period[index] = "";
+                }
+                if(line.contains("Mean Wave Direction:")){
+                    direction[index] = line.replace("Mean Wave Direction:", "");
+                }else if(direction[index] == null){
+                    direction[index] = "";
+                }
+                if(line.contains("Water Temperature:")){
+                    temperature[index] = line.replace("Water Temperature:", "");
+                }else if(temperature[index] == null){
+                    temperature[index] = "";
+                }
+
+
+            }
+        index++;
+    }
 
     /**
      * This method takes in a string and removes the substring specified
@@ -144,6 +280,10 @@ public class Parser {
      */
     private String  rmString(String ogString, String subString){
         ogString = ogString.replace(subString,"");
+        return ogString;
+    }
+    private String  rpStringwith(String ogString, String subString, String newString){
+        ogString = ogString.replace(subString,newString);
         return ogString;
     }
 

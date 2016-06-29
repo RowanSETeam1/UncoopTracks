@@ -19,30 +19,31 @@ import static jdk.nashorn.internal.runtime.JSONFunctions.parse;
 
 public class Parser {
 
-    String[][] table;
-    private int index = 0;
+
+    String[][] table;//this 2d array will contain all the information taken from the file
+    private int index = 0; //index used to iterate through the 2d array
     private File file; //kml file to be read
     private String tag; //tag who's content we're grabbing
-    private String[] datetime;
-    private String[] winds;
-    private String[] aPressure;
-    private String[] atemperature;
-    private String[] dewPoint;
-    private String[] height;
-    private String[] period;
-    private String[] direction;
-    private String[] temperature;
+    private String[] datetime; //time value at each bouy
+    private String[] winds; //winds value at each bouy
+    private String[] aPressure; //athmospheric presure value at each bouy
+    private String[] atemperature; //air temp value at each bouy
+    private String[] dewPoint;//dew point value at each bouy
+    private String[] height; //wave height value at each bouy
+    private String[] period; //wave period value at each bouy
+    private String[] direction; //direction value at each bouy
+    private String[] temperature; //water temp value at each bouy
+
     /**
-     * Parameter
+     * constructor
      * it takes the file name and the tag to extract
-     *
-     * @param file
-     * @throws IOException
+     * @param file the file
+     * @throws IOException the io exception
      */
     Parser(String file) throws IOException {
         System.out.println("Parser: Start");
         System.out.println("Parser: opening file");
-        this.file = new File(file);
+        this.file = new File(file); //assigns the file to private var
         System.out.println("Parser: getting tags content");
         this.tag = "Snippet";
         ArrayList<String> snippet = getTagContent(getPlacemarkContent());
@@ -50,13 +51,9 @@ public class Parser {
         ArrayList<String> coordinates = getTagContent(getPlacemarkContent());
         this.tag = "description";
         ArrayList<String> list = getTagContent(getPlacemarkContent());
-    /*    for (int i = 0; i < list.size(); i++) {
-            System.out.println("No\t" + i + ":\t" + list.get(i));
-            System.out.println("snippet\t" + i + ":\t" + snippet.get(i));
-            System.out.println("cood\t" + i + ":\t" + coordinates.get(i));
-            System.out.println();
-        }*/
+
         System.out.println("Parser: formatting content");
+        //initializes all lists
         table = new String[11][list.size()];
         datetime = new String[list.size()];
         winds = new String[list.size()];
@@ -68,6 +65,7 @@ public class Parser {
         direction = new String[list.size()];
         temperature = new String[list.size()];
 
+        //strips all entries of unnecessary formatting
         for (int i = 0; i < list.size(); i++) {
             list.set(i, (rmString(list.get(i), "<b>")));
             list.set(i, (rmString(list.get(i), "</b>")));
@@ -82,6 +80,7 @@ public class Parser {
         }
 
         System.out.println("Parser: storing content");
+        //stores values from individual lists to single 2d array
         for (String aList : list) {
             storeInLists(aList);
         }
@@ -103,47 +102,25 @@ public class Parser {
 
         }
 
-
-    /*    for (int i = 0; i < list.size(); i++) {
-            System.out.println("No\t" + i + ":\t" + list.get(i));
-            System.out.println();
-        }
-
-        if (snippet.size() == coordinates.size()) {
-            if (snippet.size() == list.size())
-                System.out.println("they are equal");
-        }
-
-        for (int i = 0; i < list.size(); i++) {
-            System.out.print("No\t" + i+":\t");
-            for (int j = 0; j < 11; j++) {
-                System.out.print(table[j][i] + "\t");
-
-            }System.out.println();
-        }
-
-    System.out.println(table[0].length);*/
         System.out.println("Parser: End");
     }
 
+    /**
+     * main
+     *
+     * @param args the input arguments
+     * @throws IOException the io exception
+     */
     public static void main(String[] args) throws IOException {
 
         Parser p = new Parser("testfile.kml");
     }
 
-    //TODO: makes sure you can open and download the kml file
-    private static void open(String path, ArrayList<String> ar) {
-        File file = new File(path);
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                System.out.println(parse("this", parse("<Description>", line)));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * Get table string [ ] [ ].
+     *
+     * @return the string [ ] [ ]
+     */
     String[][] getTable() {
         return table;
     }
@@ -214,27 +191,16 @@ public class Parser {
 
             }
         }
-
-
-        //  fList =  rmItemWith(fList, "No recent data");//remove items that won't be used
-        // fList =  rmItemWith(fList, "height=\"220\" width=\"400\" alt=\"Five-day plot of water level at");//remove items that won't be used
-        // fList =  rmItemWith(fList,"http://tao.ndbc.noaa.gov/refreshed/site.php?site=");//remove items that won't be used
         return fList;
 
     }
 
-    private ArrayList<String> rmItemWith(ArrayList<String> rmList, String str) {
-        ArrayList<String> secondList = new ArrayList<>();
-        for (String aRmList : rmList) { //for all items
-            if (!aRmList.contains(str)) { //if the substring in string
-                secondList.add(aRmList); //remove item
-            }
-        }
 
-
-        return secondList;
-    }
-
+    /**
+     * This stores all the info gathered from the file in the appropriate list
+     * if the string contains the right substring, store it where it belongs
+     * @param str
+     */
     private void storeInLists(String str) {
         Scanner scanner;
         String line = "";
@@ -305,6 +271,13 @@ public class Parser {
         return ogString;
     }
 
+    /**
+     * This method replaces the substring specified with another one
+     * @param ogString
+     * @param subString
+     * @param newString
+     * @return
+     */
     private String rpStringwith(String ogString, String subString, String newString) {
         ogString = ogString.replace(subString, newString);
         return ogString;

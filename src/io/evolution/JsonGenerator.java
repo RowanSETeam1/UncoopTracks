@@ -31,6 +31,8 @@ public class JsonGenerator {
     }
 
     public static void main(String[] args) throws IOException {
+        Scraper scraper = new Scraper();
+        scraper.download("http://www.ndbc.noaa.gov/kml/marineobs_as_kml.php?sort=owner","testfile.kml");
         Parser p = new Parser("testfile.kml");
         JsonGenerator gen = new JsonGenerator(p.table.length, p.table[0].length, p.table);
         String str = gen.generate();

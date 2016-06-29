@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.IllegalFormatException;
 
 import static io.evolution.Constants.*;
 
@@ -26,7 +25,7 @@ public class Controller {
     static CSVParser parse;
 
 
-    public  Controller(String csv, String mmsi, String date, String time) throws IOException, SQLException, CSVParserException {
+    public Controller(String csv, String mmsi, String date, String time) throws IOException, SQLException, CSVParserException {
         this.csv = csv;
         this.mmsi = mmsi;
         this.date = date;
@@ -34,8 +33,7 @@ public class Controller {
 
 
         boolean database = createDatabase();
-        if(database != true)
-        {
+        if (database != true) {
             System.err.println("Does not compute");
             System.exit(1);
         }
@@ -49,14 +47,15 @@ public class Controller {
         AreaPredictor areaPredict = new AreaPredictor(dbConnect, mmsi, date, time, maxTurn);
 
         //to grab xml file
-        KMLGenerator kmlGen = new KMLGenerator(mmsi, dbConnect,portDBConnect);  // KML generator
+        KMLGenerator kmlGen = new KMLGenerator(mmsi, dbConnect, portDBConnect);  // KML generator
         //File file = new File(“Insert Path to file here\AIS_DATA.xml”); // sets the file as xml file
 
         // executes the methods needed
         execute(areaPredict, kmlGen);
 
     }
-    public  Controller(String csv, String mmsi, String date, String time, float maxTurn) throws IOException, SQLException, CSVParserException {
+
+    public Controller(String csv, String mmsi, String date, String time, float maxTurn) throws IOException, SQLException, CSVParserException {
         this.csv = csv;
         this.mmsi = mmsi;
         this.date = date;
@@ -64,8 +63,7 @@ public class Controller {
         this.maxTurn = maxTurn;
 
         boolean database = createDatabase();
-        if(database != true)
-        {
+        if (database != true) {
             System.err.println("Does not compute");
             System.exit(1);
         }
@@ -79,7 +77,7 @@ public class Controller {
         AreaPredictor areaPredict = new AreaPredictor(dbConnect, mmsi, date, time, maxTurn);
 
         //to grab xml file
-        KMLGenerator kmlGen = new KMLGenerator(mmsi, dbConnect,portDBConnect);  // KML generator
+        KMLGenerator kmlGen = new KMLGenerator(mmsi, dbConnect, portDBConnect);  // KML generator
         //File file = new File(“Insert Path to file here\AIS_DATA.xml”); // sets the file as xml file
 
         // executes the methods needed
@@ -125,6 +123,7 @@ public class Controller {
 
     }
 */
+
     /**
      * Will check if all of the inputs are in proper format and will
      * return an error if any arguements are not in correct format
@@ -240,8 +239,8 @@ public class Controller {
                     ETA + " VARCHAR(25));");
             createAisDataTable.execute();
             //creates database for kmlGenerator
-            PreparedStatement createdKmlGeneratorTable = c.prepareStatement("CREATE TABLE PUBLIC.KMLPOINTS ("+DATETIME+" INT , "+
-                    LAT+" FLOAT, "+LONG+" FLOAT);");
+            PreparedStatement createdKmlGeneratorTable = c.prepareStatement("CREATE TABLE PUBLIC.KMLPOINTS (" + DATETIME + " INT , " +
+                    LAT + " FLOAT, " + LONG + " FLOAT);");
             createdKmlGeneratorTable.execute();
         } catch (SQLException e) {
 
@@ -253,7 +252,7 @@ public class Controller {
      * order. If any of method returns false an error will be returned specifying
      * which module did not function correctly.
      *
-     * @param algo Area predictor algorithm
+     * @param algo   Area predictor algorithm
      * @param kmlGen kml generating algorithm
      */
     private static void execute(AreaPredictor algo, KMLGenerator kmlGen) throws IOException, SQLException {

@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+
 import static io.evolution.Constants.*;
 
 /**
@@ -45,7 +46,10 @@ public class KMLGenerator {
      * The Index.
      */
     int index = 0;
-
+    /**
+     * The Placemarks.
+     */
+    ArrayList<Point> placemarks = new ArrayList<Point>(); //points where pins are dropped.
 
     /**
      * Instantiates a new Kml generator.
@@ -54,64 +58,60 @@ public class KMLGenerator {
      * @param connection    the connection
      * @param portDBConnect the port db connect
      */
-    public KMLGenerator(String mmsi,Connection connection , Connection portDBConnect){
+    public KMLGenerator(String mmsi, Connection connection, Connection portDBConnect) {
         this.connection = connection;
         this.mmsi = mmsi;
         this.portDBConnect = portDBConnect;
     }
 
     /**
-     * The Placemarks.
-     */
-    ArrayList<Point> placemarks = new ArrayList<Point>(); //points where pins are dropped.
-
-    /**
-     * 
      * Pulls the points making up the predicted area from database.
      *
      * @throws SQLException the sql exception
      */
     void pull() throws SQLException {
 
-        PreparedStatement get = connection.prepareStatement("SELECT * FROM PUBLIC.KMLPOINTS ORDER BY "+DATETIME+";");
+        PreparedStatement get = connection.prepareStatement("SELECT * FROM PUBLIC.KMLPOINTS ORDER BY " + DATETIME + ";");
         ResultSet resultSet = get.executeQuery();
         while (resultSet.next()) {
-            points.add(new Point(resultSet.getFloat("latitude"),resultSet.getFloat("longitude"), resultSet.getString("datetime")));
-           // System.out.println(resultSet.getFloat("latitude") +", "+resultSet.getFloat("longitude")+", "+resultSet.getString("datetime"));
+            points.add(new Point(resultSet.getFloat("latitude"), resultSet.getFloat("longitude"), resultSet.getString("datetime")));
+            // System.out.println(resultSet.getFloat("latitude") +", "+resultSet.getFloat("longitude")+", "+resultSet.getString("datetime"));
         }
 
     }
 
     /**
-     *Pulls the points making up the path of the vessel.
+     * Pulls the points making up the path of the vessel.
      *
      * @throws SQLException the sql exception
      */
     void pullPath() throws SQLException {
 
         PreparedStatement get = connection.prepareStatement("SELECT * FROM PUBLIC.AISDATA WHERE (MMSI='"
-                + mmsi+ "') ORDER BY " + DATETIME+";");
+                + mmsi + "') ORDER BY " + DATETIME + ";");
         ResultSet resultSet = get.executeQuery();
         while (resultSet.next()) {
-            path.add(new Point(resultSet.getFloat("latitude"),resultSet.getFloat("longitude"), resultSet.getString("datetime")));
+            path.add(new Point(resultSet.getFloat("latitude"), resultSet.getFloat("longitude"), resultSet.getString("datetime")));
         }
 
     }
 
     /**
      * Pulls the points representing known ports from database.
+     *
      * @throws SQLException the sql exception
      */
-    void pullPorts() throws SQLException{
+    void pullPorts() throws SQLException {
         PreparedStatement getPorts = portDBConnect.prepareStatement("SELECT * FROM PUBLIC.PORTS");
         ResultSet resultSet = getPorts.executeQuery();
-        while (resultSet.next()){
-            ports.add(new Point(resultSet.getFloat(LAT),resultSet.getFloat(LONG),resultSet.getString("PORTNAME")));
+        while (resultSet.next()) {
+            ports.add(new Point(resultSet.getFloat(LAT), resultSet.getFloat(LONG), resultSet.getString("PORTNAME")));
         }
     }
 
     /**
      * This generates the KML file using the helper methods.
+     *
      * @throws IOException the io exception
      */
     void generate() throws IOException {
@@ -123,12 +123,12 @@ public class KMLGenerator {
             String text = "";
             PrintWriter writer = new PrintWriter(
                     filename, "UTF-8");
-            writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n"+
+            writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n" +
                     "<kml xmlns=\"http://www.opengis.net/kml/2.2\">\n");
-            writer.write(" <Document>\n<name>"+filename+"</name>\n" +
+            writer.write(" <Document>\n<name>" + filename + "</name>\n" +
                     "<LookAt>\n" +
-                    "    <longitude>"+points.get(0).longitude+"</longitude>\n" +
-                    "    <latitude>"+points.get(0).latitude+"</latitude>\n" +
+                    "    <longitude>" + points.get(0).longitude + "</longitude>\n" +
+                    "    <latitude>" + points.get(0).latitude + "</latitude>\n" +
                     "    <altitude>0</altitude>\n" +
                     "    <range>14794.882995</range>\n" +
                     "    <tilt>66.768762</tilt>\n" +
@@ -145,19 +145,18 @@ public class KMLGenerator {
                     "      </PolyStyle>\n" +
                     "    </Style>\n");
             //writing initial point as placemark
-                writer.write(createPlacemark(points.get(0), "Initial Point"));
+            writer.write(createPlacemark(points.get(0), "Initial Point"));
             for (int i = 0; i < path.size(); i++) {
                 writer.write(createPlacemark(path.get(i), path.get(i).description));
             }
             //writing ports as placemark
-            for (int i = 0; i < ports.size() ; i++) {
-                writer.write(createPlacemark(ports.get(i),ports.get(i).description));
+            for (int i = 0; i < ports.size(); i++) {
+                writer.write(createPlacemark(ports.get(i), ports.get(i).description));
             }
             //writing polygon
             writer.write(createPolygon());
             writer.write(createPath());
             writer.write("</Document>\n");
-
 
 
             writer.write("</kml>\n");//closing tag
@@ -176,7 +175,7 @@ public class KMLGenerator {
      * @return the string
      */
     public String createPlacemark(Point point, String des) {
-        index = index+1;
+        index = index + 1;
         String style = "";
 
         style = "<Style id=\"icon\">\n" +
@@ -188,9 +187,9 @@ public class KMLGenerator {
                 " </Style>\n";
 
         String tag = "";
-        tag += "<Placemark>\n<name>" + des+ "</name>\n";
-        tag += "<description>"+index+"\n" +
-                des+"</description>\n <Point>\n<coordinates>" + point.getLongitude() + "," + point.getLatitude();
+        tag += "<Placemark>\n<name>" + des + "</name>\n";
+        tag += "<description>" + index + "\n" +
+                des + "</description>\n <Point>\n<coordinates>" + point.getLongitude() + "," + point.getLatitude();
 
         tag += "</coordinates>\n</Point>\n </Placemark>\n";
 
@@ -203,7 +202,7 @@ public class KMLGenerator {
      * @return the string
      */
     public String createPolygon() {
-        int size = ((points.size() - 2)/2);
+        int size = ((points.size() - 2) / 2);
         Point origin = points.get(0);
         Point second_p = points.get(1);
         String tag = "";
@@ -217,9 +216,9 @@ public class KMLGenerator {
                 "<coordinates>\n";
 
 
-        System.out.println("original: "+origin.getLongitude() + "," + origin.getLatitude()+"\n");
+        System.out.println("original: " + origin.getLongitude() + "," + origin.getLatitude() + "\n");
         for (int i = 0; i < points.size(); i++) {
-            tag +=  points.get(i).getLongitude() + "," + points.get(i).getLatitude()+"\n";
+            tag += points.get(i).getLongitude() + "," + points.get(i).getLatitude() + "\n";
 
         }
 
@@ -249,7 +248,7 @@ public class KMLGenerator {
         String tag = "";
 
 
-        for (int i = 0; i < (path.size()-1); i++) {
+        for (int i = 0; i < (path.size() - 1); i++) {
             tag += "    <Placemark>\n" +
                     "      <name>Vessel Path</name>\n" +
                     "      <description>Vessel path</description>\n" +
@@ -259,8 +258,8 @@ public class KMLGenerator {
                     "        <tessellate>1</tessellate>\n" +
                     "        <altitudeMode>absolute</altitudeMode>\n" +
                     "        <coordinates>";
-            tag +=  path.get(i).getLongitude() + "," + path.get(i).getLatitude() + "\n";
-            tag +=  path.get(i+1).getLongitude() + "," + path.get(i+1).getLatitude() + "\n";
+            tag += path.get(i).getLongitude() + "," + path.get(i).getLatitude() + "\n";
+            tag += path.get(i + 1).getLongitude() + "," + path.get(i + 1).getLatitude() + "\n";
 
             tag += "  </coordinates>\n" +
                     "      </LineString>\n" +
@@ -269,18 +268,18 @@ public class KMLGenerator {
         }
 
 
-
         return tag;
     }
 
 
     /**
      * Generates a file name based on date and time
+     *
      * @return File name as a string.
      */
-    public String getFileName(){
+    public String getFileName() {
         Date date = new Date();
-        String timeStamp = String.format(""+date);
+        String timeStamp = String.format("" + date);
         timeStamp = timeStamp.replaceAll(" ", "_").toLowerCase();
         timeStamp = timeStamp.replaceAll(":", "_").toLowerCase();
         timeStamp += ".kml";
@@ -304,7 +303,7 @@ public class KMLGenerator {
         /**
          * The Description.
          */
-        String  description;
+        String description;
 
         /**
          * Instantiates a new Point.

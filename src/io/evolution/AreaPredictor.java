@@ -147,7 +147,7 @@ public class AreaPredictor {
 
         //Creates outer boundary of the polygon minute by minute until the specified time is reached.
         while (currentTime <= travelTime) {
-            if (changeInCourse < maxTurn/2) {
+            if (changeInCourse < maxTurn / 2) {
                 setPrimaryBoundary(currentHeading, lat, lon, maxDist);
                 maxDist -= incrementDistance;
                 currentHeading += turnRate;
@@ -188,7 +188,7 @@ public class AreaPredictor {
 
         //Creates outer boundary of the polygon minute by minute until the specified time is reached.
         while (currentTime <= travelTime) {
-            if (changeInCourse > maxTurn/2 * -1) {
+            if (changeInCourse > maxTurn / 2 * -1) {
 
                 setPrimaryBoundary(currentHeading, lat, lon, maxDist);
 

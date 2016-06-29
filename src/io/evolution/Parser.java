@@ -19,26 +19,23 @@ import static jdk.nashorn.internal.runtime.JSONFunctions.parse;
 
 public class Parser {
 
-    public static void main(String [] args) throws IOException {
-        Parser p = new Parser("testfile.kml");
-    }
+    String[][] table;
     private int index = 0;
     private File file; //kml file to be read
     private String tag; //tag who's content we're grabbing
-    String[][] table ;
     private String[] datetime;
-    private String[] winds ;
+    private String[] winds;
     private String[] aPressure;
     private String[] atemperature;
     private String[] dewPoint;
-    private String[] height ;
+    private String[] height;
     private String[] period;
-    private String[] direction ;
+    private String[] direction;
     private String[] temperature;
-
     /**
      * Parameter
      * it takes the file name and the tag to extract
+     *
      * @param file
      * @throws IOException
      */
@@ -129,15 +126,31 @@ public class Parser {
         System.out.println("Parser: End");
     }
 
-    String[][] getTable(){
-        return table;
+    public static void main(String[] args) throws IOException {
+        Parser p = new Parser("testfile.kml");
     }
 
+    //TODO: makes sure you can open and download the kml file
+    private static void open(String path, ArrayList<String> ar) {
+        File file = new File(path);
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(parse("this", parse("<Description>", line)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    String[][] getTable() {
+        return table;
+    }
 
     /**
      * This method scans the file for all the placemarks and stores their
      * individual content as an item in the list
+     *
      * @return Arraylist of Strings (Placemark content)
      * @throws IOException
      */
@@ -156,9 +169,10 @@ public class Parser {
                     lineFromFile = scanner.nextLine();
                     if (lineFromFile.contains("</Placemark>")) {
                         break;
-                    }else{
+                    } else {
 
-                        text +="\n"+lineFromFile;}
+                        text += "\n" + lineFromFile;
+                    }
                 }
                 list.add(text);
 
@@ -172,9 +186,9 @@ public class Parser {
         return list;
     }
 
-
     /**
      * This method scans each item in the list and extracts the content for the specified tag
+     *
      * @return Arraylist of Strings (tag content)
      * @throws IOException
      */
@@ -201,16 +215,14 @@ public class Parser {
         }
 
 
-
-
-      //  fList =  rmItemWith(fList, "No recent data");//remove items that won't be used
-       // fList =  rmItemWith(fList, "height=\"220\" width=\"400\" alt=\"Five-day plot of water level at");//remove items that won't be used
-       // fList =  rmItemWith(fList,"http://tao.ndbc.noaa.gov/refreshed/site.php?site=");//remove items that won't be used
+        //  fList =  rmItemWith(fList, "No recent data");//remove items that won't be used
+        // fList =  rmItemWith(fList, "height=\"220\" width=\"400\" alt=\"Five-day plot of water level at");//remove items that won't be used
+        // fList =  rmItemWith(fList,"http://tao.ndbc.noaa.gov/refreshed/site.php?site=");//remove items that won't be used
         return fList;
 
     }
 
-    private ArrayList<String> rmItemWith(ArrayList<String> rmList, String str){
+    private ArrayList<String> rmItemWith(ArrayList<String> rmList, String str) {
         ArrayList<String> secondList = new ArrayList<>();
         for (String aRmList : rmList) { //for all items
             if (!aRmList.contains(str)) { //if the substring in string
@@ -219,96 +231,82 @@ public class Parser {
         }
 
 
-
-
         return secondList;
     }
 
     private void storeInLists(String str) {
         Scanner scanner;
         String line = "";
-            scanner = new Scanner(str);
-            while (scanner.hasNextLine()) {
-                line = scanner.nextLine();
-                if(line.contains("UTC")){
-                    datetime[index] = line;
-                }else if(datetime[index] == null){
-                    datetime[index] = "";
-                }
-
-                if(line.contains("Winds:")){
-                    winds[index] = line.replace("Winds:", "");
-                }else if(winds[index] == null){
-                    winds[index] = "";
-                }
-                if(line.contains("Atmospheric Pressure:")){
-                    aPressure[index] = line.replace("Atmospheric Pressure:", "");
-                }else if(aPressure[index] == null){
-                    aPressure[index] = "";
-                }
-                if(line.contains("Air Temperature:")){
-                    atemperature[index] = line.replace("Air Temperature:", "");
-                }else if(atemperature[index] == null){
-                    atemperature[index] = "";
-                }
-                if(line.contains("Dew Point:")){
-                    dewPoint[index] = line.replace("Dew Point:", "");
-                }else if(dewPoint[index] == null){
-                    dewPoint[index] = "";
-                }
-                if(line.contains("Significant Wave Height:")){
-                    height[index] = line.replace("Significant Wave Height:", "");
-                }else if(height[index] == null){
-                    height[index] = "";
-                }
-                if(line.contains("Dominant Wave period:")){
-                    period[index] = line.replace("Dominant Wave period:", "");
-                }else if(period[index] == null){
-                    period[index] = "";
-                }
-                if(line.contains("Mean Wave Direction:")){
-                    direction[index] = line.replace("Mean Wave Direction:", "");
-                }else if(direction[index] == null){
-                    direction[index] = "";
-                }
-                if(line.contains("Water Temperature:")){
-                    temperature[index] = line.replace("Water Temperature:", "");
-                }else if(temperature[index] == null){
-                    temperature[index] = "";
-                }
-
-
+        scanner = new Scanner(str);
+        while (scanner.hasNextLine()) {
+            line = scanner.nextLine();
+            if (line.contains("UTC")) {
+                datetime[index] = line;
+            } else if (datetime[index] == null) {
+                datetime[index] = "";
             }
+
+            if (line.contains("Winds:")) {
+                winds[index] = line.replace("Winds:", "");
+            } else if (winds[index] == null) {
+                winds[index] = "";
+            }
+            if (line.contains("Atmospheric Pressure:")) {
+                aPressure[index] = line.replace("Atmospheric Pressure:", "");
+            } else if (aPressure[index] == null) {
+                aPressure[index] = "";
+            }
+            if (line.contains("Air Temperature:")) {
+                atemperature[index] = line.replace("Air Temperature:", "");
+            } else if (atemperature[index] == null) {
+                atemperature[index] = "";
+            }
+            if (line.contains("Dew Point:")) {
+                dewPoint[index] = line.replace("Dew Point:", "");
+            } else if (dewPoint[index] == null) {
+                dewPoint[index] = "";
+            }
+            if (line.contains("Significant Wave Height:")) {
+                height[index] = line.replace("Significant Wave Height:", "");
+            } else if (height[index] == null) {
+                height[index] = "";
+            }
+            if (line.contains("Dominant Wave period:")) {
+                period[index] = line.replace("Dominant Wave period:", "");
+            } else if (period[index] == null) {
+                period[index] = "";
+            }
+            if (line.contains("Mean Wave Direction:")) {
+                direction[index] = line.replace("Mean Wave Direction:", "");
+            } else if (direction[index] == null) {
+                direction[index] = "";
+            }
+            if (line.contains("Water Temperature:")) {
+                temperature[index] = line.replace("Water Temperature:", "");
+            } else if (temperature[index] == null) {
+                temperature[index] = "";
+            }
+
+
+        }
         index++;
     }
 
     /**
      * This method takes in a string and removes the substring specified
+     *
      * @param ogString
      * @param subString
      * @return
      */
-    private String  rmString(String ogString, String subString){
-        ogString = ogString.replace(subString,"");
-        return ogString;
-    }
-    private String  rpStringwith(String ogString, String subString, String newString){
-        ogString = ogString.replace(subString,newString);
+    private String rmString(String ogString, String subString) {
+        ogString = ogString.replace(subString, "");
         return ogString;
     }
 
-
-//TODO: makes sure you can open and download the kml file
-    private static void open(String path, ArrayList<String> ar) {
-        File file = new File(path);
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                System.out.println(parse("this", parse("<Description>", line)));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private String rpStringwith(String ogString, String subString, String newString) {
+        ogString = ogString.replace(subString, newString);
+        return ogString;
     }
 }
 

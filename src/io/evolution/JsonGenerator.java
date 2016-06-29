@@ -1,6 +1,8 @@
 package io.evolution;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Created by Research on 6/24/2016.
@@ -16,43 +18,42 @@ import java.io.*;
  */
 public class JsonGenerator {
 
-    public static void  main (String[] args) throws IOException {
+    private String[][] graph; //2d array containing all items
+    private int x;
+    private int y;
+    private String[] properties = new String[]{"station", "coordinates", "datetime", "winds", "atmospheric pressure", "air temperature", "dew Point", "wave height", "wave period", "wave direction", "water temperature"};
+    private JsonGenerator(int x, int y, String[][] graph) {
+        this.x = x;
+        this.y = y;
+        this.graph = graph;
+
+
+    }
+
+    public static void main(String[] args) throws IOException {
         Parser p = new Parser("testfile.kml");
-        JsonGenerator gen = new JsonGenerator(p.table.length,p.table[0].length, p.table);
+        JsonGenerator gen = new JsonGenerator(p.table.length, p.table[0].length, p.table);
         String str = gen.generate();
         gen.makeFile(str);
         System.out.println(str);
 
     }
 
-
-    private String [][] graph; //2d array containing all items
-    private int x;
-    private int y;
-    private String[] properties = new String[] { "station","coordinates","datetime","winds","atmospheric pressure","air temperature","dew Point","wave height","wave period","wave direction","water temperature"};
-    private JsonGenerator(int x, int y, String[][] graph) {
-        this.x= x;
-        this.y= y;
-        this.graph = graph;
-
-
-
-    }
-    private String generate(){
+    private String generate() {
         System.out.println("Json Gen: Start");
         System.out.println("Json Gen: Formatting given info");
         String content = "{\"bouy\":[\n";
         for (int i = 0; i < y; i++) {
             content += "{";
             for (int j = 0; j < x; j++) {
-               content +=  "\""+properties[j]+"\""+ ": " + "\""+graph[j][i]+"\"";
-                if(j != (properties.length - 1)){
-                    content+=",";
+                content += "\"" + properties[j] + "\"" + ": " + "\"" + graph[j][i] + "\"";
+                if (j != (properties.length - 1)) {
+                    content += ",";
                 }
             }
-            content +="}";
-            if(!(i == (y - 1))){
-                content+=",\n";
+            content += "}";
+            if (!(i == (y - 1))) {
+                content += ",\n";
             }
         }
         content += "]\n}";

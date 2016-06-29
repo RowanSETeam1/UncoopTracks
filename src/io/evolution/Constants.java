@@ -8,9 +8,6 @@ package io.evolution;
  * Class defining frequently used string constants
  */
 public final class Constants {
-    private Constants() {
-    }
-
     public static final String DATETIME = "DATETIME";
     public static final String MMSI = "MMSI";
     public static final String LAT = "LATITUDE";
@@ -30,4 +27,6 @@ public final class Constants {
     public static final String DESTINATION = "DESTINATION";
     public static final String ETA = "ETA";
     public static final String tableName = "aisData";
+    private Constants() {
+    }
 }

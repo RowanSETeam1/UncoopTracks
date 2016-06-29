@@ -6,7 +6,6 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static io.evolution.Constants.*;
@@ -31,7 +30,7 @@ public class CSVParser {
         this.csvFile = csvFile;
         this.c = c;
         //Worst case exception handling
-        if(csvFile == null || c == null || !readFile()){
+        if (csvFile == null || c == null || !readFile()) {
             throw new CSVParserException();
         }
     }

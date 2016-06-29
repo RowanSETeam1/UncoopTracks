@@ -46,23 +46,35 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Parser.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Parser.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/io/evolution/Parser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="76" column="49" selection-start-line="76" selection-start-column="49" selection-end-line="76" selection-end-column="49" />
+            <state relative-caret-position="134">
+              <caret line="114" column="43" selection-start-line="114" selection-start-column="43" selection-end-line="114" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#4624#4625#0" expanded="true" />
+                <element signature="e#4652#4653#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JsonGenerator.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="JsonGenerator.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/io/evolution/JsonGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+            <state relative-caret-position="287">
+              <caret line="42" column="62" selection-start-line="42" selection-start-column="62" selection-end-line="42" selection-end-column="62" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BouyData.JSON" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BouyData.JSON">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-7191">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -71,7 +83,7 @@
       <file leaf-file-name="testfile.kml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testfile.kml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-431">
+            <state relative-caret-position="-843283">
               <caret line="836" column="26" selection-start-line="836" selection-start-column="26" selection-end-line="836" selection-end-column="26" />
               <folding />
             </state>
@@ -143,16 +155,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ais.csv" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ais.csv">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4250">
-              <caret line="250" column="33" selection-start-line="250" selection-start-column="29" selection-end-line="250" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/io/evolution/Main.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -210,8 +212,8 @@
         <option value="$PROJECT_DIR$/src/io/evolution/Controller.java" />
         <option value="$PROJECT_DIR$/src/io/evolution/KMLGenerator.java" />
         <option value="$PROJECT_DIR$/src/io/evolution/Main.java" />
-        <option value="$PROJECT_DIR$/src/io/evolution/JsonGenerator.java" />
         <option value="$PROJECT_DIR$/src/io/evolution/Parser.java" />
+        <option value="$PROJECT_DIR$/src/io/evolution/JsonGenerator.java" />
       </list>
     </option>
   </component>
@@ -236,7 +238,7 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="1974" />
+    <option name="x" value="54" />
     <option name="y" value="-8" />
     <option name="width" value="1874" />
     <option name="height" value="1096" />
@@ -1060,7 +1062,7 @@
       <workItem from="1466089552836" duration="1296000" />
       <workItem from="1466099823266" duration="6036000" />
       <workItem from="1466776611609" duration="6376000" />
-      <workItem from="1467033919446" duration="13781000" />
+      <workItem from="1467033919446" duration="20287000" />
     </task>
     <task id="LOCAL-00001" summary="create database in main">
       <created>1459691725943</created>
@@ -1216,15 +1218,22 @@
       <option name="project" value="LOCAL" />
       <updated>1466783987361</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Version 4-24-16&#10;linked jsonG to parser and ran sucessfully&#10;TODO: comment methods">
+      <created>1467049482027</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1467049482027</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="64789000" />
+    <option name="totallyTimeSpent" value="71295000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1974" y="-8" width="1874" height="1096" extended-state="6" />
-    <editor active="false" />
+    <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1234,7 +1243,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32932165" sideWeight="0.50208336" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29614604" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.46855983" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19776876" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1281,7 +1290,8 @@
     <MESSAGE value="Version 4-24-16&#10;&#10;Improved area predictor, new ais data, output folder, kml generator tweaks" />
     <MESSAGE value="Version 4-24-16&#10;&#10;commit changes to run on my branch" />
     <MESSAGE value="Version 4-24-16&#10;&#10;adding main and parser to src file" />
-    <option name="LAST_COMMIT_MESSAGE" value="Version 4-24-16&#10;&#10;adding main and parser to src file" />
+    <MESSAGE value="Version 4-24-16&#10;linked jsonG to parser and ran sucessfully&#10;TODO: comment methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="Version 4-24-16&#10;linked jsonG to parser and ran sucessfully&#10;TODO: comment methods" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1294,13 +1304,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/csv.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2431">
-          <caret line="143" column="32" selection-start-line="143" selection-start-column="32" selection-end-line="143" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ais.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4250">
@@ -1881,14 +1884,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/testfile.kml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-431">
-          <caret line="836" column="26" selection-start-line="836" selection-start-column="26" selection-end-line="836" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/io/evolution/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="414">
@@ -1901,21 +1896,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/io/evolution/JsonGenerator.java">
+    <entry file="file://$PROJECT_DIR$/testfile.kml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+        <state relative-caret-position="-843283">
+          <caret line="836" column="26" selection-start-line="836" selection-start-column="26" selection-end-line="836" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/io/evolution/Parser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="76" column="49" selection-start-line="76" selection-start-column="49" selection-end-line="76" selection-end-column="49" />
+        <state relative-caret-position="134">
+          <caret line="114" column="43" selection-start-line="114" selection-start-column="43" selection-end-line="114" selection-end-column="43" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4624#4625#0" expanded="true" />
+            <element signature="e#4652#4653#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BouyData.JSON">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7191">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/io/evolution/JsonGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="42" column="62" selection-start-line="42" selection-start-column="62" selection-end-line="42" selection-end-column="62" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -18,17 +18,19 @@ public class JsonGenerator {
 
     public static void  main (String[] args) throws IOException {
         Parser p = new Parser("testfile.kml");
-        JsonGenerator gen = new JsonGenerator(11,p.table.length, p.table);
-        System.out.print(gen.generate());
+        JsonGenerator gen = new JsonGenerator(p.table.length,p.table[0].length, p.table);
+        String str = gen.generate();
+        gen.makeFile(str);
+        System.out.println(str);
 
     }
 
 
-    String [][] graph; //2d array containing all items
-    int x;
-    int y;
-    String[] properties = new String[] { "snippet","coordinates","datetime","winds","aPressure","atemperature","dewPoint","height","period","direction","temperature[i]"};
-    public JsonGenerator(int x, int y, String [][] graph) {
+    private String [][] graph; //2d array containing all items
+    private int x;
+    private int y;
+    private String[] properties = new String[] { "station","coordinates","datetime","winds","atmospheric pressure","air temperature","dew Point","wave height","wave period","wave direction","water temperature"};
+    private JsonGenerator(int x, int y, String[][] graph) {
         this.x= x;
         this.y= y;
         this.graph = graph;
@@ -36,7 +38,9 @@ public class JsonGenerator {
 
 
     }
-    String generate(){
+    private String generate(){
+        System.out.println("Json Gen: Start");
+        System.out.println("Json Gen: Formatting given info");
         String content = "{\"bouy\":[\n";
         for (int i = 0; i < y; i++) {
             content += "{";
@@ -47,21 +51,26 @@ public class JsonGenerator {
                 }
             }
             content +="}";
-            if(i != (y - 1)){
+            if(!(i == (y - 1))){
                 content+=",\n";
             }
         }
         content += "]\n}";
 
 
-
+        System.out.println("Json Gen: Formatting done");
         return content;
+
     }
 
-    void makeFile(String str) throws FileNotFoundException, UnsupportedEncodingException {
+    private void makeFile(String content) throws IOException {
+        System.out.println("Json Gen: writing to file");
         File file = new File("BouyData.JSON");
-        PrintWriter writer = new  PrintWriter (file, "UTF-8");
-        writer.write(str);
-        FileOutputStream output = new FileOutputStream(file, false);
+        FileOutputStream stream = new FileOutputStream(file, false); // true to append
+        // false to overwrite.
+        byte[] myBytes = content.getBytes();
+        stream.write(myBytes);
+        stream.close();
+        System.out.println("Json Gen: End");
     }
 }

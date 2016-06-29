@@ -22,19 +22,19 @@ public class Parser {
     public static void main(String [] args) throws IOException {
         Parser p = new Parser("testfile.kml");
     }
-    int index = 0;
+    private int index = 0;
     private File file; //kml file to be read
     private String tag; //tag who's content we're grabbing
     String[][] table ;
-    String[] datetime;
-    String[] winds ;
-    String[] aPressure;
-    String[] atemperature;
-    String[] dewPoint;
-    String[] height ;
-    String[] period;
-    String[] direction ;
-    String[] temperature;
+    private String[] datetime;
+    private String[] winds ;
+    private String[] aPressure;
+    private String[] atemperature;
+    private String[] dewPoint;
+    private String[] height ;
+    private String[] period;
+    private String[] direction ;
+    private String[] temperature;
 
     /**
      * Parameter
@@ -42,22 +42,24 @@ public class Parser {
      * @param file
      * @throws IOException
      */
-    public Parser(String file) throws IOException {
-
+    Parser(String file) throws IOException {
+        System.out.println("Parser: Start");
+        System.out.println("Parser: opening file");
         this.file = new File(file);
+        System.out.println("Parser: getting tags content");
         this.tag = "Snippet";
         ArrayList<String> snippet = getTagContent(getPlacemarkContent());
         this.tag = "coordinates";
         ArrayList<String> coordinates = getTagContent(getPlacemarkContent());
         this.tag = "description";
         ArrayList<String> list = getTagContent(getPlacemarkContent());
-        for (int i = 0; i < list.size(); i++) {
+    /*    for (int i = 0; i < list.size(); i++) {
             System.out.println("No\t" + i + ":\t" + list.get(i));
             System.out.println("snippet\t" + i + ":\t" + snippet.get(i));
             System.out.println("cood\t" + i + ":\t" + coordinates.get(i));
             System.out.println();
-        }
-
+        }*/
+        System.out.println("Parser: formatting content");
         table = new String[11][list.size()];
         datetime = new String[list.size()];
         winds = new String[list.size()];
@@ -82,9 +84,9 @@ public class Parser {
             list.set(i, (rmString(list.get(i), "]]>")));
         }
 
-
-        for (int i = 0; i < list.size(); i++) {
-            storeInLists(list.get(i));
+        System.out.println("Parser: storing content");
+        for (String aList : list) {
+            storeInLists(aList);
         }
         int count;
         for (int i = 0; i < list.size(); i++) {
@@ -105,7 +107,7 @@ public class Parser {
         }
 
 
-        for (int i = 0; i < list.size(); i++) {
+    /*    for (int i = 0; i < list.size(); i++) {
             System.out.println("No\t" + i + ":\t" + list.get(i));
             System.out.println();
         }
@@ -116,11 +118,19 @@ public class Parser {
         }
 
         for (int i = 0; i < list.size(); i++) {
+            System.out.print("No\t" + i+":\t");
             for (int j = 0; j < 11; j++) {
-                System.out.print("No\t" + i + ":\t" +table[j][i] + "\t");
-                System.out.println();
-            }
+                System.out.print(table[j][i] + "\t");
+
+            }System.out.println();
         }
+
+    System.out.println(table[0].length);*/
+        System.out.println("Parser: End");
+    }
+
+    String[][] getTable(){
+        return table;
     }
 
 
@@ -131,7 +141,7 @@ public class Parser {
      * @return Arraylist of Strings (Placemark content)
      * @throws IOException
      */
-    ArrayList<String> getPlacemarkContent  () throws IOException {
+    private ArrayList<String> getPlacemarkContent() throws IOException {
         ArrayList<String> list = new ArrayList<>();
         String text = "";
         boolean check = false;
@@ -168,22 +178,22 @@ public class Parser {
      * @return Arraylist of Strings (tag content)
      * @throws IOException
      */
-    ArrayList<String> getTagContent  (ArrayList<String> list) throws IOException {
+    private ArrayList<String> getTagContent(ArrayList<String> list) throws IOException {
         ArrayList<String> fList = new ArrayList<>();
         String lineFromFile = "";
         Scanner scanner;
-        for (int i = 0; i <list.size(); i++) {
-            scanner = new Scanner(list.get(i));
+        for (String aList : list) {
+            scanner = new Scanner(aList);
             while (scanner.hasNextLine()) {
                 //get it there
                 lineFromFile = scanner.nextLine(); //puts line in String
                 if (lineFromFile.contains("<" + tag + ">")) { //check if line contains tag
-                    while(true){//keep adding to string while closing tag not contained
+                    while (true) {//keep adding to string while closing tag not contained
                         if (lineFromFile.contains("</" + tag + ">"))
                             break;
                         lineFromFile += scanner.nextLine();
                     }
-                    lineFromFile = rmString(rmString(lineFromFile, "<" + tag + ">"),"</" + tag + ">") ; //remove tags
+                    lineFromFile = rmString(rmString(lineFromFile, "<" + tag + ">"), "</" + tag + ">"); //remove tags
                     fList.add(lineFromFile);//add to list
                 }
 
@@ -202,9 +212,9 @@ public class Parser {
 
     private ArrayList<String> rmItemWith(ArrayList<String> rmList, String str){
         ArrayList<String> secondList = new ArrayList<>();
-        for (int i = 0; i <rmList.size() ; i++) { //for all items
-            if(!rmList.get(i).contains(str)) { //if the substring in string
-                secondList.add(rmList.get(i)); //remove item
+        for (String aRmList : rmList) { //for all items
+            if (!aRmList.contains(str)) { //if the substring in string
+                secondList.add(aRmList); //remove item
             }
         }
 
@@ -287,10 +297,6 @@ public class Parser {
         return ogString;
     }
 
-
-    public void createJSONFile(){
-
-    }
 
 //TODO: makes sure you can open and download the kml file
     private static void open(String path, ArrayList<String> ar) {

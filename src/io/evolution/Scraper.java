@@ -21,7 +21,8 @@ public class Scraper {
      */
     public static void main(String[] args) throws IOException {
         Scraper scraper = new Scraper();
-        scraper.download("http://www.ndbc.noaa.gov/kml/marineobs_as_kml.php?sort=owner","testfile.kml");
+        //scraper.download("http://www.ndbc.noaa.gov/kml/marineobs_as_kml.php?sort=owner","testfile.kml");
+      scraper.scrape("http://www.ndbc.noaa.gov/kml/marineobs_as_kml.php?sort=owner");
     }
 
     /**
@@ -46,6 +47,7 @@ public class Scraper {
 
         // read each line and write to System.out
         while ((line = br.readLine()) != null) {
+            System.out.println(line);
             content += line;
         }
 
